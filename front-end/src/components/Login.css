@@ -149,9 +149,10 @@ form{
 	margin-bottom: 4px;
 }
 
+
 a{
-	display: block;
-	text-align: right;
+	display: block; 
+	text-align: right; 
 	text-decoration: none;
 	color: #999;
 	font-size: 0.9rem;

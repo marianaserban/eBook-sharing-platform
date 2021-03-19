@@ -63,7 +63,8 @@ export default class Login extends Component {
                                     <input type="password" className="input"></input>
                                 </div>
                             </div>
-                            <a href="#">Forgot Password?</a>
+                            <a href="/register" className="left">New here? Register</a>
+                            {/* <a href="#" className="right">Forgot Password?</a> */}
                             <input type="submit" className="btn" value="Login"></input>
                         </form>
                     </div>
