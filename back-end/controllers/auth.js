@@ -30,7 +30,7 @@ const signin = (req, res) => {
     })
       .then(user => {
         if (!user) {
-          return res.status(404).send({ message: "User Not found." });
+          return res.status(404).send({ message: "User not found" });
         }
   
         var passwordIsValid = bcrypt.compareSync(
@@ -56,7 +56,8 @@ const signin = (req, res) => {
             email: user.email,
             firstName:user.firstName,
             lastName:user.lastName,
-            accessToken: token
+            role:user.role,
+            accessToken: token,
           });
 
       })
