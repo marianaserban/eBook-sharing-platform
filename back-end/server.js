@@ -12,3 +12,4 @@ app.listen(port, () => {    //Turn on server
     console.log('Server is running on port: ' + port)
 })
 app.use('/', routes)
+require('./routes/auth')(app);

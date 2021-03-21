@@ -73,8 +73,13 @@ body{
   /* background: linear-gradient(135deg, #71b7e6, #9b59b6); */
 }
 .container{
-  max-width: 700px;
-  width: 100%;
+  /* max-width: 700px; */
+  /* width: 100%; */
+
+  /*pus de mn*/
+  width:765px;
+
+
   background-color: #fff;
   /* background-color: red; */
   padding: 25px 30px;
@@ -122,10 +127,15 @@ body{
   background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
 }
 .content form .user_details{
+
+  /*pus de mn*/
+  width: 700px;
+
+
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin: 20px 0 12px 0;
+  /* margin: 20px 0 12px 0; */
 }
 form .user_details .input_box{
   margin-bottom: 15px;
@@ -151,6 +161,8 @@ form .input_box span.details{
 .user_details .input_box input:valid{
   border-color: #999;
 }
+
+/* 
  form .gender_details .gender_title{
   font-size: 20px;
   font-weight: 500;
@@ -186,10 +198,13 @@ form .input_box span.details{
  }
   form input[type="radio"]{
     display: none;
-  }
+  } */
   form .button{
     height: 45px;
     margin: 35px 0;
+    
+    /*pus de mine*/
+    width: 700px;
   }
   form .button input{
     height: 100%;
@@ -202,7 +217,7 @@ form .input_box span.details{
     letter-spacing: 1px;
     cursor: pointer;
     transition: all 0.3s ease;
-	background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+	  background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
   }
   form .button input:hover{
    /* transform: scale(0.99); */

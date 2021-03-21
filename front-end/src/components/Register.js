@@ -19,23 +19,23 @@ export default class Register extends Component {
                             <div className={RegisterCSS.user_details}>
                                 <div className={RegisterCSS.input_box}>
                                     <span className={RegisterCSS.details}>First Name</span>
-                                    <input type="text" placeholder="First name"required></input>
+                                    <input type="text" placeholder="Enter your first name"required></input>
                                 </div>
                                 <div className={RegisterCSS.input_box}>
                                     <span className={RegisterCSS.details}>Last Name</span>
-                                    <input type="text" placeholder="Last name"required></input>
+                                    <input type="text" placeholder="Enter your last name"required></input>
                                 </div>
                                 <div className={RegisterCSS.input_box}>
                                     <span className={RegisterCSS.details}>Email</span>
-                                    <input type="email" placeholder="Email" required></input>
+                                    <input type="email" placeholder="Enter your email" required></input>
                                 </div>
                                 <div className={RegisterCSS.input_box}>
                                     <span className={RegisterCSS.details}>Username</span>
-                                    <input type="text" placeholder="Username" required></input>
+                                    <input type="text" placeholder="Enter your username" required></input>
                                 </div>
                                 <div className={RegisterCSS.input_box}>
                                     <span className={RegisterCSS.details}>Password</span>
-                                    <input type="password" placeholder="Password" required></input>
+                                    <input type="password" placeholder="Enter your password" required></input>
                                 </div>
                                 <div className={RegisterCSS.input_box}>
                                     <span className={RegisterCSS.details}>Confirm Password</span>
