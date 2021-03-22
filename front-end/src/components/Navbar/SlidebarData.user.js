@@ -3,7 +3,7 @@ import * as FiIcons from "react-icons/fi";
 import * as MdIcons from "react-icons/md";
 import * as CgIcons from "react-icons/cg";
 
-export const SidebarData = [
+export const SidebarDataUser = [
   {
     title: 'Dashboard',
     path: '/dashboard',
@@ -21,18 +21,6 @@ export const SidebarData = [
     path: '/',
     icon: <MdIcons.MdLibraryBooks />,
     cName: 'nav-text'
-  },
-  {
-    title: 'Add book',
-    path: '/',
-    icon: <MdIcons.MdAddCircleOutline />,
-    cName: 'nav-text'
-  },
-  {
-    title: 'Manage users',
-    path: '/',
-    icon: <FiIcons.FiUsers />,
-    cName: 'nav-text'
-  },
+  }
   
 ];
