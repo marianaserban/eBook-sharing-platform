@@ -143,6 +143,14 @@ export default class Register extends Component {
         }
     }
 
+    componentDidMount(){
+        document.body.style.height="100vh"
+        document.body.style.display="flex"
+        document.body.style.justifyContent="center"
+        document.body.style.alignItems="center"
+        document.body.style.padding="10px"
+    }
+
 render() {
     return (
         <div>

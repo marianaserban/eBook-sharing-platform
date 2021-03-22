@@ -7,18 +7,22 @@ export default class Dashboard extends Component {
         this.logOut = this.logOut.bind(this);
 
         this.state = {
-            currentUser: AuthService.getCurrentUser()
+            currentUser: AuthService.getCurrentUser(),
+            sidebarOpen:false
         };
     }
     logOut() {
         AuthService.logout();
         this.props.history.push('/')
     }
+    
+
     render() {
         const { currentUser } = this.state;
 
         return (
             <div>
+           
                 Dashboard
                 <p>{currentUser.role}</p>
                 <p>{currentUser.userName}</p>
