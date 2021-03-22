@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import AuthService from "../services/auth.service";
+import Navbar from './Navbar/Navbar'
+import './Dashboard.css'
 
 export default class Dashboard extends Component {
     constructor(props) {
@@ -22,15 +24,15 @@ export default class Dashboard extends Component {
 
         return (
             <div>
-           
-                Dashboard
+            <Navbar/> 
+                {/* Dashboard
                 <p>{currentUser.role}</p>
                 <p>{currentUser.userName}</p>
                 <p>{currentUser.accessToken.substring(0, 20)} ...{" "}</p>
                 <p>{currentUser.accessToken.substr(currentUser.accessToken.length - 20)}</p>
                 <p>{currentUser.id}</p>
                 <p>{currentUser.email}</p>
-                <button onClick={this.logOut}>Logout</button>
+                <button onClick={this.logOut}>Logout</button> */}
             </div>
         )
     }
