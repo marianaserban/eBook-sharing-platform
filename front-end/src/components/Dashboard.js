@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import AuthService from "../services/auth.service";
 import Navbar from './Navbar/Navbar'
 import './Dashboard.css'
+import logo from '../assets/logo_transparent.png'
+
 
 export default class Dashboard extends Component {
     constructor(props) {
