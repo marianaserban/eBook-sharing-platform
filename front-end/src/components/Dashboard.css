@@ -1,11 +1,80 @@
-.dash{
-    width: (100%-200px);
-    margin-top: 60px;
-    padding: 20px;
-    margin-left: 200px;
-    /* background: url(background.png) no-repeat; */
-    background-position: center;
-    background-size: cover;
-    height: 100vh;
+.dash-content{
+    margin-top: 100px;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    /* height: 100vh; */
     transition: 0.5s;
+    /* background-color: red; */
+    box-sizing: border-box;
+    /* box-shadow: 0 10px 15px rgba(0,0,0,0.15); */
+}
+.book-logo{
+    margin-top: 2rem;
+    margin-left: 2rem;
+    font-size: 1.5rem;
+    /* font-size: 18px; */
+    background: none;
+}
+
+.item{
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    height: 250px;
+    width: 100%;
+    background-color:#F8F8F8;
+    margin: 0 15px;
+    margin-top: 20px;
+    box-sizing: border-box;
+}
+
+.imagine{
+    float: left;
+    width: 50%;
+
+    position: relative;
+    z-index: 1;
+    display: block;
+    height: 225px;
+    width: 150px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 10px;
+    box-shadow: 0.25em 0.35em 1em rgba(0, 0, 0, 0.6);
+}
+.imagine > img{
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+.book-detail{
+    font-size: 12px;
+    float: right;
+    width: 50%;
+}
+
+.title{
+    margin-top:0.8em ;
+    margin-bottom: 0.125em;
+    font-size: 1.5em;
+    font-weight: 700;
+    line-height: 1.1;
+}
+.author{
+    color: #666;
+    font-size: 1em;
+    line-height: 1.4;
+}
+
+.raiting{
+    font-size: 1.4em;
+}
+.sum{
+    margin-top: 0.3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8em;
+    font-style: italic;
+    font-family: Arial, Helvetica, sans-serif;
 }
