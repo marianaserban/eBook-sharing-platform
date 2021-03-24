@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import './Login.css';
-import wave from '../assets/wave.png'
-import bg from '../assets/bg.svg'
-import avatar from '../assets/avatar.svg'
-import AuthService from "../services/auth.service";
+import wave from '../../assets/wave.png'
+import bg from '../../assets/bg.svg'
+import avatar from '../../assets/avatar.svg'
+import AuthService from "../../services/auth.service";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 toast.configure();

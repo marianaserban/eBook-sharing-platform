@@ -1,20 +1,18 @@
 const Books = require('../models').Books
 
 const getFreeBooks = async (req, res) => {
-    let books = Books.findAll({
-        where: {
-            availability: true,
-        }
-    }).then(books => {
-        res.status(200).send({
-            books
-        })
-    })
-        .catch(() => {
+        try {
+            let books = await Books.findAll({
+                where: {
+                    availability: true,
+                }
+            })
+            res.status(200).json(books)
+        } catch (error) {
             res.status(500).send({
                 message: "Database error"
             })
-        })
+        }
 };
 
 module.exports = {

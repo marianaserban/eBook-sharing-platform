@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import AuthService from "../services/auth.service";
-import Navbar from './Navbar/Navbar'
+import Axios from 'axios'
+import AuthService from "../../services/auth.service";
+import Navbar from '../Navbar/Navbar'
 import './Dashboard.css'
 import * as IoIcons from "react-icons/io";
 import * as FcIcons from "react-icons/fc";
@@ -8,16 +9,18 @@ import * as FaIcons from 'react-icons/fa';
 import * as ImIcons from "react-icons/im";
 import Carousel from "react-elastic-carousel";
 import * as AiIcons from "react-icons/ai";
+import img from '../../assets/silent_patient.jpg'
+const API_URL = "http://localhost:8080/";
 
-// import { Carousel } from 'react-responsive-carousel';
-import img from '../assets/silent_patient.jpg'
+
+
 
 const breakPoints = [
     { width: 1, itemsToShow: 1 },
     { width: 550, itemsToShow: 2 },
     { width: 768, itemsToShow: 3 },
     { width: 1200, itemsToShow: 4 },
-  ];
+];
 
 
 
@@ -27,28 +30,61 @@ export default class Dashboard extends Component {
         this.logOut = this.logOut.bind(this);
 
         this.state = {
+            freeBooks: [],
             currentUser: AuthService.getCurrentUser(),
-            sidebarOpen:false
+            sidebarOpen: false,
         };
     }
+
     logOut() {
         AuthService.logout();
         this.props.history.push('/')
     }
-    
+
+    componentDidMount = () => {
+        Axios.get(API_URL + 'books').then(
+            res => {
+                this.setState({ freeBooks: res.data});
+                console.log('books', this.state.freeBooks)
+            }
+        )
+    }
+
 
     render() {
-        const { currentUser } = this.state;
+        // const { currentUser } = this.state.currentUser;
+        const { items } = this.state.freeBooks;
 
         return (
             <div>
-            <Navbar/> 
+                <Navbar />
                 <div className="dash-content">
                     <div className="free">
                         <div className="book-logo">
-                            <IoIcons.IoIosBook/>Free Books
+                            <IoIcons.IoIosBook />Free Books
 
                             <Carousel breakPoints={breakPoints}>
+
+                            {this.state.freeBooks.map(item =>  
+
+                                <div className="item">
+                                        <div className="item-content">
+                                            <div className="imagine">
+                                                <img classname="img" src={require(`${item.picture}`)}></img>
+                                            </div>
+                                            <div className="book-detail">
+                                                <div className="title">{item.title}</div>
+                                                <div className="author">{item.author}</div>
+                                                <div className="raiting">
+                                                    <AiIcons.AiFillStar />4.3
+                                                </div>
+                                                <div className="sum">{item.description}</div>
+                                            </div>
+                                        </div>
+                                </div>
+                            
+                            )}
+
                                 {/* Aici facem cu map cred */}
                                 {/* <Item>One</Item>
                                 <Item>Two</Item>
@@ -58,7 +94,7 @@ export default class Dashboard extends Component {
                                 <Item>Six</Item>
                                 <Item>Seven</Item>
                                 <Item>Eight</Item> */}
-                                <div className="item">
+                                {/* <div className="item">
                                     <div className="item-content">
                                         <div className="imagine">
                                             <img classname="img" src={img}></img>
@@ -67,13 +103,13 @@ export default class Dashboard extends Component {
                                             <div className="title">Silent patient</div>
                                             <div className="author">Alex Michaelides</div>
                                             <div className="raiting">
-                                                <AiIcons.AiFillStar/>4.3
+                                                <AiIcons.AiFillStar />4.3
                                             </div>
-                                            <div className="sum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived </div>
+                                            <div className="sum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived </div> */}
                                             {/* <button className="button">More</button> */}
-                                        </div>
+                                        {/* </div>
                                     </div>
-                                    
+
                                 </div>
                                 <div className="item">Two</div>
                                 <div className="item">Three</div>
@@ -81,7 +117,7 @@ export default class Dashboard extends Component {
                                 <div className="item">Five</div>
                                 <div className="item">Six</div>
                                 <div className="item">Seven</div>
-                                <div className="item">Eight</div>
+                                <div className="item">Eight</div> */}
                             </Carousel>
 
                         </div>
@@ -89,20 +125,20 @@ export default class Dashboard extends Component {
 
                     <div className="raiting">
                         <div className="book-logo">
-                            <FcIcons.FcLike/>The most apreciated
+                            <FcIcons.FcLike />The most apreciated
                         </div>
                     </div>
 
                     <div className="history">
                         <div className="book-logo">
-                            <FaIcons.FaHistory/>Recent opened
+                            <FaIcons.FaHistory />Recent opened
                         </div>
                     </div>
 
 
                     <div className="stats">
                         <div className="book-logo">
-                            <ImIcons.ImStatsDots/>Stats
+                            <ImIcons.ImStatsDots />Stats
                         </div>
                     </div>
 

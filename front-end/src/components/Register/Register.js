@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from "axios";
 import RegisterCSS from './Register.module.css'
-import wave from '../assets/RegisterWave.png'
+import wave from '../../assets/RegisterWave.png'
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
