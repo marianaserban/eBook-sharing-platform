@@ -24,7 +24,7 @@ export const SidebarData = [
   },
   {
     title: 'Add book',
-    path: '/',
+    path: '/addBook',
     icon: <MdIcons.MdAddCircleOutline />,
     cName: 'nav-text'
   },

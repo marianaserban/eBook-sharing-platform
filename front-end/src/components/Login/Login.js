@@ -103,7 +103,7 @@ export default class Login extends Component {
                         <img src={bg}></img>
                     </div>
                     <div className="login-content">
-                        <form onSubmit={this.handleLogin}ref={c => {this.form = c;}}>
+                        <form onSubmit={this.handleLogin}ref={c => {this.form = c;}} className="login-form">
                             <img src={avatar}></img>
                             <h2 className="title">Welcome</h2>
                             <div className="input-div one">

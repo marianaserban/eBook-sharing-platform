@@ -70,7 +70,9 @@ export default class Dashboard extends Component {
                                 <div className="item">
                                         <div className="item-content">
                                             <div className="imagine">
-                                                <img classname="img" src={require(`${item.picture}`)}></img>
+                                                {/* <img classname="img" src={require(`${item.picture}`)}></img> */}
+                                                <img classname="img" src={img}></img>
+
                                             </div>
                                             <div className="book-detail">
                                                 <div className="title">{item.title}</div>
@@ -78,7 +80,7 @@ export default class Dashboard extends Component {
                                                 <div className="raiting">
                                                     <AiIcons.AiFillStar />4.3
                                                 </div>
-                                                <div className="sum">{item.description}</div>
+                                                <div className="sum">{item.description.substring(0,250)}...</div>
                                             </div>
                                         </div>
                                 </div>
