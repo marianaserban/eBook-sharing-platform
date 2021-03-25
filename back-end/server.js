@@ -4,7 +4,12 @@ const routes=require('./routes')
 const app = express()  //initializing an express instance for the app
 const port = 8080 //setting the port for the server
 const cors=require('cors')
+const multer=require('multer')
+const path=require('path')
+const fileUpload = require('express-fileupload')
 
+
+app.use(fileUpload());
 app.use(bodyParser.json()); //Transforming bodies of the requests in JSON object
 app.use(cors());
 
