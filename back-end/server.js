@@ -13,6 +13,9 @@ app.use(fileUpload());
 app.use(bodyParser.json()); //Transforming bodies of the requests in JSON object
 app.use(cors());
 
+
+
+
 app.listen(port, () => {    //Turn on server
     console.log('Server is running on port: ' + port)
 })

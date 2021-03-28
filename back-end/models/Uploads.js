@@ -1,6 +1,6 @@
 module.exports=(sequelize, DataTypes)=>{
     return sequelize.define('Uploads',{
-       uploadDaye: DataTypes.DATE,
+       uploadDate: DataTypes.DATE,
      
     },{
         underscored:true

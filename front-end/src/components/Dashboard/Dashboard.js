@@ -9,7 +9,7 @@ import * as FaIcons from 'react-icons/fa';
 import * as ImIcons from "react-icons/im";
 import Carousel from "react-elastic-carousel";
 import * as AiIcons from "react-icons/ai";
-import img from '../../assets/silent_patient.jpg'
+// import img from '../../uploads/big_magic.jpg'
 const API_URL = "http://localhost:8080/";
 
 
@@ -70,8 +70,9 @@ export default class Dashboard extends Component {
                                 <div className="item">
                                         <div className="item-content">
                                             <div className="imagine">
-                                                {/* <img classname="img" src={require(`${item.picture}`)}></img> */}
-                                                <img classname="img" src={img}></img>
+                                                <img classname="img" src={item.picture}></img>
+
+                                                {/* <img classname="img" src={`../..${item.picture}`}></img> */}
 
                                             </div>
                                             <div className="book-detail">

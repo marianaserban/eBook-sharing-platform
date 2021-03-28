@@ -4,7 +4,6 @@ module.exports=(sequelize, DataTypes)=>{
        genre: DataTypes.STRING,
        author: DataTypes.STRING,
        availability: DataTypes.BOOLEAN,
-       raiting:DataTypes.FLOAT,
        description: DataTypes.TEXT,
        path:DataTypes.STRING,
        picture:DataTypes.TEXT
