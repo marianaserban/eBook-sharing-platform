@@ -9,7 +9,7 @@ import * as FaIcons from 'react-icons/fa';
 import * as ImIcons from "react-icons/im";
 import Carousel from "react-elastic-carousel";
 import * as AiIcons from "react-icons/ai";
-// import img from '../../uploads/big_magic.jpg'
+import {Link} from "react-router-dom";
 const API_URL = "http://localhost:8080/";
 
 
@@ -27,12 +27,14 @@ const breakPoints = [
 export default class Dashboard extends Component {
     constructor(props) {
         super(props);
+
         this.logOut = this.logOut.bind(this);
 
         this.state = {
             freeBooks: [],
             currentUser: AuthService.getCurrentUser(),
             sidebarOpen: false,
+            currentItem:{}
         };
     }
 
@@ -66,14 +68,10 @@ export default class Dashboard extends Component {
                             <Carousel breakPoints={breakPoints}>
 
                             {this.state.freeBooks.map(item =>  
-
                                 <div className="item">
                                         <div className="item-content">
                                             <div className="imagine">
                                                 <img classname="img" src={item.picture}></img>
-
-                                                {/* <img classname="img" src={`../..${item.picture}`}></img> */}
-
                                             </div>
                                             <div className="book-detail">
                                                 <div className="title">{item.title}</div>
@@ -82,45 +80,18 @@ export default class Dashboard extends Component {
                                                     <AiIcons.AiFillStar />4.3
                                                 </div>
                                                 <div className="sum">{item.description.substring(0,250)}...</div>
+                                                
+                                                <button className="book-btn" onClick={()=>{
+                                                     this.props.history.push({
+                                                        pathname: "/bookDetail",
+                                                        state: {item:item}
+                                                      })
+                                                }}>See more</button>
                                             </div>
                                         </div>
                                 </div>
                             
                             )}
-
-                                {/* Aici facem cu map cred */}
-                                {/* <Item>One</Item>
-                                <Item>Two</Item>
-                                <Item>Three</Item>
-                                <Item>Four</Item>
-                                <Item>Five</Item>
-                                <Item>Six</Item>
-                                <Item>Seven</Item>
-                                <Item>Eight</Item> */}
-                                {/* <div className="item">
-                                    <div className="item-content">
-                                        <div className="imagine">
-                                            <img classname="img" src={img}></img>
-                                        </div>
-                                        <div className="book-detail">
-                                            <div className="title">Silent patient</div>
-                                            <div className="author">Alex Michaelides</div>
-                                            <div className="raiting">
-                                                <AiIcons.AiFillStar />4.3
-                                            </div>
-                                            <div className="sum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived </div> */}
-                                            {/* <button className="button">More</button> */}
-                                        {/* </div>
-                                    </div>
-
-                                </div>
-                                <div className="item">Two</div>
-                                <div className="item">Three</div>
-                                <div className="item">For</div>
-                                <div className="item">Five</div>
-                                <div className="item">Six</div>
-                                <div className="item">Seven</div>
-                                <div className="item">Eight</div> */}
                             </Carousel>
 
                         </div>
