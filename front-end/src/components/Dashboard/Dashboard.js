@@ -77,7 +77,7 @@ export default class Dashboard extends Component {
                                                 <div className="title">{item.title}</div>
                                                 <div className="author">{item.author}</div>
                                                 <div className="raiting">
-                                                    <AiIcons.AiFillStar />4.3
+                                                    <AiIcons.AiFillStar/>4.3
                                                 </div>
                                                 <div className="sum">{item.description.substring(0,250)}...</div>
                                                 
