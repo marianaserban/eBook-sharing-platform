@@ -2,10 +2,9 @@ import React, { Component } from 'react'
 import Navbar from '../Navbar/Navbar'
 import './BookDetail.css'
 import avatar from '../../assets/avatar.svg'
-import mariana from '../../assets/mariana.jpg'
 import * as BsIcons from "react-icons/bs";
 import * as FaIcons from "react-icons/fa";
-
+import Tabs from '../Tabs/Tabs'
 
 
 export default class BookDetail extends Component {
@@ -102,6 +101,7 @@ export default class BookDetail extends Component {
                             </div>
                         </div>
                     </div>
+                      <Tabs/>
                 </div>
             </div>
         )
