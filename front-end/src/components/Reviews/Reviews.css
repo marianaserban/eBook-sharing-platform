@@ -17,8 +17,31 @@
 
 }
 
-.img-rev{
+.anim{
     width: 50%;
-    height: 60%;
-    margin-top: -5em;
+}
+.bt-rev{
+    margin-left: 1em;
+    border-radius: 50%;
+    color: antiquewhite;
+    color: antiquewhites;
+    font-size: 24px;
+    height: 41px;
+    min-width: 41px;
+    width: 41px;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    line-height: 41px;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    border: 0;
+    outline: 0;
+    background-color: #474157;
+}
+
+.bt-rev:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
+button:focus{
+    outline:none !important;
 }
