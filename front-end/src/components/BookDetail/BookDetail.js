@@ -18,92 +18,181 @@ export default class BookDetail extends Component {
         this.state.book = this.props.location.state.item
     }
     render() {
-        
-        return (
-            <div>
-                <Navbar />
-                <div className="dash-content">
-
-                    <div className="row">
-                        <div className="col-md-8">
-                            <div className="card">
-                                <div className="card-header card-header-primary">
-                                    <h4 className="card-title">Book detail</h4>
-                                    <p className="card-category">Start reading your favourite book</p>
-                                </div>
-                                <div className="card-body">
-
-                                    <div className="row">
-                                        <div className="col-md-4">
-                                        <img className="imagine-detail" src={this.state.book.picture}></img>
-
-                                        </div>
-
-                                        <div className="col-md-8" /*style={{backgroundColor:'orange'}}*/>
-
-                                            <div className="title">{this.state.book.title}</div>
-                                            <div className="author">by {this.state.book.author}</div>
-                                            
-                                            {/* {descriere} */}
-                                            <div className="row">
-                                                <div className="col-md-4">
-
-                                                    <div className="row">
-                                                        <div className="col-md-2"><BsIcons.BsEye/></div>
-                                                        <div className="col-md-10">10 Reads</div>
-                                                    </div>
-
-                                                </div>
-                                                <div className="col-md-4">
-
-                                                    <div className="row">
-                                                        <div className="col-md-2"><BsIcons.BsStar/></div>
-                                                        <div className="col-md-10">15 Votes</div>
-                                                    </div>
-                                                    
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <div className="row">
-                                                        <div className="col-md-2"> <FaIcons.FaRegComment/></div>
-                                                        <div className="col-md-10">8 Comments</div>
-                                                    </div>  
-                                                </div>
-                                            </div>
-                                            <div className="sum" style={{marginTop:'1.5em'}}>
-                                                {this.state.book.description.substring(0,300)}...
-                                            </div>
-                                            <a href="#"  style={{float:'right',marginTop:'-0.5em',marginRight:'1em'}}>See more</a>
-                                            <div className="bt-con">
-                                                <input type="button" className="read-btn" value="Start reading "/>
-                                            </div>
-                                        </div>
-                                    
+        if(this.state.fullDescription){
+            return (
+                <div>
+                    <Navbar />
+                    <div className="dash-content">
+                        <div className="row">
+                            <div className="col-md-8">
+                                <div className="card">
+                                    <div className="card-header card-header-primary">
+                                        <h4 className="card-title">Book detail</h4>
+                                        <p className="card-category">Start reading your favourite book</p>
                                     </div>
-                                    
+                                    <div className="card-body">
+    
+                                        <div className="row">
+                                            <div className="col-md-4">
+                                            <img className="imagine-detail" src={this.state.book.picture}></img>
+    
+                                            </div>
+    
+                                            <div className="col-md-8">
+    
+                                                <div className="title">{this.state.book.title}</div>
+                                                <div className="author">by {this.state.book.author}</div>
+                                                
+                                                {/* {descriere} */}
+                                                <div className="row">
+                                                    <div className="col-md-4">
+    
+                                                        <div className="row">
+                                                            <div className="col-md-2"><BsIcons.BsEye/></div>
+                                                            <div className="col-md-10">10 Reads</div>
+                                                        </div>
+    
+                                                    </div>
+                                                    <div className="col-md-4">
+    
+                                                        <div className="row">
+                                                            <div className="col-md-2"><BsIcons.BsStar/></div>
+                                                            <div className="col-md-10">15 Votes</div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <div className="row">
+                                                            <div className="col-md-2"> <FaIcons.FaRegComment/></div>
+                                                            <div className="col-md-10">8 Comments</div>
+                                                        </div>  
+                                                    </div>
+                                                </div>          
+                                                <div className="sum" style={{marginTop:'1.5em'}}>
+                                                    {this.state.book.description}...
+                                                </div>
+                                                <a href="#" onClick={()=>{this.setState({fullDescription:false})}} style={{float:'right',marginTop:'-0.5em',marginRight:'1em'}}>See less</a>
+    
+                                                <div className="bt-con">
+                                                    <input type="button" className="read-btn" value="Start reading "/>
+                                                </div>
+                                            </div>
+                                        
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-4">
+                                <div className="card card-profile">
+                                    <div className="card-avatar">
+                                        <a href="javascript:;">
+                                            <img className="img" src={avatar} />
+                                        </a>
+                                    </div>
+                                    <div className="card-body">
+                                        <h6 className="card-category text-gray">Super user</h6>
+                                        <h4 className="card-title">Mariana Serban</h4>
+                                        <p className="card-description">
+                                            Cate carti a incarcat
+                                         </p>
+                                        <a href="javascript:;" className="btn btn-primary btn-round">See profile</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-4">
-                            <div className="card card-profile">
-                                <div className="card-avatar">
-                                    <a href="javascript:;">
-                                        <img className="img" src={avatar} />
-                                    </a>
-                                </div>
-                                <div className="card-body">
-                                    <h6 className="card-category text-gray">Super user</h6>
-                                    <h4 className="card-title">Mariana Serban</h4>
-                                    <p className="card-description">
-                                        Cate carti a incarcat
-                                     </p>
-                                    <a href="javascript:;" className="btn btn-primary btn-round">See profile</a>
-                                </div>
-                            </div>
-                        </div>
+                          <Tabs/>
                     </div>
-                      <Tabs/>
                 </div>
-            </div>
-        )
+            )
+        }else{
+            return (
+                <div>
+                    <Navbar />
+                    <div className="dash-content">
+                        <div className="row">
+                            <div className="col-md-8">
+                                <div className="card">
+                                    <div className="card-header card-header-primary">
+                                        <h4 className="card-title">Book detail</h4>
+                                        <p className="card-category">Start reading your favourite book</p>
+                                    </div>
+                                    <div className="card-body">
+    
+                                        <div className="row">
+                                            <div className="col-md-4">
+                                            <img className="imagine-detail" src={this.state.book.picture}></img>
+    
+                                            </div>
+    
+                                            <div className="col-md-8">
+    
+                                                <div className="title">{this.state.book.title}</div>
+                                                <div className="author">by {this.state.book.author}</div>
+                                                
+                                                {/* {descriere} */}
+                                                <div className="row">
+                                                    <div className="col-md-4">
+    
+                                                        <div className="row">
+                                                            <div className="col-md-2"><BsIcons.BsEye/></div>
+                                                            <div className="col-md-10">10 Reads</div>
+                                                        </div>
+    
+                                                    </div>
+                                                    <div className="col-md-4">
+    
+                                                        <div className="row">
+                                                            <div className="col-md-2"><BsIcons.BsStar/></div>
+                                                            <div className="col-md-10">15 Votes</div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <div className="row">
+                                                            <div className="col-md-2"> <FaIcons.FaRegComment/></div>
+                                                            <div className="col-md-10">8 Comments</div>
+                                                        </div>  
+                                                    </div>
+                                                </div>          
+                                                <div className="sum" style={{marginTop:'1.5em'}}>
+                                                    {this.state.book.description.substring(0,350)}...
+                                                </div>
+                                                <a href="#" onClick={()=>{this.setState({fullDescription:true})}} style={{float:'right',marginTop:'-0.5em',marginRight:'1em'}}>See more</a>
+    
+                                                <div className="bt-con">
+                                                    <input type="button" className="read-btn" value="Start reading "/>
+                                                </div>
+                                            </div>
+                                        
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-4">
+                                <div className="card card-profile">
+                                    <div className="card-avatar">
+                                        <a href="javascript:;">
+                                            <img className="img" src={avatar} />
+                                        </a>
+                                    </div>
+                                    <div className="card-body">
+                                        <h6 className="card-category text-gray">Super user</h6>
+                                        <h4 className="card-title">Mariana Serban</h4>
+                                        <p className="card-description">
+                                            Cate carti a incarcat
+                                         </p>
+                                        <a href="javascript:;" className="btn btn-primary btn-round">See profile</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                          <Tabs/>
+                    </div>
+                </div>
+            )
+        }
+       
     }
 }
