@@ -1,0 +1,10 @@
+.rev-form{
+    width: 100%;
+    max-width: 1000px;
+    min-width: 400px;
+    padding: 2em;
+    border-top: 10px solid #474157;
+    background: #F3F3F4 ;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.15);
+    margin-bottom: 15px;
+}
