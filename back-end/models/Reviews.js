@@ -1,8 +1,9 @@
 module.exports=(sequelize, DataTypes)=>{
     return sequelize.define('Reviews',{
        content: DataTypes.TEXT,
-       raiting:DataTypes.FLOAT
-     
+       title:DataTypes.STRING,
+       raiting:DataTypes.STRING,
+       addDate:DataTypes.STRING
     },{
         underscored:true
     })

@@ -11,10 +11,10 @@ import * as IoIcons from "react-icons/io";
 
 function Tabs() {
     const [toggleState, setToggleState] = useState(1);
-  
     const toggleTab = (index) => {
       setToggleState(index);
     };
+
   
     return (
       <div className="row">

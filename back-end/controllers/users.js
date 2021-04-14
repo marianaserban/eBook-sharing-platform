@@ -1,0 +1,44 @@
+const Users = require('../models').Users
+const UsersBooks=require('../models').UsersBooks
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+
+//get users with acces
+const getUsersWithAcces = async (req, res) => {
+    try {
+        let usersWithAcces = await UsersBooks.findAll({
+            where: {
+                bookId: req.params.bookId,
+            },
+            include: [{
+                model: Users,
+            }],
+        })
+        let users=[]
+        for(let i=0;i < usersWithAcces.length;i++ ){
+            users.push(usersWithAcces[i].User)
+        }
+        res.status(200).json(users)
+    } catch (error) {
+        res.status(500).send({
+            message: "Database error"
+        })
+    }
+};
+
+//get all users
+const getAllUsers = async (req, res) => {
+    try {
+       let allUsers = await Users.findAll({})
+        res.status(200).json(allUsers)
+    } catch (error) {
+        res.status(500).send({
+            message: "Database error"
+        })
+    }
+};
+
+module.exports = {
+    getUsersWithAcces,
+    getAllUsers,
+}

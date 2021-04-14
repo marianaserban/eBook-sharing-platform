@@ -16,6 +16,7 @@ export default class BookDetail extends Component {
         }
 
         this.state.book = this.props.location.state.item
+        localStorage.setItem("bookId", JSON.stringify(this.state.book.id));
     }
     render() {
         if(this.state.fullDescription){

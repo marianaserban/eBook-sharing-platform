@@ -4,18 +4,29 @@ import './AddReview.css'
 import StarRatingComponent from 'react-star-rating-component';
 import AuthService from "../../services/auth.service";
 import $ from 'jquery';
+import Axios from 'axios'
+
+const API_URL = "http://localhost:8080/";
+
 
 
 export default class AddReview extends Component {
+
     constructor(props){
         super(props)
-        this.handleRatingChange = this.handleRatingChange.bind(this);
+
+        // this.handleRatingChange = this.handleRatingChange.bind(this);
+        this.onChangeTitle = this.onChangeTitle.bind(this);
+        this.onChangeDescription = this.onChangeDescription.bind(this);
+        this.handleSubmit=this.handleSubmit.bind(this);
+
         this.state={
             currentUser: AuthService.getCurrentUser(),
-            raiting:1,
+            content:'',
+            addDate:new Date(),
+            rating:1,
             title:'',
-            description:''
-            
+            bookId: JSON.parse(localStorage.getItem('bookId')),
         }
     }
 
@@ -70,37 +81,77 @@ export default class AddReview extends Component {
                 }
             });
     }
+    onChangeTitle(e){
+        this.setState({
+            title: e.target.value
+        });
+    }
+    onChangeDescription(e){
+        this.setState({
+            content: e.target.value
+        });
+    }
+    onStarClick(nextValue, prevValue, name) {
+        // this.setState({
+        //     rating:e
 
-    handleRatingChange(e) {
-        this.setState({raiting:e});
+        // });
+        this.setState({rating: nextValue});
+        console.log(this.state.rating);
      }
 
+
+    handleSubmit(e){
+        e.preventDefault();
+        const review = {
+            content:this.state.content,
+            rating:this.state.rating,
+            addDate:this.state.addDate,
+            userId:this.state.currentUser.id,
+            bookId:this.state.bookId,
+          }
+        Axios.post(`${API_URL}review`, JSON.stringify(review),
+        {
+          headers: { "Content-Type": "application/json" }
+        })
+        .then((res) => {
+                return false;
+        })
+        .catch(error => {
+          if (error.response !== undefined) {
+          }
+        });
+    }
     render() {
 
         return (
                 <div className="row">
                     <div className="col-md-7">
                             <div className="form-container">
-                                <form action className="rev-form">
+                                <form action className="rev-form" onSubmit={this.handleSubmit}> 
                                     <h3 className="col-sm-12">Add a review</h3>
                                     <div className="col-sm-12" style={{fontSize:'2.2em'}}>
-                                        <StarRatingComponent id="raiting" style={{fontSize:'2.2em'}} name="raiting" editing={true} starCount={5} value={this.state.raiting} onChange={this.handleRatingChange} onStarClick={this.handleRatingChange}/>
+                                        <StarRatingComponent id="rating" style={{fontSize:'2.2em'}} 
+                                        name="rating" editing={true} starCount={5} 
+                                        value={this.state.rating} 
+                                        onStarClick={this.onStarClick.bind(this)}/>
                                     </div>
                                     <div className="col-sm-12">
                                         <div className="input-block">
                                         <label htmlFor>Title</label>
-                                        <input className="form-control" type="text" />
+                                        <input name="title" className="form-control" type="text" onChange={this.onChangeTitle}/>
                                         </div>
                                     </div>
                                     <div className="col-sm-12">
                                         <div className="input-block textarea">
                                         <label htmlFor>Your impression</label>
-                                        <textarea rows={3} type="text" className="form-control" defaultValue={""} />
+                                        <textarea name="content" rows={3} type="text" className="form-control"
+                                         defaultValue={""} onChange={this.onChangeDescription} />
                                         </div>
                                     </div>
                                     <div className="col-sm-12">
                                             <div className="bt-con">
-                                                <input type="button" className="read-btn" value="Submit"/>
+                                                <input type="button" type="submit" className="read-btn" value="Submit"/>
                                             </div>
                                     </div>
                                 </form>

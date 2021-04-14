@@ -29,10 +29,10 @@ export default class Register extends Component {
             confirmPassword: "",
             emailError: true,
             passwordError: true,
-            passwordMatchError: true
+            passwordMatchError: true,
+            thumbnail:"/uploads/avatar.svg"
+
         };
-
-
 
     }
     onChangeUsername(e) {
@@ -114,7 +114,8 @@ export default class Register extends Component {
                 password:this.state.password,
                 firstName:this.state.firstName,
                 lastName:this.state.lastName,
-                email:this.state.email
+                email:this.state.email,
+                thumbnail:this.state.thumbnail
               }
             axios.post(`${API_URL}signup`, JSON.stringify(user),
             {

@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const middlewares=require('../controllers/middlewares')
 const books=require('../controllers/books')
+const users=require('../controllers/users')
+const reviews=require('../controllers/reviews')
 
 const multer = require('multer');
 const path=require('path');
@@ -32,6 +34,8 @@ var upload = multer({ storage: storage })
 router.get('/reset', middlewares.resetDatabase);
 router.get('/books',books.getFreeBooks)
 router.post('/upload/:id',books.bookUpload);
-
+router.get('/usersWithAcces/:bookId', users.getUsersWithAcces);
+router.get('/users', users.getAllUsers);
+router.post('/review', reviews.addReview);
 
 module.exports = router;
