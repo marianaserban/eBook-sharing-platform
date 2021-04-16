@@ -11,10 +11,11 @@ export default class Users extends Component {
   constructor(props) {
     super(props)
 
-    this.searchByUserName = this.searchByUserName.bind(this);
-    this.handlePageClick = this.handlePageClick.bind(this);
+    this.onChangeSearchUsername = this.onChangeSearchUsername.bind(this);
+    this.onChangeSearchFirstName = this.onChangeSearchFirstName.bind(this);
+    this.onChangeSearchLastName = this.onChangeSearchLastName.bind(this);
 
-    this.onChangeSearch = this.onChangeSearch.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
 
     this.state = {
       allUsers: [],
@@ -23,7 +24,6 @@ export default class Users extends Component {
       source: [],  //source without acces
       users: [],
       search: '',
-
 
       offset: 0,
       orgtableData: [],
@@ -35,23 +35,43 @@ export default class Users extends Component {
 
       filteredUsers:[],
 
-      filter:false
+      filter:false,
+
+      searchUserName: '',
+      searchFirstName: '',
+      searchLastName: '',
 
     }
   }
 
-  filter=(name)=>{
+  filterUserName=(name)=>{
     this.setState({
         filteredUsers:this.state.orgtableData.filter(user=>{
-       return user.userName.includes(name)
+       return user.userName.toUpperCase().includes(name.toUpperCase())
         })
     })
   }
 
-  onChangeSearch(e) {
-    this.filter(e.target.value)
+  filterFirstName=(name)=>{
     this.setState({
-      search: e.target.value,
+        filteredUsers:this.state.orgtableData.filter(user=>{
+       return user.firstName.toUpperCase().includes(name.toUpperCase())
+        })
+    })
+  }
+
+  filterLastName=(name)=>{
+    this.setState({
+        filteredUsers:this.state.orgtableData.filter(user=>{
+       return user.lastName.toUpperCase().includes(name.toUpperCase())
+        })
+    })
+  } 
+
+  onChangeSearchUsername(e) {
+    this.filterUserName(e.target.value)
+    this.setState({
+      searchUserName: e.target.value,
       filter:true
     });
     if(e.target.value.length===0){
@@ -60,6 +80,33 @@ export default class Users extends Component {
       });
     }
   }
+
+  onChangeSearchFirstName(e) {
+    this.filterFirstName(e.target.value)
+    this.setState({
+      searchFirstName: e.target.value,
+      filter:true
+    });
+    if(e.target.value.length===0){
+      this.setState({
+        filter:false
+      });
+    }
+  }
+
+  onChangeSearchLastName(e) {
+    this.filterLastName(e.target.value)
+    this.setState({
+      searchLastName: e.target.value,
+      filter:true
+    });
+    if(e.target.value.length===0){
+      this.setState({
+        filter:false
+      });
+    }
+  }
+
 
   handlePageClick = (e) => {
     const selectedPage = e.selected;
@@ -82,11 +129,13 @@ export default class Users extends Component {
       users: slice
     })
   }
+
   arr_diff(b1, b2) {
     var res = b1.filter(item1 =>
       !b2.some(item2 => (item2.id === item1.id && item2.name === item1.name)))
     return res
   }
+
   checkExistence(vendors, obj) {
     var found = false;
     for (var i = 0; i < vendors.length; i++) {
@@ -114,8 +163,6 @@ export default class Users extends Component {
     Axios.get(API_URL + 'usersWithAcces/' + `${this.state.bookId}`).then(
       res => {
         this.setState({ target: res.data });
-        // this.setState({source:this.arr_diff(this.state.allUsers,this.state.target)})
-
         this.state.allUsers.forEach(element => {
           if (this.checkExistence(this.state.target, element)) {
             let user = {
@@ -150,7 +197,6 @@ export default class Users extends Component {
           }
         });
 
-
         var data = this.state.users
         var slice = this.state.users.slice(this.state.offset, this.state.offset + this.state.perPage)
         this.setState({
@@ -164,80 +210,6 @@ export default class Users extends Component {
     )
   }
 
- 
-
-  searchByUserName = () => {
-    // Declare variables 
-    var input, filter, table, tr, td, i;
-    input = document.getElementById("searchUserName");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("myTable");
-    tr = table.getElementsByTagName("tr");
-
-    // Loop through all table rows, and hide those who don't match the search query
-
-    for (let i = 1; i < tr.length; i++) {
-      td = tr[i].getElementsByTagName("td")
-      for (let j = 0; j < td.length; j++) {
-        console.log('aaa', td.length)
-        let tdata = td[j];
-        if (tdata) {
-          if (tdata.innerHTML.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-            break;
-          } else {
-            tr[i].style.display = "none";
-          }
-        }
-      }
-    }
-  }
-
-  searchByFirstName = () => {
-    var input, filter, table, tr, td, i;
-    input = document.getElementById("searchFirstName");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("myTable");
-    tr = table.getElementsByTagName("tr");
-    for (let i = 1; i < tr.length; i++) {
-      td = tr[i].getElementsByTagName("td")
-      for (let j = 0; j < td.length; j++) {
-        let tdata = td[j];
-        if (tdata) {
-          if (tdata.innerHTML.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-            break;
-          } else {
-            tr[i].style.display = "none";
-          }
-        }
-      }
-    }
-  }
-
-  searchByLastName = () => {
-    var input, filter, table, tr, td, i;
-    input = document.getElementById("searchLastName");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("myTable");
-    tr = table.getElementsByTagName("tr");
-    for (let i = 1; i < tr.length; i++) {
-      td = tr[i].getElementsByTagName("td")
-      for (let j = 0; j < td.length; j++) {
-        let tdata = td[j];
-        if (tdata) {
-          if (tdata.innerHTML.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-            break;
-          } else {
-            tr[i].style.display = "none";
-          }
-        }
-      }
-    }
-  }
-
-
   render() {
  
     return (
@@ -248,10 +220,10 @@ export default class Users extends Component {
               <div class="card-headera card-headera-primary">
                 <h4 class="card-title ">Choose who can acces your book</h4>
                 <p class="card-category">
-                  <input type="text" /*onKeyUp={this.searchByUserName}*/
+                  {/* <input type="text"
                     onChange={this.onChangeSearch}
                     id="search" name="search" className="search-text"
-                    placeholder="Search..." autoComplete="off" />
+                    placeholder="Search..." autoComplete="off" /> */}
                 </p>
               </div>
               <div class="card-body">
@@ -283,15 +255,15 @@ export default class Users extends Component {
 
                         </td>
                         <td id="usersTable">
-                          <input type="search" onKeyUp={this.searchByUserName} id="searchUserName" name="searchLastName" className="search-text" placeholder="Search by username" autoComplete="off" />
+                          <input type="search" onChange={this.onChangeSearchUsername}name="searchUserName" className="search-text" placeholder="Search by username" autoComplete="off" />
 
                         </td>
                         <td>
-                          <input type="search" onKeyUp={this.searchByFirstName} id="searchFirstName" name="searchLastName" className="search-text" placeholder="Search by first name" autoComplete="off" />
+                          <input type="search" onChange={this.onChangeSearchFirstName} name="searchFirstName" className="search-text" placeholder="Search by first name" autoComplete="off" />
 
                         </td>
                         <td>
-                          <input type="search" onKeyUp={this.searchByLastName} id="searchLastName" name="searchLastName" className="search-text" placeholder="Search by last name" autoComplete="off" />
+                          <input type="search"  onChange={this.onChangeSearchLastName} name="searchLastName" className="search-text" placeholder="Search by last name" autoComplete="off" />
                         </td>
                         <td>
 
@@ -363,86 +335,68 @@ export default class Users extends Component {
 
                         </tr>
                         )
-
-              
-                        
-
-                  
                       : 
-                      
-                           <div>
-                                    {
+                    this.state.filteredUsers.map(item =>            
+                              <tr>
 
-this.state.filteredUsers.map(item =>
-                        
-  <tr>
+                                <td style={{ alignItems: 'center' }}>
+                                  <img className="imagine-user" src={item.thumbnail}></img>
+                                </td>
+                                <td>
+                                  <div>{item.userName}</div>
+                                </td>
+                                <td>
+                                  {item.firstName}
+                                </td>
+                                <td>
+                                  {item.lastName}
+                                </td>
+                                <td>
+                                  {item.role}
+                                </td>
 
-    <td style={{ alignItems: 'center' }}>
-      <img className="imagine-user" src={item.thumbnail}></img>
-    </td>
-    <td>
-      <div>{item.userName}</div>
-    </td>
-    <td>
-      {item.firstName}
-    </td>
-    <td>
-      {item.lastName}
-    </td>
-    <td>
-      {item.role}
-    </td>
+                                <td id="acces">
 
-    <td id="acces">
+                                  {item.availability ?
+                                    <div style={{ color: 'green' }} onClick={() => {
 
-      {item.availability ?
-        <div style={{ color: 'green' }} onClick={() => {
+                                    }}>ALLOWED</div>
+                                    :
 
-        }}>ALLOWED</div>
-        :
+                                    <div style={{ color: 'red' }} onClick={(e) => {
+                                      e.preventDefault();
+                                      Axios.post(`${API_URL}addAcces/${item.id}/${this.state.bookId}`,
+                                        {
+                                          headers: { "Content-Type": "application/json" }
+                                        })
+                                        .then((res) => {
+                                          return false;
+                                        })
+                                        .catch(error => {
+                                          if (error.response !== undefined) {
+                                          }
+                                        });
 
-        <div style={{ color: 'red' }} onClick={(e) => {
-          e.preventDefault();
-          Axios.post(`${API_URL}addAcces/${item.id}/${this.state.bookId}`,
-            {
-              headers: { "Content-Type": "application/json" }
-            })
-            .then((res) => {
-              return false;
-            })
-            .catch(error => {
-              if (error.response !== undefined) {
-              }
-            });
+                                      let index = this.state.users.indexOf(item)
+                                      let useri = [...this.state.users];
+                                      let itemModif = { ...useri[index] };
+                                      itemModif.availability = true;
+                                      useri[index] = itemModif;
+                                      this.setState({ users: useri });
 
-          let index = this.state.users.indexOf(item)
-          let useri = [...this.state.users];
-          let itemModif = { ...useri[index] };
-          itemModif.availability = true;
-          useri[index] = itemModif;
-          this.setState({ users: useri });
+                                      index = this.state.orgtableData.indexOf(item)
+                                      useri = [...this.state.orgtableData]
+                                      itemModif = { ...useri[index] }
+                                      itemModif.availability = true;
+                                      useri[index] = itemModif;
+                                      this.setState({ orgtableData: useri });
 
-          index = this.state.orgtableData.indexOf(item)
-          useri = [...this.state.orgtableData]
-          itemModif = { ...useri[index] }
-          itemModif.availability = true;
-          useri[index] = itemModif;
-          this.setState({ orgtableData: useri });
+                                    }}>FORBIDDEN</div>}
+                                </td>
 
-        }}>FORBIDDEN</div>}
-    </td>
-
-  </tr>
-  )
-
-
-
-                                    }
-
-
-                           </div>
-
-                  }
+                              </tr>
+                              )
+                          }
 
                     </tbody>
                   </table>
