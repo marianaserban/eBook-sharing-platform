@@ -3,6 +3,7 @@ const middlewares=require('../controllers/middlewares')
 const books=require('../controllers/books')
 const users=require('../controllers/users')
 const reviews=require('../controllers/reviews')
+const usersbooks=require('../controllers/usersbooks')
 
 const multer = require('multer');
 const path=require('path');
@@ -37,5 +38,6 @@ router.post('/upload/:id',books.bookUpload);
 router.get('/usersWithAcces/:bookId', users.getUsersWithAcces);
 router.get('/users', users.getAllUsers);
 router.post('/review', reviews.addReview);
+router.post('/addAcces/:userId/:bookId', usersbooks.addAcces)
 
 module.exports = router;
