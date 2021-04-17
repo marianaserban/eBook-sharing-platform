@@ -39,5 +39,7 @@ router.get('/usersWithAcces/:bookId', users.getUsersWithAcces);
 router.get('/users', users.getAllUsers);
 router.post('/review', reviews.addReview);
 router.post('/addAcces/:userId/:bookId', usersbooks.addAcces)
+router.delete('/removeAcces/:userId/:bookId', usersbooks.removeAcces)
+router.get('/superUser/:bookId', books.getSuperUser)
 
 module.exports = router;

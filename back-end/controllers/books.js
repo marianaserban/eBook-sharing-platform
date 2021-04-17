@@ -1,5 +1,30 @@
 const Books = require('../models').Books
 const Uploads=require('../models').Uploads
+const Users=require('../models').Users
+
+const getSuperUser=async(req,res)=>{
+  try {
+
+    let upload=await Uploads.findOne({
+      where: {
+        bookId: req.params.bookId,
+      }
+    })
+
+    let user = await Users.findOne({
+      where: {
+          id: upload.userId,
+      }
+  })
+
+    res.status(200).json(user)
+
+  } catch (error) {
+    res.status(500).send({
+        message: "Database error"
+    })
+  }
+}
 const getFreeBooks = async (req, res) => {
         try {
             let books = await Books.findAll({
@@ -68,5 +93,6 @@ const bookUpload=async(req,res)=>{
 
 module.exports = {
     getFreeBooks, 
-    bookUpload
+    bookUpload,
+    getSuperUser
 }

@@ -1,22 +1,36 @@
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import Axios from 'axios'
 import './Tabs.css'
 import Reviews from '../Reviews/Reviews'
 import AddReview from '../Reviews/AddReview'
 import Users from "../Users/Users";
 import * as MdIcons from "react-icons/md";
-import * as GrIcons from "react-icons/gr";
 import * as FaIcons from "react-icons/fa";
 import * as IoIcons from "react-icons/io";
+import AuthService from "../../services/auth.service";
 
+const API_URL = "http://localhost:8080/";
 
 function Tabs() {
     const [toggleState, setToggleState] = useState(1);
     const toggleTab = (index) => {
       setToggleState(index);
     };
+    const [bookId, setBookId]=useState(JSON.parse(localStorage.getItem('bookId')))
+    const [superUser, setSuperUser]=useState({})
+    useEffect(() => {
+        Axios.get(API_URL + 'superUser/'+`${bookId}`).then(
+            res => {
+              setSuperUser(res.data)
+              console.log(superUser)
+            }
+          )
+    });
 
   
     return (
+
+       <div>
       <div className="row">
             <div className="card card-nav-tabs card-tab">
             <div className="card-header card-header-primary">
@@ -37,37 +51,59 @@ function Tabs() {
                                     <div className="ripple-container"></div>
                                 </a>
                             </li>
-                            <li className="nav-item">
-                                <a className="nav-link"       className={toggleState === 3 ? "tabs active-tabs" : "tabs"} onClick={() => toggleTab(3)} >
-                                    <i className="material-icons"> <FaIcons.FaUsers/></i> 
-                                        Available to
-                                    <div className="ripple-container"></div>
-                                </a>
+
+                            {superUser.id===AuthService.getCurrentUser().id ?
+                              <li className="nav-item">
+                              <a className="nav-link"       className={toggleState === 3 ? "tabs active-tabs" : "tabs"} onClick={() => toggleTab(3)} >
+                                  <i className="material-icons"> <FaIcons.FaUsers/></i> 
+                                      Available to
+                                  <div className="ripple-container"></div>
+                              </a>
                             </li>
+                             : 
+                             <div></div>}
+                           
                         </ul>
                     </div>
                 </div>
             </div>
 
-            <div className="card-body">      
-                <div className="content-tabs">
-                    <div
-                        className={toggleState === 1 ? "content  active-content" : "content"}>
-                        <Reviews/>
-                    </div>
-            
-                    <div
-                        className={toggleState === 2 ? "content  active-content" : "content"}>
-                        <AddReview/>
-                    </div>
-            
-                    <div
-                        className={toggleState === 3 ? "content  active-content" : "content"}>
-                        <Users/>
-                    </div>
-                </div>
+            {superUser.id===AuthService.getCurrentUser().id ?
+                 <div className="card-body">      
+                 <div className="content-tabs">
+                     <div
+                         className={toggleState === 1 ? "content  active-content" : "content"}>
+                         <Reviews/>
+                     </div>
+             
+                     <div
+                         className={toggleState === 2 ? "content  active-content" : "content"}>
+                         <AddReview/>
+                     </div>
+             
+                     <div
+                         className={toggleState === 3 ? "content  active-content" : "content"}>
+                         <Users/>
+                     </div>
+                 </div>
+             </div>
+             : 
+             <div className="card-body">      
+             <div className="content-tabs">
+                 <div
+                     className={toggleState === 1 ? "content  active-content" : "content"}>
+                     <Reviews/>
+                 </div>
+         
+                 <div
+                     className={toggleState === 2 ? "content  active-content" : "content"}>
+                     <AddReview/>
+                 </div>
+             </div>
             </div>
+        }
         </div>
+    </div>
     </div>
 
     );

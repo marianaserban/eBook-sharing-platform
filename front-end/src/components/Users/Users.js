@@ -3,9 +3,13 @@ import Axios from 'axios'
 import avatar from '../../assets/avatar.svg'
 import './Users.css';
 import $ from 'jquery';
+import * as RiIcons from "react-icons/ri";
+import * as GiIcons from "react-icons/gi";
 import ReactPaginate from 'react-paginate';
+import { toast } from "react-toastify";
 
 const API_URL = "http://localhost:8080/";
+toast.configure();
 
 export default class Users extends Component {
   constructor(props) {
@@ -40,6 +44,8 @@ export default class Users extends Component {
       searchUserName: '',
       searchFirstName: '',
       searchLastName: '',
+
+      superUser:{}
 
     }
   }
@@ -155,6 +161,11 @@ export default class Users extends Component {
   }
 
   componentDidMount = () => {
+    Axios.get(API_URL + 'superUser/'+`${this.state.bookId}`).then(
+      res => {
+        this.setState({ superUser: res.data });
+      }
+    )
     Axios.get(API_URL + 'users').then(
       res => {
         this.setState({ allUsers: res.data });
@@ -178,7 +189,11 @@ export default class Users extends Component {
             if (user.thumbnail == null) {
               user.thumbnail = avatar
             }
-            this.state.users.push(user);
+            if(user.id===this.state.superUser.id){
+              
+            }else{
+              this.state.users.push(user);
+            }
           } else {
             let user = {
               id: element.id,
@@ -193,7 +208,11 @@ export default class Users extends Component {
             if (user.thumbnail == null) {
               user.thumbnail = avatar
             }
-            this.state.users.push(user);
+            if(user.id===this.state.superUser.id){
+
+            }else{
+              this.state.users.push(user);
+            }
           }
         });
 
@@ -291,30 +310,62 @@ export default class Users extends Component {
                             {item.lastName}
                           </td>
                           <td>
-                            {item.role}
+
+                               {(item.role==="user"&&
+                                    <div className="acces-badge user">user</div>)
+                                || (item.role==="superuser" &&
+                                    <div className="acces-badge super-user">super-user</div>)
+                                || (item.role==="admin" &&
+                                    <div className="acces-badge admin">admin</div>)
+                              } 
                           </td>
 
                           <td id="acces">
 
                             {item.availability ?
-                              <div style={{ color: 'green' }} onClick={() => {
+                              <div className="acces-badge allowed"onClick={(e) => {
+                                  e.preventDefault()
+                                  Axios.delete(`${API_URL}removeAcces/${item.id}/${this.state.bookId}`)
+                                        .then((res)=>{
+                                          toast(`Acces for user ${item.userName} was removed succesfully!`)
+                                        })
 
-                              }}>ALLOWED</div>
+                                    let index = this.state.users.indexOf(item)
+                                    let useri = [...this.state.users];
+                                    let itemModif = { ...useri[index] };
+                                    itemModif.availability = false;
+                                    useri[index] = itemModif;
+                                    this.setState({ users: useri });
+        
+                                    index = this.state.orgtableData.indexOf(item)
+                                    useri = [...this.state.orgtableData]
+                                    itemModif = { ...useri[index] }
+                                    itemModif.availability = false;
+                                    useri[index] = itemModif;
+                                    this.setState({ orgtableData: useri });
+
+                                
+                              }}><GiIcons.GiCheckMark/>ALLOWED</div>
                               :
 
-                              <div style={{ color: 'red' }} onClick={(e) => {
+                              <div className="acces-badge forbidden"onClick={(e) => {
                                 e.preventDefault();
                                 Axios.post(`${API_URL}addAcces/${item.id}/${this.state.bookId}`,
                                   {
                                     headers: { "Content-Type": "application/json" }
                                   })
                                   .then((res) => {
+                                    toast(`User ${item.userName} has acces on your book!`)
+
                                     return false;
+
                                   })
                                   .catch(error => {
                                     if (error.response !== undefined) {
                                     }
                                   });
+
+
 
                                 let index = this.state.users.indexOf(item)
                                 let useri = [...this.state.users];
@@ -330,7 +381,9 @@ export default class Users extends Component {
                                 useri[index] = itemModif;
                                 this.setState({ orgtableData: useri });
 
-                              }}>FORBIDDEN</div>}
+
+
+                              }}><RiIcons.RiForbid2Line/> FORBIDDEN</div>}
                           </td>
 
                         </tr>
@@ -352,24 +405,55 @@ export default class Users extends Component {
                                   {item.lastName}
                                 </td>
                                 <td>
-                                  {item.role}
+                                    {(item.role==="user"&&
+                                        <div className="acces-badge user">user</div>)
+                                    || (item.role==="superuser" &&
+                                        <div className="acces-badge super-user">super-user</div>)
+                                    || (item.role==="admin" &&
+                                        <div className="acces-badge admin">admin</div>)
+                                  } 
                                 </td>
 
                                 <td id="acces">
 
                                   {item.availability ?
-                                    <div style={{ color: 'green' }} onClick={() => {
+                                    <div className="acces-badge allowed" onClick={(e) => {
 
-                                    }}>ALLOWED</div>
+                                      e.preventDefault()
+                                      Axios.delete(`${API_URL}removeAcces/${item.id}/${this.state.bookId}`)
+                                        .then((res)=>{
+                                          toast(`Acces for user ${item.userName} was removed succesfully!`)
+
+                                        })
+
+
+                                          let index = this.state.filteredUsers.indexOf(item)
+                                          let useri = [...this.state.filteredUsers];
+                                          let itemModif = { ...useri[index] };
+                                          itemModif.availability = false;
+                                          useri[index] = itemModif;
+                                          this.setState({ filteredUsers: useri });
+              
+                                          index = this.state.orgtableData.indexOf(item)
+                                          useri = [...this.state.orgtableData]
+                                          itemModif = { ...useri[index] }
+                                          itemModif.availability = false;
+                                          useri[index] = itemModif;
+                                          this.setState({ orgtableData: useri });
+
+
+                                    }}><GiIcons.GiCheckMark/>ALLOWED</div>
                                     :
 
-                                    <div style={{ color: 'red' }} onClick={(e) => {
+                                    <div className="acces-badge forbidden" onClick={(e) => {
                                       e.preventDefault();
                                       Axios.post(`${API_URL}addAcces/${item.id}/${this.state.bookId}`,
                                         {
                                           headers: { "Content-Type": "application/json" }
                                         })
                                         .then((res) => {
+                                          toast(`User ${item.userName} has acces on your book!`)
+
                                           return false;
                                         })
                                         .catch(error => {
@@ -377,21 +461,23 @@ export default class Users extends Component {
                                           }
                                         });
 
-                                      let index = this.state.users.indexOf(item)
-                                      let useri = [...this.state.users];
-                                      let itemModif = { ...useri[index] };
-                                      itemModif.availability = true;
-                                      useri[index] = itemModif;
-                                      this.setState({ users: useri });
+                                        let index = this.state.filteredUsers.indexOf(item)
+                                        let useri = [...this.state.filteredUsers];
+                                        let itemModif = { ...useri[index] };
+                                        itemModif.availability = true;
+                                        useri[index] = itemModif;
+                                        this.setState({ filteredUsers: useri });
+            
+                                        index = this.state.orgtableData.indexOf(item)
+                                        useri = [...this.state.orgtableData]
+                                        itemModif = { ...useri[index] }
+                                        itemModif.availability = true;
+                                        useri[index] = itemModif;
+                                        this.setState({ orgtableData: useri });
 
-                                      index = this.state.orgtableData.indexOf(item)
-                                      useri = [...this.state.orgtableData]
-                                      itemModif = { ...useri[index] }
-                                      itemModif.availability = true;
-                                      useri[index] = itemModif;
-                                      this.setState({ orgtableData: useri });
 
-                                    }}>FORBIDDEN</div>}
+
+                                    }}><RiIcons.RiForbid2Line/>FORBIDDEN</div>}
                                 </td>
 
                               </tr>
