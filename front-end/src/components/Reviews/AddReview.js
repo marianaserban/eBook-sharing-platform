@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import Animation from './Animation'
+import AnimationDone from './DoneAnimation'
 import './AddReview.css'
+import Dialog from '../Dialog/Dialog'
 import StarRatingComponent from 'react-star-rating-component';
 import AuthService from "../../services/auth.service";
 import $ from 'jquery';
@@ -24,9 +26,10 @@ export default class AddReview extends Component {
             currentUser: AuthService.getCurrentUser(),
             content:'',
             addDate:new Date(),
-            rating:1,
+            raiting:1,
             title:'',
             bookId: JSON.parse(localStorage.getItem('bookId')),
+            isOpen:false
         }
     }
 
@@ -96,16 +99,18 @@ export default class AddReview extends Component {
         //     rating:e
 
         // });
-        this.setState({rating: nextValue});
-        console.log(this.state.rating);
+        this.setState({raiting: nextValue});
      }
-
+     cancelCourse = () => { 
+      document.getElementById("add-review").reset();
+    }
 
     handleSubmit(e){
         e.preventDefault();
         const review = {
             content:this.state.content,
-            rating:this.state.rating,
+            title:this.state.title,
+            raiting:`${this.state.raiting}`,
             addDate:this.state.addDate,
             userId:this.state.currentUser.id,
             bookId:this.state.bookId,
@@ -115,12 +120,17 @@ export default class AddReview extends Component {
           headers: { "Content-Type": "application/json" }
         })
         .then((res) => {
-                return false;
+          document.getElementById("add-review").reset();
+                this.setState({raiting:1})
+                this.setState({content:' '})
+                this.setState({title:' '})
+                //return false;
         })
         .catch(error => {
           if (error.response !== undefined) {
           }
         });
+
     }
     render() {
 
@@ -128,12 +138,12 @@ export default class AddReview extends Component {
                 <div className="row">
                     <div className="col-md-7">
                             <div className="form-container">
-                                <form action className="rev-form" onSubmit={this.handleSubmit}> 
+                                <form id="add-review"className="rev-form" onSubmit={this.handleSubmit}> 
                                     <h3 className="col-sm-12">Add a review</h3>
                                     <div className="col-sm-12" style={{fontSize:'2.2em'}}>
                                         <StarRatingComponent id="rating" style={{fontSize:'2.2em'}} 
-                                        name="rating" editing={true} starCount={5} 
-                                        value={this.state.rating} 
+                                        name="raiting" editing={true} starCount={5} 
+                                        value={this.state.raiting} 
                                         onStarClick={this.onStarClick.bind(this)}/>
                                     </div>
                                     <div className="col-sm-12">
@@ -151,7 +161,8 @@ export default class AddReview extends Component {
                                     </div>
                                     <div className="col-sm-12">
                                             <div className="bt-con">
-                                                <input type="button" type="submit" className="read-btn" value="Submit"/>
+                                                <input type="button" type="submit" className="read-btn" 
+                                                value="Submit" onClick={()=>{this.setState({isOpen:true})}}/>
                                             </div>
                                     </div>
                                 </form>
@@ -160,7 +171,26 @@ export default class AddReview extends Component {
                         <div className="col-md-5">
                             <Animation />
                         </div>
-             </div>
+
+                        <Dialog 
+                        style={{
+                          overlay: {
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            backdropFilter: 'blur(2px)',
+                          }}}
+                        isOpen={this.state.isOpen} onClose={(e) => this.setState({ isOpen: false })}>
+                          <div className="animatie">
+                            <AnimationDone/>
+                            <h6>Your review has been added successfully!</h6>
+                          </div>
+                           
+                        </Dialog>
+
+                        </div>
         )
     }
 }

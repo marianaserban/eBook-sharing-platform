@@ -2,8 +2,10 @@ const Reviews = require('../models').Reviews
 
 const addReview = async (req, res) => {
     const review = {
+       
         content: req.body.content,
-        raiting: req.body.raintig,
+        title:req.body.title,
+        raiting: req.body.raiting,
         addDate:req.body.addDate,        
         userId: req.body.userId,
         bookId:req.body.bookId       

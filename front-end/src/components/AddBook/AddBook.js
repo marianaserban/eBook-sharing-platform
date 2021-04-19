@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import Axios from 'axios'
 import AuthService from "../../services/auth.service";
 import Navbar from '../Navbar/Navbar'
+import Dialog from '../Dialog/Dialog'
+import AnimationDone from '../Reviews/DoneAnimation'
 import './AddBook.css'
 import * as IoIcons from "react-icons/io";
 import { toast } from "react-toastify";
@@ -29,8 +31,9 @@ export default class AddBook extends Component {
             availability:'',
             description:'',
             path:'',
-            picture:'' 
-            
+            picture:'' ,
+            isOpen:false,
+            isValid:false,
         }
     }
     onChangeTitle(e) {
@@ -80,8 +83,7 @@ export default class AddBook extends Component {
     }
 
     handleSubmit = (e) => {
-         //e.preventDefault();
-
+        e.preventDefault();
         const data=new FormData()
         data.append("title",this.state.title)
         data.append("author", this.state.author)
@@ -180,10 +182,17 @@ export default class AddBook extends Component {
                                     <input type="file" accept=".jpg" placeholder="Book" name="picture" required class="name" onChange={this.onChangePicture}/>
                                 </span>
                             </div>
-                            <input class="button" type="submit" value="Add book"/>
+                            <input  onClick={()=>{/*if(this.state.isValid)*/ this.setState({isOpen:true})}} class="button" type="submit" value="Add book"/>
                         </form>
                     </div>
                 </div>
+                <Dialog
+                        isOpen={this.state.isOpen} onClose={(e) => this.setState({ isOpen: false })}>
+                          <div className="animatie">
+                            <AnimationDone/>
+                            <h6>Your book has been added successfully!</h6>
+                          </div>
+                        </Dialog>
             </div>
         )
     }

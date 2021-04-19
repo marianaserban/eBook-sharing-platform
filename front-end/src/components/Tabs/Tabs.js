@@ -22,7 +22,6 @@ function Tabs() {
         Axios.get(API_URL + 'superUser/'+`${bookId}`).then(
             res => {
               setSuperUser(res.data)
-              console.log(superUser)
             }
           )
     });

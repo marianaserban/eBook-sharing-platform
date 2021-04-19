@@ -78,7 +78,7 @@ const bookUpload=async(req,res)=>{
     
       let bookId=0
       let upload={
-        uploadDaye:Date.now(),
+        uploadDate:`${new Date()}`,
         bookId:bookId,
         userId:req.params.id
       }
