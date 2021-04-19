@@ -23,6 +23,38 @@ const addReview = async (req, res) => {
     }
 };
 
+const getAverage=async (req, res) => {
+
+    let reviews = await Reviews.findAll({
+        where: {
+            bookId: req.params.bookId,
+        }
+    })
+    let sum=0;
+    if(reviews.length>0){
+        reviews.forEach(element => {
+            sum=sum+parseInt(element.raiting)
+        });
+
+        res.status(200).json(sum/reviews.length)
+     }
+     else{
+        res.status(200).json(0)
+    }
+
+}
+
+const getReviews=async (req, res) => {
+    let reviews = await Reviews.findAll({
+        where: {
+            bookId: req.params.bookId,
+        }
+    })
+    res.status(200).json(reviews)
+}
+
 module.exports = {
-    addReview
+    addReview,
+    getAverage,
+    getReviews
 }

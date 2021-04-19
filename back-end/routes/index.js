@@ -41,5 +41,7 @@ router.post('/review', reviews.addReview);
 router.post('/addAcces/:userId/:bookId', usersbooks.addAcces)
 router.delete('/removeAcces/:userId/:bookId', usersbooks.removeAcces)
 router.get('/superUser/:bookId', books.getSuperUser)
-
+router.get('/average/:bookId', reviews.getAverage)
+router.get('/reviews/:bookId', reviews.getReviews)
+router.get('/reviews/users/:bookId', users.getUsersWithReviews) 
 module.exports = router;

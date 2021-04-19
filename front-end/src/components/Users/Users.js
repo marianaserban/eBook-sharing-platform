@@ -164,6 +164,7 @@ export default class Users extends Component {
     Axios.get(API_URL + 'superUser/'+`${this.state.bookId}`).then(
       res => {
         this.setState({ superUser: res.data });
+        console.log(this.state.superUser)
       }
     )
     Axios.get(API_URL + 'users').then(
@@ -209,6 +210,7 @@ export default class Users extends Component {
               user.thumbnail = avatar
             }
             if(user.id===this.state.superUser.id){
+              console.log('AM GASIT SUPER USER',user)
 
             }else{
               this.state.users.push(user);

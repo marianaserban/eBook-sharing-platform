@@ -93,12 +93,15 @@ export default class AddBook extends Component {
         data.append("path",this.state.path)
         data.append("picture",this.state.picture)
 
+
         Axios.post(`${API_URL}upload/${this.state.currentUser.id}`,data,
         {
           headers: { "Content-Type": "multipart/form-data" }
         })
         .then((res) => {
-           toast('Your book has been uploaded!')
+
+           return false;
+          // toast('Your book has been uploaded!')
         })
         .catch(error => {
           if (error.response !== undefined) {
@@ -114,7 +117,7 @@ export default class AddBook extends Component {
                 <div className="dash-content">
 
                     <div className="form-container">
-                        <form className="book-form" onSubmit={this.handleSubmit} enctype="multipart/form-data">
+                        <form id="add-book"className="book-form" onSubmit={this.handleSubmit} enctype="multipart/form-data">
                             <h1>Add a book</h1>
 
                             <div class="input-name">
@@ -182,7 +185,11 @@ export default class AddBook extends Component {
                                     <input type="file" accept=".jpg" placeholder="Book" name="picture" required class="name" onChange={this.onChangePicture}/>
                                 </span>
                             </div>
-                            <input  onClick={()=>{/*if(this.state.isValid)*/ this.setState({isOpen:true})}} class="button" type="submit" value="Add book"/>
+                            <input type="submit" onClick={()=>{/*if(this.state.isValid)*/
+                                this.setState({isOpen:true})}} class="button"  value="Add book"/>
+
+                              {/* <button type="button" onClick={()=>{ 
+                                this.setState({isOpen:true})}} class="button">Add Book</button>   */}
                         </form>
                     </div>
                 </div>
@@ -190,7 +197,7 @@ export default class AddBook extends Component {
                         isOpen={this.state.isOpen} onClose={(e) => this.setState({ isOpen: false })}>
                           <div className="animatie">
                             <AnimationDone/>
-                            <h6>Your book has been added successfully!</h6>
+                            <h6>Your book has been uploaded successfully!</h6>
                           </div>
                         </Dialog>
             </div>

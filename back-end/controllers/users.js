@@ -1,5 +1,6 @@
 const Users = require('../models').Users
 const UsersBooks=require('../models').UsersBooks
+const Reviews=require('../models').Reviews
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
@@ -38,7 +39,31 @@ const getAllUsers = async (req, res) => {
     }
 };
 
+const getUsersWithReviews = async (req, res) => {
+    try {
+        let usersReviews = await Reviews.findAll({
+            where: {
+                bookId: req.params.bookId,
+            },
+            include: [{
+                model: Users,
+            }],
+        })
+        let users=[]
+        for(let i=0;i < usersReviews.length;i++ ){
+            users.push(usersReviews[i].User)
+        }
+        res.status(200).json(users)
+    } catch (error) {
+        res.status(500).send({
+            message: "Database error"
+        })
+    }
+};
+
+
 module.exports = {
     getUsersWithAcces,
     getAllUsers,
+    getUsersWithReviews,
 }
