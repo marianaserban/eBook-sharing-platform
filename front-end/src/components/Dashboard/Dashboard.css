@@ -29,6 +29,10 @@
     box-sizing: border-box;
 }
 
+.item:hover{
+    cursor: pointer;
+}
+
 .imagine{
     float: left;
     width: 50%;

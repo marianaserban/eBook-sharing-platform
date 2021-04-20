@@ -10,6 +10,8 @@ import * as ImIcons from "react-icons/im";
 import Carousel from "react-elastic-carousel";
 import * as AiIcons from "react-icons/ai";
 import {Link} from "react-router-dom";
+import ReactTooltip from "react-tooltip";
+
 const API_URL = "http://localhost:8080/";
 
 
@@ -67,8 +69,11 @@ export default class Dashboard extends Component {
 
                             <Carousel breakPoints={breakPoints}>
 
-                            {this.state.freeBooks.map(item =>  
-                                <div className="item">
+                            {this.state.freeBooks.map(item => 
+                                <div className="item" data-tip data-for="seeMoreTip" onClick={()=>{ this.props.history.push({
+                                    pathname: "/bookDetail",
+                                    state: {item:item}
+                                  })}}>
                                         <div className="item-content">
                                             <div className="imagine">
                                                 <img classname="img" src={item.picture}></img>
@@ -79,27 +84,26 @@ export default class Dashboard extends Component {
                                                 <div className="raiting">
                                                     <AiIcons.AiFillStar/>4.3
                                                 </div>
-                                                <div className="sum">{item.description.substring(0,250)}...</div>
-                                                
-                                                <button className="book-btn" onClick={()=>{
-                                                     this.props.history.push({
-                                                        pathname: "/bookDetail",
-                                                        state: {item:item}
-                                                      })
-                                                }}>See more</button>
+                                                <div className="sum">{item.description.substring(0,300)}...</div>
                                             </div>
                                         </div>
+                                        <ReactTooltip id="seeMoreTip" 
+                                        place="bottom" arrowColor="#38d39f" 
+                                        clickable={true} backgroundColor="linear-gradient(to right, #32be8f, #38d39f, #32be8f)" 
+                                        effect="float">See more</ReactTooltip>
                                 </div>
-                            
                             )}
                             </Carousel>
 
                         </div>
                     </div>
 
+
                     <div className="raiting">
                         <div className="book-logo">
                             <FcIcons.FcLike />The most apreciated
+
+           
                         </div>
                     </div>
 
