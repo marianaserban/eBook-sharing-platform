@@ -17,17 +17,15 @@ function Tabs() {
       setToggleState(index);
     };
     const [bookId, setBookId]=useState(JSON.parse(localStorage.getItem('bookId')))
-    const [superUser, setSuperUser]=useState({})
+    const [superUser, setSuperUser]=useState(JSON.parse(localStorage.getItem('superUser')))
     const [bookAvailability, setBookAvailability]=useState(JSON.parse(localStorage.getItem('bookAvailability')))
-    useEffect(() => {
-        Axios.get(API_URL + 'superUser/'+`${bookId}`).then(
-            res => {
-              setSuperUser(res.data)
-            }
-          )
-    });
-
-  
+    // useEffect(() => {
+    //     Axios.get(API_URL + 'superUser/'+`${bookId}`).then(
+    //         res => {
+    //           setSuperUser(res.data)
+    //         }
+    //       )
+    // });
     return (
 
        <div>

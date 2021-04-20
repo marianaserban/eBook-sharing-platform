@@ -86,3 +86,10 @@
 .swal-button--confirm {
     background: #38d39f;
 }
+.swal-button--confirm:hover {
+    background: #1f8664;
+}
+.sweet-alert button:hover { 
+    background: #1f8664;
+
+}

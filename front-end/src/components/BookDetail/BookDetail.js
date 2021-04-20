@@ -5,19 +5,59 @@ import avatar from '../../assets/avatar.svg'
 import * as BsIcons from "react-icons/bs";
 import * as FaIcons from "react-icons/fa";
 import Tabs from '../Tabs/Tabs'
+import Axios from 'axios'
 
+const API_URL = "http://localhost:8080/";
 
 export default class BookDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
             book: {},
-            fullDescription:false
+            fullDescription:false,
+            superUser:{},
+            reviewsLength:0,
+            noOfComments:0,
+            noOfUsers:0
         }
 
         this.state.book = this.props.location.state.item
         localStorage.setItem("bookId", JSON.stringify(this.state.book.id));
         localStorage.setItem("bookAvailability", JSON.stringify(this.state.book.availability));
+        localStorage.setItem("superUser", JSON.stringify(this.state.superUser));
+    }
+    componentDidMount(){
+        Axios.get(API_URL + 'superUser/'+`${this.state.book.id}`).then(
+            res => {
+              this.setState({superUser:res.data})
+              console.log('SUPER', this.state.superUser)
+            }
+          )
+          Axios.get(API_URL + 'reviews/'+`${this.state.book.id}`).then(
+            res => {
+              this.setState({ reviewsLength: res.data.length });
+              let nr=0;
+              res.data.forEach(element => {
+                  if(element.content.length > 1){
+                        nr++;
+                  }
+              });
+              this.setState({noOfComments:nr})
+            }
+        )
+        if(this.state.book.availability===true){
+            Axios.get(API_URL + 'users').then(
+                res => {
+                  this.setState({ noOfUsers: res.data.length });
+                }
+              )
+        }else{
+            Axios.get(API_URL + 'usersWithAcces/' + `${this.state.book.id}`).then(
+                res => {
+                  this.setState({  noOfUsers: res.data.length });
+                }
+            )
+        }
     }
     render() {
         if(this.state.fullDescription){
@@ -51,7 +91,7 @@ export default class BookDetail extends Component {
     
                                                         <div className="row">
                                                             <div className="col-md-2"><BsIcons.BsEye/></div>
-                                                            <div className="col-md-10">10 Reads</div>
+                                                            <div className="col-md-10">{this.state.noOfUsers} Reads</div>
                                                         </div>
     
                                                     </div>
@@ -59,14 +99,14 @@ export default class BookDetail extends Component {
     
                                                         <div className="row">
                                                             <div className="col-md-2"><BsIcons.BsStar/></div>
-                                                            <div className="col-md-10">15 Votes</div>
+                                                            <div className="col-md-10">{this.state.reviewsLength} Votes</div>
                                                         </div>
                                                         
                                                     </div>
                                                     <div className="col-md-4">
                                                         <div className="row">
                                                             <div className="col-md-2"> <FaIcons.FaRegComment/></div>
-                                                            <div className="col-md-10">8 Comments</div>
+                                                            <div className="col-md-10">{this.state.noOfComments} Comments</div>
                                                         </div>  
                                                     </div>
                                                 </div>          
@@ -89,15 +129,31 @@ export default class BookDetail extends Component {
                                 <div className="card card-profile">
                                     <div className="card-avatar">
                                         <a href="javascript:;">
-                                            <img className="img" src={avatar} />
+                                        {this.state.superUser.thumbnail?
+                                                 <img className="img" src={this.state.superUser.thumbnail} />
+                                            :
+                                                <img className="img" src={avatar} />
+                                        }
                                         </a>
                                     </div>
                                     <div className="card-body">
-                                        <h6 className="card-category text-gray">Super user</h6>
-                                        <h4 className="card-title">Mariana Serban</h4>
+                                        <h6 className="card-category text-gray">
+                                        <h4 className="card-title">{this.state.superUser.firstName} {this.state.superUser.lastName}</h4>
+
+                                        {(this.state.superUser.role==="user"&&
+                                            <div className="acces-badge user">user</div>)
+                                                || (this.state.superUser.role==="superuser" &&
+                                            <div className="acces-badge super-user">super-user</div>)
+                                                 || (this.state.superUser.role==="admin" &&
+                                            <div className="acces-badge admin">admin</div>)
+                                         } 
+                                            
+                                        </h6>
                                         <p className="card-description">
-                                            Cate carti a incarcat
+                                            {this.state.superUser.email}
                                          </p>
+                                     
+                                    
                                         <a href="javascript:;" className="btn btn-primary btn-round">See profile</a>
                                     </div>
                                 </div>
@@ -138,7 +194,7 @@ export default class BookDetail extends Component {
     
                                                         <div className="row">
                                                             <div className="col-md-2"><BsIcons.BsEye/></div>
-                                                            <div className="col-md-10">10 Reads</div>
+                                                            <div className="col-md-10">{this.state.noOfUsers} Reads</div>
                                                         </div>
     
                                                     </div>
@@ -146,14 +202,14 @@ export default class BookDetail extends Component {
     
                                                         <div className="row">
                                                             <div className="col-md-2"><BsIcons.BsStar/></div>
-                                                            <div className="col-md-10">15 Votes</div>
+                                                            <div className="col-md-10">{this.state.reviewsLength} Votes</div>
                                                         </div>
                                                         
                                                     </div>
                                                     <div className="col-md-4">
                                                         <div className="row">
                                                             <div className="col-md-2"> <FaIcons.FaRegComment/></div>
-                                                            <div className="col-md-10">8 Comments</div>
+                                                            <div className="col-md-10">{this.state.noOfComments} Comments</div>
                                                         </div>  
                                                     </div>
                                                 </div>          
@@ -176,15 +232,30 @@ export default class BookDetail extends Component {
                                 <div className="card card-profile">
                                     <div className="card-avatar">
                                         <a href="javascript:;">
-                                            <img className="img" src={avatar} />
+                                            {this.state.superUser.thumbnail?
+                                                 <img className="img" src={this.state.superUser.thumbnail} />
+                                            :
+                                                <img className="img" src={avatar} />
+                                            }
+                                           
                                         </a>
                                     </div>
                                     <div className="card-body">
-                                        <h6 className="card-category text-gray">Super user</h6>
-                                        <h4 className="card-title">Mariana Serban</h4>
+                                        <h4 className="card-title">{this.state.superUser.firstName} {this.state.superUser.lastName}</h4>
+                                        <h6 className="card-category text-gray">
+                                        {(this.state.superUser.role==="user"&&
+                                            <div className="acces-badge user">user</div>)
+                                                || (this.state.superUser.role==="superuser" &&
+                                            <div className="acces-badge super-user">super-user</div>)
+                                                 || (this.state.superUser.role==="admin" &&
+                                            <div className="acces-badge admin">admin</div>)
+                                         } 
+                                        </h6>
+                                    
                                         <p className="card-description">
-                                            Cate carti a incarcat
+                                            {this.state.superUser.email}
                                          </p>
+                                  
                                         <a href="javascript:;" className="btn btn-primary btn-round">See profile</a>
                                     </div>
                                 </div>

@@ -6,6 +6,9 @@ import avatar from '../../assets/avatar.svg'
 import StarRatingComponent from 'react-star-rating-component';
 import Axios from 'axios'
 import Carousel from "react-elastic-carousel";
+import AddReview from './AddReview';
+import ReactTooltip from "react-tooltip";
+
 const API_URL = "http://localhost:8080/";
 
 export default class Reviews extends Component {
@@ -237,9 +240,13 @@ export default class Reviews extends Component {
                     </div>
                     <div className="col-md-8 mr-auto ml-auto">
                         <div>It's a little empty here...
-                            <button className="bt-rev" onClick={()=>{alert('a')}}>
+                            <button className="bt-rev"  data-tip data-for="addRev">
                                      <IoIcons.IoIosAdd/> 
                             </button>
+                            <ReactTooltip id="addRev" 
+                                        place="bottom" arrowColor="#38d39f" 
+                                        clickable={true} backgroundColor="linear-gradient(to right, #32be8f, #38d39f, #32be8f)" 
+                                        effect="float">Goo to Add Review</ReactTooltip>
                         </div>
                     </div>
                 </div>
