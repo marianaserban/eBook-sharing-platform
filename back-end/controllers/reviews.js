@@ -53,8 +53,24 @@ const getReviews=async (req, res) => {
     res.status(200).json(reviews)
 }
 
+const getNoOfReviews=async (req, res) => {
+    let reviews = await Reviews.findAll({
+        where: {
+            userId: req.params.userId,
+        }
+    })
+    if(reviews){
+        res.status(200).json(reviews.length)
+    }else{
+        res.status(200).json(0)
+
+    }
+    
+}
+
 module.exports = {
     addReview,
     getAverage,
-    getReviews
+    getReviews,
+    getNoOfReviews
 }

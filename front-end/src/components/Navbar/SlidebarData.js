@@ -12,7 +12,7 @@ export const SidebarData = [
   },
   {
     title: 'My profile',
-    path: '/',
+    path: '/profile',
     icon: <CgIcons.CgProfile />,
     cName: 'nav-text'
   },

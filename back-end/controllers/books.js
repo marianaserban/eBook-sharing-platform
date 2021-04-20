@@ -91,8 +91,33 @@ const bookUpload=async(req,res)=>{
       .catch((error)=>res.status(500).send({ message: 'Database error'}))
 }
 
+const getUploads=async(req,res)=>{
+  try {
+    let uploads=await Uploads.findAll({
+      where: {
+        userId: req.params.userId,
+      },
+      include: [{
+          model: Books,
+      }],
+    })
+
+    let books=[]
+        for(let i=0;i < uploads.length;i++ ){
+          books.push(uploads[i].Book)
+        }
+        res.status(200).json(books)
+
+  } catch (error) {
+    res.status(500).send({
+        message: "Database error"
+    })
+  }
+}
+
 module.exports = {
     getFreeBooks, 
     bookUpload,
-    getSuperUser
+    getSuperUser,
+    getUploads
 }

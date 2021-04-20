@@ -246,7 +246,7 @@ export default class Reviews extends Component {
                             <ReactTooltip id="addRev" 
                                         place="bottom" arrowColor="#38d39f" 
                                         clickable={true} backgroundColor="linear-gradient(to right, #32be8f, #38d39f, #32be8f)" 
-                                        effect="float">Goo to Add Review</ReactTooltip>
+                                        effect="float">Goo to Add review</ReactTooltip>
                         </div>
                     </div>
                 </div>

@@ -99,7 +99,7 @@ export default class AddBook extends Component {
         })
         .then((res) => {
             document.getElementById("add-book").reset();
-
+            swal("Good job!", "Your book has been uploaded successfully!", "success")
            //return false;
           // toast('Your book has been uploaded!')
         })
@@ -185,7 +185,7 @@ export default class AddBook extends Component {
                                     <input type="file" accept=".jpg" placeholder="Book" name="picture" required class="name" onChange={this.onChangePicture}/>
                                 </span>
                             </div>
-                            <input type="submit" onClick={()=>{swal("Good job!", "Your book has been uploaded successfully!", "success")}} class="button"  value="Add book"/>
+                            <input type="submit" class="button"  value="Add book"/>
 
                               {/* <button type="button" onClick={()=>{ 
                                 this.setState({isOpen:true})}} class="button">Add Book</button>   */}

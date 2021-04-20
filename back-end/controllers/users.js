@@ -61,9 +61,52 @@ const getUsersWithReviews = async (req, res) => {
     }
 };
 
+const updateProfile = async (req, res) => {
+    try {
+        let user = await Users.findOne({
+            where: {
+                id: req.params.id,
+            }
+        })
+        if(user){
+            await user.update(req.body);
+            res.status(202).json({ message: "accepted" });
+        }else{
+            res.status(404).json({ message: "user not found" });
+        }
+
+
+    } catch (error) {
+        res.status(500).send({
+            message: "Database error"
+        })
+    }
+};
+
+const getUser=async (req, res) => {
+    try {
+        let user = await Users.findOne({
+            where: {
+                id: req.params.id,
+            }
+        })
+        if(user){
+            res.status(202).json(user);
+        }else{
+            res.status(404).json({ message: "user not found" });
+        }
+    } catch (error) {
+        res.status(500).send({
+            message: "Database error"
+        })
+    }
+};
+
 
 module.exports = {
     getUsersWithAcces,
     getAllUsers,
     getUsersWithReviews,
+    updateProfile,
+    getUser,
 }

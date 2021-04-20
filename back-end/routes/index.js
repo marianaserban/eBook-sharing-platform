@@ -4,6 +4,7 @@ const books=require('../controllers/books')
 const users=require('../controllers/users')
 const reviews=require('../controllers/reviews')
 const usersbooks=require('../controllers/usersbooks')
+const verifySignUp = require("../services/verifySignUp");
 
 const multer = require('multer');
 const path=require('path');
@@ -44,4 +45,9 @@ router.get('/superUser/:bookId', books.getSuperUser)
 router.get('/average/:bookId', reviews.getAverage)
 router.get('/reviews/:bookId', reviews.getReviews)
 router.get('/reviews/users/:bookId', users.getUsersWithReviews) 
+router.put('/user/:id',users.updateProfile)
+router.get('/user/:id',users.getUser)
+router.get('/uploads/:userId',books.getUploads)
+router.get('/noOfReviews/:userId',reviews.getNoOfReviews)
+
 module.exports = router;
