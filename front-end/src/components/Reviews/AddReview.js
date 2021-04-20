@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import Animation from './Animation'
-import AnimationDone from './DoneAnimation'
 import './AddReview.css'
-import Dialog from '../Dialog/Dialog'
 import StarRatingComponent from 'react-star-rating-component';
 import AuthService from "../../services/auth.service";
 import $ from 'jquery';
 import Axios from 'axios'
+import swal from 'sweetalert';
+
 
 const API_URL = "http://localhost:8080/";
 
@@ -161,8 +161,11 @@ export default class AddReview extends Component {
                                     </div>
                                     <div className="col-sm-12">
                                             <div className="bt-con">
-                                                <input type="button" type="submit" className="read-btn" 
-                                                value="Submit" onClick={()=>{this.setState({isOpen:true})}}/>
+                                              
+                                            <input type="button" type="submit" className="read-btn" 
+                                                value="Submit" onClick={()=>{swal("Good job!", "Your review has been added successfully!", "success");
+                                            }}/>
+
                                             </div>
                                     </div>
                                 </form>
@@ -171,25 +174,6 @@ export default class AddReview extends Component {
                         <div className="col-md-5">
                             <Animation />
                         </div>
-
-                        <Dialog 
-                        style={{
-                          overlay: {
-                            position: 'fixed',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            backdropFilter: 'blur(2px)',
-                          }}}
-                        isOpen={this.state.isOpen} onClose={(e) => this.setState({ isOpen: false })}>
-                          <div className="animatie">
-                            <AnimationDone/>
-                            <h6>Your review has been added successfully!</h6>
-                          </div>
-                           
-                        </Dialog>
-
                         </div>
         )
     }

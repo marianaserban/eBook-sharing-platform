@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import Axios from 'axios'
 import AuthService from "../../services/auth.service";
 import Navbar from '../Navbar/Navbar'
-import Dialog from '../Dialog/Dialog'
-import AnimationDone from '../Reviews/DoneAnimation'
+import swal from 'sweetalert';
 import './AddBook.css'
 import * as IoIcons from "react-icons/io";
 import { toast } from "react-toastify";
@@ -99,8 +98,9 @@ export default class AddBook extends Component {
           headers: { "Content-Type": "multipart/form-data" }
         })
         .then((res) => {
+            document.getElementById("add-book").reset();
 
-           return false;
+           //return false;
           // toast('Your book has been uploaded!')
         })
         .catch(error => {
@@ -185,21 +185,13 @@ export default class AddBook extends Component {
                                     <input type="file" accept=".jpg" placeholder="Book" name="picture" required class="name" onChange={this.onChangePicture}/>
                                 </span>
                             </div>
-                            <input type="submit" onClick={()=>{/*if(this.state.isValid)*/
-                                this.setState({isOpen:true})}} class="button"  value="Add book"/>
+                            <input type="submit" onClick={()=>{swal("Good job!", "Your book has been uploaded successfully!", "success")}} class="button"  value="Add book"/>
 
                               {/* <button type="button" onClick={()=>{ 
                                 this.setState({isOpen:true})}} class="button">Add Book</button>   */}
                         </form>
                     </div>
                 </div>
-                <Dialog
-                        isOpen={this.state.isOpen} onClose={(e) => this.setState({ isOpen: false })}>
-                          <div className="animatie">
-                            <AnimationDone/>
-                            <h6>Your book has been uploaded successfully!</h6>
-                          </div>
-                        </Dialog>
             </div>
         )
     }
