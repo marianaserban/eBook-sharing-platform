@@ -5,6 +5,7 @@ const users=require('../controllers/users')
 const reviews=require('../controllers/reviews')
 const usersbooks=require('../controllers/usersbooks')
 const verifySignUp = require("../services/verifySignUp");
+const uploads=require('../controllers/uploads')
 
 const multer = require('multer');
 const path=require('path');

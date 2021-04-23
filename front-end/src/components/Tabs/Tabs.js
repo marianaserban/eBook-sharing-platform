@@ -17,15 +17,14 @@ function Tabs() {
       setToggleState(index);
     };
     const [bookId, setBookId]=useState(JSON.parse(localStorage.getItem('bookId')))
-    const [superUser, setSuperUser]=useState(JSON.parse(localStorage.getItem('superUser')))
-    const [bookAvailability, setBookAvailability]=useState(JSON.parse(localStorage.getItem('bookAvailability')))
-    // useEffect(() => {
-    //     Axios.get(API_URL + 'superUser/'+`${bookId}`).then(
-    //         res => {
-    //           setSuperUser(res.data)
-    //         }
-    //       )
-    // });
+    const [superUser, setSuperUser]=useState({})
+    useEffect(() => {
+        Axios.get(API_URL + 'superUser/'+`${bookId}`).then(
+            res => {
+              setSuperUser(res.data)
+            }
+          )
+    });
     return (
 
        <div>
@@ -50,7 +49,7 @@ function Tabs() {
                                 </a>
                             </li>
 
-                            {superUser.id===AuthService.getCurrentUser().id && !bookAvailability ?
+                            {superUser.id===AuthService.getCurrentUser().id  ?
                               <li className="nav-item">
                               <a className="nav-link"       className={toggleState === 3 ? "tabs active-tabs" : "tabs"} onClick={() => toggleTab(3)} >
                                   <i className="material-icons"> <FaIcons.FaUsers/></i> 
@@ -66,7 +65,7 @@ function Tabs() {
                 </div>
             </div>
 
-            {superUser.id===AuthService.getCurrentUser().id  && !bookAvailability ?
+            {superUser.id===AuthService.getCurrentUser().id  ?
                  <div className="card-body">      
                  <div className="content-tabs">
                      <div

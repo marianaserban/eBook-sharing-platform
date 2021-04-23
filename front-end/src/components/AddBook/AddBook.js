@@ -92,7 +92,6 @@ export default class AddBook extends Component {
         data.append("path",this.state.path)
         data.append("picture",this.state.picture)
 
-
         Axios.post(`${API_URL}upload/${this.state.currentUser.id}`,data,
         {
           headers: { "Content-Type": "multipart/form-data" }
@@ -100,6 +99,8 @@ export default class AddBook extends Component {
         .then((res) => {
             document.getElementById("add-book").reset();
             swal("Good job!", "Your book has been uploaded successfully!", "success")
+
+
            //return false;
           // toast('Your book has been uploaded!')
         })

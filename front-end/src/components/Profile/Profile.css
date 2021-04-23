@@ -191,3 +191,51 @@
 .icon:hover{
     cursor: pointer;
 }
+
+.pimagine{
+    float: left;
+    width: 50%;
+
+    position: relative;
+    z-index: 1;
+    display: block;
+    height: 125px;
+    width: 80px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0.25em 0.35em 1em rgba(0, 0, 0, 0.6);
+}
+
+
+
+.uacces-badge.allowed {
+    background: #c8e6c9;
+    color: #256029;
+}
+.uacces-badge.forbidden {
+    background: #ffcdd2;
+    color: #c63737;
+}
+.uacces-badge {
+    border-radius: 2px;
+    padding: .25em .5rem;
+    /* text-transform: uppercase; */
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+}
+
+.uacces-badge.details{
+    background-color: #b3e5fc;
+    color: #23547b;
+}
+
+.uacces-badge.details.focus,  .uacces-badge.details:focus, .uacces-badge.details:hover{
+    color: #fff;
+    cursor: pointer;
+    background-color: #183d5c;
+    border-color: #23547b;
+    box-shadow: 0 14px 26px -12px rgb(244 67 54 / 42%), 0 4px 23px 0 rgb(0 0 0 / 12%), 0 8px 10px -5px rgb(244 67 54 / 20%);
+}

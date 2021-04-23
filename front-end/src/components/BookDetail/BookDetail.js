@@ -23,8 +23,8 @@ export default class BookDetail extends Component {
 
         this.state.book = this.props.location.state.item
         localStorage.setItem("bookId", JSON.stringify(this.state.book.id));
-        localStorage.setItem("bookAvailability", JSON.stringify(this.state.book.availability));
-        localStorage.setItem("superUser", JSON.stringify(this.state.superUser));
+        // localStorage.setItem("bookAvailability", JSON.stringify(this.state.book.availability));
+        // localStorage.setItem("superUser", JSON.stringify(this.state.superUser));
     }
     componentDidMount(){
         Axios.get(API_URL + 'superUser/'+`${this.state.book.id}`).then(
