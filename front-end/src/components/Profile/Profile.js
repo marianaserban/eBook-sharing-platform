@@ -8,7 +8,10 @@ import $ from 'jquery';
 import swal from 'sweetalert';
 import * as IoIcons from "react-icons/io";
 import * as AiIcons from "react-icons/ai";
+
+
 const API_URL = "http://localhost:8080/";
+
 
 export default class Profile extends Component {
     constructor(props){
@@ -29,7 +32,8 @@ export default class Profile extends Component {
             user:{},
             uploads:[],
             noOfReviews:0,
-            avatar:''
+            avatar:'',
+
         }
     }
 
@@ -113,6 +117,8 @@ export default class Profile extends Component {
                         );
                 }
             });
+
+            
     }
     onChangeUsername(e){
         this.setState({
@@ -136,8 +142,9 @@ export default class Profile extends Component {
 
     }
     onChangeAvatar(e){
+        console.log( e.target.files[0])
         this.setState({
-            avatar: e.target.files[0]
+            avatar: e.target.files[0],
         });
     }
     updateAccount=(e)=>{
@@ -174,8 +181,30 @@ export default class Profile extends Component {
         });
     }
     uploadImage=(e)=>{
-        alert('se face sub')
+
+     
+        e.preventDefault()
+        const data=new FormData()
+        data.append("image",this.state.avatar)
+
+        Axios.put(API_URL + 'updateProfilePic/'+`${this.state.currentUser.id}`, data,
+        {
+            headers: { "Content-Type": "multipart/form-data" }
+        }
+        ).then((res) => {
+            alert('s-a trimis')
+        })
+        .catch(error => {
+            if (error.response !== undefined) {
+                alert(error.response.data.message)
+            }
+        });
     }
+
+	updatePass(e){
+
+
+	}
     render() {
         return (
             <div>
@@ -189,7 +218,7 @@ export default class Profile extends Component {
                                     <p className="card-category">Complete your profile</p>
                                 </div>
                                 <div className="card-body">
-                                    <form className="profile-form" onSubmit={this.updateAccount}>
+                                    <form className="profile-form"  onSubmit={this.updateAccount}>
                                         <div className="row">
                                             <div className="col-md-6">
                                                 <div className="input-block">
@@ -219,19 +248,21 @@ export default class Profile extends Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="row">
-                                            <div className="col-md-4">
-                                                <button className="btnp btnp-success">Save changes</button> 
-                                            </div>
 
+									</form>
+
+
+										<div className="row">
+                                            <div className="col-md-4">
+                                                <button onClick={this.updateAccount} type="submit"className="btnp btnp-success">Save changes</button> 
+                                            </div>
                                             <div className="col-md-4">
                                                 <button className="btnp btnp-danger">Delete account</button> 
                                             </div>
-                                            <div className="col-md-4">
+                                            <div  className="col-md-4">
                                                 <button className="btnp btnp-warning">Update password</button>
                                             </div>
                                         </div>
-                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -244,17 +275,21 @@ export default class Profile extends Component {
                                                 <img className="img" src={avatar} />
                                         } 
                                     </div>
+                                    <form id="form" onSubmit={this.uploadImage}>
+                                        <div className="row">
+                                            <div className="col-md-3">
+                                            </div>
+                                            <div className="col-md-9" style={{marginTop:'-20px'}}>
+                                            <i className="fa fa-camera icon" style={{fontSize: '1.5em'}} 
+                                                onClick={()=>{document.querySelector('[type="file"]').click()
+                                                document.querySelector('[type="file"]').addEventListener('change', function(){
+                                                    setTimeout(function(){document.getElementById("upload").click()  }, 100);});}}></i>
+                                            <input id="file" required type="file" hidden accept=".jpg, .png" name="avatar" onChange={this.onChangeAvatar}/>
+                                            <button hidden id="upload">Upload picture</button>
 
-                                    <div className="row">
-                                        <div className="col-md-3">
                                         </div>
-                                        <div className="col-md-9" style={{marginTop:'-20px'}}>
-                                            <input type="submit" hidden/>
-                                            <i className="fa fa-camera icon" style={{fontSize: '1.5em'}} onClick={()=>{document.querySelector('[type="submit"]').click();document.querySelector('[type="file"]').click()}}></i>
-                                            <input hidden type="file" accept=".jpg" name="avatar" onChange={this.onChangeAvatar}/>
                                         </div>
-                                       
-                                    </div>                                    
+                                    </form>
                                     <div className="card-body">
                                         <h6 className="card-category text-gray"></h6>
                                       

@@ -49,5 +49,6 @@ router.put('/user/:id',users.updateProfile)
 router.get('/user/:id',users.getUser)
 router.get('/uploads/:userId',books.getUploads)
 router.get('/noOfReviews/:userId',reviews.getNoOfReviews)
+router.put('/updateProfilePic/:userId', users.updateProfilePic)
 
 module.exports = router;

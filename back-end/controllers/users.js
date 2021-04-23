@@ -102,6 +102,44 @@ const getUser=async (req, res) => {
     }
 };
 
+//update profile pic
+
+const updateProfilePic = async (req, res) => {
+    try {
+        let user = await Users.findOne({
+            where: {
+                id: req.params.userId,
+            }
+        })
+        if(user){
+
+
+            
+            if (req.files === null) {
+                return res.status(400).json({ msg: 'No file uploaded' });
+              }
+              const image = req.files.image; 
+
+              image.mv(`../front-end/public/uploads/${image.name}`, err => {
+                if (err) {
+                  console.error(err);
+                  return res.status(500).send(err);
+                }
+                console.log({fileName: image.name, filePath: `/uploads/${image.name}`})
+              });
+              await user.update({thumbnail:`/uploads/${image.name}`})
+
+
+        }else{
+            res.status(404).json({ message: "user not found" });
+        }
+
+    } catch (error) {
+        res.status(500).send({
+            message: "Database error"
+        })
+    }
+};
 
 module.exports = {
     getUsersWithAcces,
@@ -109,4 +147,5 @@ module.exports = {
     getUsersWithReviews,
     updateProfile,
     getUser,
+    updateProfilePic
 }
