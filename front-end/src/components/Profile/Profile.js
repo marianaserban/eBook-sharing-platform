@@ -9,6 +9,7 @@ import $ from 'jquery';
 import swal from 'sweetalert';
 import * as IoIcons from "react-icons/io";
 import * as AiIcons from "react-icons/ai";
+import ReactTooltip from "react-tooltip";
 
 const API_URL = "http://localhost:8080/";
 
@@ -236,10 +237,36 @@ export default class Profile extends Component {
         });
     }
 
-	updatePass(e){
+    deleteAccount=(e)=>{
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover your account!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                                                                                                   
+                e.preventDefault()
+                Axios.delete(`${API_URL}deleteAccount/${this.state.currentUser.id}`)
+                .then((res)=>{
+                    localStorage.removeItem("user");
+                })
+                                                    
+                swal("Poof! Your account has been deleted!", {
+                icon: "success",
+                });
+                    this.props.history.push(`/`)
+                } 
+            });
+    }
 
+	updatePass(e){
+   
 
 	}
+
+
     render() {
         return (
             <div>
@@ -292,7 +319,7 @@ export default class Profile extends Component {
                                                 <button onClick={this.updateAccount} type="submit"className="btnp btnp-success">Save changes</button> 
                                             </div>
                                             <div className="col-md-4">
-                                                <button className="btnp btnp-danger">Delete account</button> 
+                                                <button onClick={this.deleteAccount} className="btnp btnp-danger">Delete account</button> 
                                             </div>
                                             <div  className="col-md-4">
                                                 <button className="btnp btnp-warning">Update password</button>
@@ -351,91 +378,140 @@ export default class Profile extends Component {
                         </div>
                     </div> 
 
-                    <div className="row">
-                        <div class="col-md-12">
-                            <div class="card" style={{ backgroundColor: '#F3F3F4' }}>
-                                 <div class="card-headera card-headera-primary">
-                                 <h4 class="card-title ">Your uploads</h4>
-                                 </div>
-                                 <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table className="table">
+                    {this.state.user.role==='superuser' || this.state.user.role==='admin' ? 
+                          <div className="row">
+                          <div class="col-md-12">
+                              <div class="card" style={{ backgroundColor: '#F3F3F4' }}>
+                                   <div class="card-headera card-headera-primary">
+                                   <h4 class="card-title ">Your uploads</h4>
+                                   </div>
+                                   <div class="card-body">
+                                      <div class="table-responsive">
+                                          <table className="table">
+  
+                                              <thead className="text">
+                                                  
+                                              </thead>
+                                              
+                                              
+                                              <tbody>
+                                                  {this.state.uploads.map(item=>
+                                                      <tr>
+                                                          <div className="col-md-12"> 
+                                                              <img className="pimagine" src={item.picture}></img>
+  
+                                                              <div className="row">
+  
+                                                                  <div className="col-md-8">
+  
+                                                                      <div className="title">{item.title}</div>
+                                                                      <div className="author">{item.author}</div>
+                                                                      <div className="raiting">
+                                                                      <AiIcons.AiFillStar/>4.3
+                                                                      </div>
+                                                                  
+                                                                  </div>
+  
+                                                                  <div className="col-md-4" >
+  
+                                                                      <div className="row" style={{marginTop:'3em'}}>
+                                                                          <div className="col-md-4" >
+  
+                                                                                  {item.availability? 
+                                                                              
+                                                                                  <div id="public" className="uacces-badge allowed">Public</div> 
+                                                                          
+                                                                                  : <div className="uacces-badge forbidden">Private</div> }
+  
+                                                                              
+                                                                          </div>
+  
+                                                                          <div className="col-md-4">
+                                                                              <div className="uacces-badge delete" onClick={(e)=>{
+                                                                                          swal({
+                                                                                              title: "Are you sure?",
+                                                                                              text: "Once deleted, you will not be able to recover this file!",
+                                                                                              icon: "warning",
+                                                                                              buttons: true,
+                                                                                              dangerMode: true,
+                                                                                            })
+                                                                                            .then((willDelete) => {
+                                                                                              if (willDelete) {
+                                                                                                 
+                                                                                                  e.preventDefault()
+                                                                                                  Axios.delete(`${API_URL}deleteBook/${item.id}`)
+                                                                                                      .then((res)=>{
+                                                                                                      })
+                                                                                  
+                                                                                                   let index = this.state.uploads.indexOf(item)
+                                                                                                   let upload = [...this.state.uploads];
+                                                                                                   upload.splice(index,1)
+                                                                                                   this.setState({ uploads: upload });
+                                                                                          
+                                                                                                  index = this.state.orgtableData.indexOf(item)
+                                                                                                  upload = [...this.state.orgtableData]
+                                                                                                  upload.splice(index,1)
+                                                                                                  this.setState({ orgtableData: upload });
+                                                                                                  
+                                                                                                swal("Poof! Your file has been deleted!", {
+                                                                                                  icon: "success",
+                                                                                                });
+                                                                                              } else {
+                                                                                                swal("Your file is safe!");
+                                                                                              }
+                                                                                            });
+                                                                              }}>Delete</div>
+                                                                          </div>
+  
+                                                                          <div className="col-md-4">
+                                                                            <div id="details" onClick={()=>{
+                                                                                this.props.history.push({
+                                                                                  pathname: "/bookDetail",
+                                                                                  state: {item:item}
+                                                                                })
+                                                                            }} className="uacces-badge details">Details</div>
+  
+                                                                          </div>
+  
+                                                                          
+                                                                         
+                                                                      </div>
+  
+  
+                                                                     
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+  
+                                                      </tr>)}
+                                                  
+                                              </tbody>
+                                               
+  
+                                          </table>
+                                          <ReactPaginate
+                                              previousLabel={"Prev"}
+                                              nextLabel={"Next"}
+                                              breakLabel={"..."}
+                                              breakClassName={"break-me"}
+                                              pageCount={this.state.pageCount}
+                                              marginPagesDisplayed={2}
+                                              pageRangeDisplayed={5}
+                                              onPageChange={this.handlePageClick}
+                                              containerClassName={"pagination"}
+                                              subContainerClassName={"pages pagination"}
+                                              activeClassName={"active-pg"} />
+                                      </div>
+                                   </div>
+                              </div>
+                          </div>
+                      </div>
+                    
+                    : <div></div>
+                    
+                    }
 
-                                            <thead className="text">
-                                                
-                                            </thead>
-                                            
-                                            
-                                            <tbody>
-                                                {this.state.uploads.map(item=>
-                                                    <tr>
-                                                        <div className="col-md-12"> 
-                                                            <img className="pimagine" src={item.picture}></img>
-
-                                                            <div className="row">
-
-                                                                <div className="col-md-10">
-
-                                                                    <div className="title">{item.title}</div>
-                                                                    <div className="author">{item.author}</div>
-                                                                    <div className="raiting">
-                                                                    <AiIcons.AiFillStar/>4.3
-                                                                    </div>
-                                                                
-                                                                </div>
-
-                                                                <div className="col-md-2" >
-
-                                                                    <div className="row" style={{marginTop:'3em'}}>
-                                                                        <div className="col-md-6" >
-
-                                                                        {item.availability? 
-                                                                    
-                                                                         <div className="uacces-badge allowed">Public</div> 
-                                                                
-                                                                        : <div className="uacces-badge forbidden">Private</div> }
-                                                                        </div>
-
-                                                                        <div className="col-md-6">
-                                                                          <div onClick={()=>{
-                                                                              this.props.history.push({
-                                                                                pathname: "/bookDetail",
-                                                                                state: {item:item}
-                                                                              })
-                                                                          }} className="uacces-badge details">Details</div>
-                                                                        </div>
-                                                                    </div>
-
-
-                                                                   
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                    </tr>)}
-                                                
-                                            </tbody>
-                                             
-
-                                        </table>
-                                        <ReactPaginate
-                                            previousLabel={"Prev"}
-                                            nextLabel={"Next"}
-                                            breakLabel={"..."}
-                                            breakClassName={"break-me"}
-                                            pageCount={this.state.pageCount}
-                                            marginPagesDisplayed={2}
-                                            pageRangeDisplayed={5}
-                                            onPageChange={this.handlePageClick}
-                                            containerClassName={"pagination"}
-                                            subContainerClassName={"pages pagination"}
-                                            activeClassName={"active-pg"} />
-                                    </div>
-                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                              
+                  
                 </div>
             </div>
         )

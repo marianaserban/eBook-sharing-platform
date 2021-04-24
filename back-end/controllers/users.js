@@ -141,11 +141,34 @@ const updateProfilePic = async (req, res) => {
     }
 };
 
+const deleteAccount =async(req, res) => {
+    try {
+        let user = await Users.findOne({
+            where: {
+                id: req.params.userId,
+            }
+        })
+        if(user){
+            await user.destroy();
+            res.status(202).json({ message: "deleted" });
+        }else{
+            res.status(404).json({ message: "user not found" });
+        }
+
+
+    } catch (error) {
+        res.status(500).send({
+            message: "Database error"
+        })
+    }
+}
+
 module.exports = {
     getUsersWithAcces,
     getAllUsers,
     getUsersWithReviews,
     updateProfile,
     getUser,
-    updateProfilePic
+    updateProfilePic,
+    deleteAccount
 }

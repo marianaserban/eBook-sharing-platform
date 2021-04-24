@@ -115,9 +115,30 @@ const getUploads=async(req,res)=>{
   }
 }
 
+const deleteBook=async(req,res)=>{
+  try {
+
+    let book=await Books.findOne({
+      where: {
+        id: req.params.bookId,
+      }
+    })
+
+    if(book){
+      await book.destroy();
+      res.status(200).json({ message: "deleted" });
+    }
+  } catch (error) {
+    res.status(500).send({
+        message: "Database error"
+    })
+  }
+}
+
 module.exports = {
     getFreeBooks, 
     bookUpload,
     getSuperUser,
-    getUploads
+    getUploads,
+    deleteBook
 }
