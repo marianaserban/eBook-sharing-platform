@@ -66,7 +66,34 @@ const signin = (req, res) => {
       });
   };
 
+  const updatePassword = async(req, res) => {
+    const { password, oldPassword } = req.body
+    const user = await Users.findByPk(req.params.id)
+    bcrypt.compare(oldPassword, user.password, (err, isMatch) => {
+      if (err) throw err;
+      if (isMatch) {
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(password, salt, (err, hash) => {
+            if (err) throw err;
+            user.password = hash;
+            user
+              .save()
+              .then(user => {
+                res.send(user)
+   
+              })
+              .catch(err => console.log(err));
+          });
+        })
+      } else {
+        res.status(400).send({
+          message: "Old password do not match"
+        })
+      }
+    });
+}
   module.exports={
       signup,
-      signin
+      signin,
+      updatePassword
   }

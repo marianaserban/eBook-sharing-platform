@@ -163,6 +163,9 @@ const deleteAccount =async(req, res) => {
     }
 }
 
+
+
+
 module.exports = {
     getUsersWithAcces,
     getAllUsers,
@@ -170,5 +173,5 @@ module.exports = {
     updateProfile,
     getUser,
     updateProfilePic,
-    deleteAccount
+    deleteAccount,
 }

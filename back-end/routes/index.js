@@ -5,6 +5,7 @@ const users=require('../controllers/users')
 const reviews=require('../controllers/reviews')
 const usersbooks=require('../controllers/usersbooks')
 const verifySignUp = require("../services/verifySignUp");
+const auth=require('../controllers/auth')
 
 const multer = require('multer');
 const path=require('path');
@@ -52,5 +53,6 @@ router.get('/noOfReviews/:userId',reviews.getNoOfReviews)
 router.put('/updateProfilePic/:userId', users.updateProfilePic)
 router.delete('/deleteBook/:bookId', books.deleteBook)
 router.delete('/deleteAccount/:userId', users.deleteAccount)
+router.patch('/updatePass/:id', auth.updatePassword)
 
 module.exports = router;

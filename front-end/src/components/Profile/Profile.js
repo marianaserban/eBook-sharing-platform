@@ -9,10 +9,12 @@ import $ from 'jquery';
 import swal from 'sweetalert';
 import * as IoIcons from "react-icons/io";
 import * as AiIcons from "react-icons/ai";
-import ReactTooltip from "react-tooltip";
+import Modal from 'react-bootstrap/Modal'
+import { toast } from "react-toastify";
+
 
 const API_URL = "http://localhost:8080/";
-
+toast.configure();
 
 export default class Profile extends Component {
     constructor(props){
@@ -23,6 +25,10 @@ export default class Profile extends Component {
         this.onChangeFirstName = this.onChangeFirstName.bind(this);
         this.onChangeLastName = this.onChangeLastName.bind(this);
         this.onChangeAvatar = this.onChangeAvatar.bind(this);
+        this.onChangeNewPassword = this.onChangeNewPassword.bind(this);
+        this.onChangeConfirmNewPassword = this.onChangeConfirmNewPassword.bind(this);
+        this.onChangeOldPassword=this.onChangeOldPassword.bind(this)
+
 
         this.state={
             currentUser:AuthService.getCurrentUser(),
@@ -35,11 +41,18 @@ export default class Profile extends Component {
             noOfReviews:0,
             avatar:'',
 
-
+            //paginare
             offset: 0,
             orgtableData: [],
             perPage: 3,
             currentPage: 0,
+
+            show:false,
+            pass1Visible:false,
+
+            currentPass:'',
+            newPass:'',
+            confirmNewPass:''
 
         }
     }
@@ -183,6 +196,23 @@ export default class Profile extends Component {
             avatar: e.target.files[0],
         });
     }
+
+    onChangeOldPassword(e){
+        this.setState({
+            oldPassword: e.target.value,
+        });
+    }
+    onChangeNewPassword(e){
+        this.setState({
+            newPass: e.target.value,
+        });
+    }
+    onChangeConfirmNewPassword(e){
+        this.setState({
+            confirmNewPass: e.target.value,
+        });
+    }
+
     updateAccount=(e)=>{
 
         e.preventDefault()
@@ -228,7 +258,6 @@ export default class Profile extends Component {
             headers: { "Content-Type": "multipart/form-data" }
         }
         ).then((res) => {
-            alert('s-a trimis')
         })
         .catch(error => {
             if (error.response !== undefined) {
@@ -261,10 +290,49 @@ export default class Profile extends Component {
             });
     }
 
-	updatePass(e){
-   
 
-	}
+    toggleModal=()=>{
+        if(this.state.show){
+            this.setState({show:false})
+        }else{
+            this.setState({show:true})
+        }
+    }
+
+    updatePass=(e)=>{
+        e.preventDefault()
+        if(this.state.newPass.length >=6){
+
+        
+        if(this.state.newPass===this.state.confirmNewPass){
+            let data={
+                password:this.state.newPass,
+                oldPassword:this.state.oldPassword
+            }
+            Axios.patch(`${API_URL}updatePass/${this.state.currentUser.id}`, JSON.stringify(data),
+            {
+                headers: { "Content-Type": "application/json" }
+            }
+        ).then((res) => {
+            swal("Good job!", "Your password has been updated successfully! Please login again", "success")
+            this.props.history.push(`/`)
+            AuthService.logout();
+        })
+            .catch(error => {
+                if (error.response !== undefined) {
+                    toast(error.response.data.message)
+                } else {
+                    alert('eroare')
+                }
+            }
+            );
+        }else{
+            toast("Your password and confirmation password do not match")        
+        }
+    }else{
+        toast("Password must have at least 6 characters")
+    }
+    }
 
 
     render() {
@@ -272,7 +340,56 @@ export default class Profile extends Component {
             <div>
                 <Navbar/>
                 <div className="dash-content">
+
+                
                     <div className="row">
+
+                        <Modal  size="lg" aria-labelledby="contained-modal-title-vcenter" centered animation={false} show={this.state.show} onHide={this.toggleModal}>
+                         <Modal.Header closeButton>
+                             <Modal.Title style={{color:'#474157'}}>Change password</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+
+                         
+
+                            <form className="" onSubmit={this.updatePass}>
+
+                                        <div class="group" style={{marginTop:'1em'}}> 
+                                                <input onChange={this.onChangeOldPassword} type="password" className="input-modal" required/>      
+                                        
+                                        <span class="highlight"></span>
+                                        <span class="bar-modal"></span>
+                                        <label className="label-modal">Current password</label>
+                                        </div>
+
+                                        <div class="group">      
+                                        <input onChange={this.onChangeNewPassword} type="password" className="input-modal" required/>
+                                        <span class="highlight"></span>
+                                        <span class="bar-modal"></span>
+                                        <label className="label-modal">New password</label>
+                                        </div>
+
+                                        <div class="group">      
+                                        <input onChange={this.onChangeConfirmNewPassword} type="password" className="input-modal" required/>
+                                        <span class="highlight"></span>
+                                        <span class="bar-modal"></span>
+                                        <label className="label-modal">Confirm new password</label>
+                                        </div>
+                                        
+                               
+                                <button variant="secondary"  type="submit" className="btnu btnu-danger" onClick={this.toggleModal}>
+                                    Close
+                                </button>
+                                <button variant="primary" className="btnu btnu-success" type="submit">
+                                    Save Changes
+                                </button>
+                            
+                            </form>
+                            
+                        </Modal.Body>
+                    </Modal>
+
+                        
                         <div className="col-md-8">
                             <div className="card">
                                 <div className="card-header card-header-primary">
@@ -295,7 +412,6 @@ export default class Profile extends Component {
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div className="row">
                                             <div className="col-md-6">
                                                 <div className="input-block">
@@ -322,9 +438,9 @@ export default class Profile extends Component {
                                                 <button onClick={this.deleteAccount} className="btnp btnp-danger">Delete account</button> 
                                             </div>
                                             <div  className="col-md-4">
-                                                <button className="btnp btnp-warning">Update password</button>
+                                                <button onClick={this.toggleModal} className="btnp btnp-warning">Update password</button>
                                             </div>
-                                        </div>
+                                        </div>      
                                 </div>
                             </div>
                         </div>

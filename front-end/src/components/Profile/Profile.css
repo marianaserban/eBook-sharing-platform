@@ -253,3 +253,119 @@
     border-color: #c27400;
     box-shadow: 0 14px 26px -12px rgb(244 67 54 / 42%), 0 4px 23px 0 rgb(0 0 0 / 12%), 0 8px 10px -5px rgb(244 67 54 / 20%);
 }
+
+
+div.fade.in.modal {
+    display:flex !important;
+  }
+  
+  .modal-dialog {
+    margin: auto;
+  }
+
+
+  .modal-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    width: 100%;
+    /* background-color: #F3F3F4; */
+}
+
+
+
+.group 			  { 
+    position:relative; 
+    margin-bottom:25px; 
+  }
+
+  .input-modal 				{
+    font-size:18px;
+    padding:10px 10px 10px 5px;
+    display:block;
+    width:35em;
+    border:none;
+    border-bottom:1px solid #757575;
+  }
+  .input-modal:focus 		{ outline:none; }
+  
+  /* LABEL ======================================= */
+  .label-modal 				 {
+    color:#999; 
+    font-size:18px;
+    font-weight:normal;
+    position:absolute;
+    pointer-events:none;
+    left:5px;
+    top:10px;
+    transition:0.2s ease all; 
+    -moz-transition:0.2s ease all; 
+    -webkit-transition:0.2s ease all;
+  }
+  
+  /* active state */
+  .input-modal:focus ~ .label-modal, .input-modal:valid ~ .label-modal 		{
+    top:-20px;
+    font-size:14px;
+    color:#474157;
+  }
+  
+  /* BOTTOM BARS ================================= */
+  .bar-modal 	{ position:relative; display:block; width:300px; }
+  .bar-modal:before, .bar:after 	{
+    content:'';
+    height:2px; 
+    width:0;
+    bottom:1px; 
+    position:absolute;
+    background:#474157; 
+    transition:0.2s ease all; 
+    -moz-transition:0.2s ease all; 
+    -webkit-transition:0.2s ease all;
+  }
+  .bar-modal:before {
+    left:50%;
+  }
+  .bar-modal:after {
+    right:50%; 
+  }
+  
+  /* active state */
+  .input-modal:focus ~ .bar:before, .input-modal:focus ~ .bar:after {
+    width:50%;
+  }
+  
+  /* HIGHLIGHTER ================================== */
+  .highlight {
+    position:absolute;
+    height:60%; 
+    width:100px; 
+    top:25%; 
+    left:0;
+    pointer-events:none;
+    opacity:0.5;
+  }
+  
+  /* active state */
+  .input-modal:focus ~ .highlight {
+    -webkit-animation:inputHighlighter 0.3s ease;
+    -moz-animation:inputHighlighter 0.3s ease;
+    animation:inputHighlighter 0.3s ease;
+  }
+  
+  /* ANIMATIONS ================ */
+  @-webkit-keyframes inputHighlighter {
+      from { background:#474157; }
+    to 	{ width:0; background:transparent; }
+  }
+  @-moz-keyframes inputHighlighter {
+      from { background:#474157; }
+    to 	{ width:0; background:transparent; }
+  }
+  @keyframes inputHighlighter {
+      from { background:#474157; }
+    to 	{ width:0; background:transparent; }
+  }
