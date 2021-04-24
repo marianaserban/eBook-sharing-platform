@@ -40,7 +40,6 @@ export default class Profile extends Component {
             uploads: [],
             noOfReviews: 0,
             avatar: '',
-
             //paginare
             offset: 0,
             orgtableData: [],
@@ -54,7 +53,10 @@ export default class Profile extends Component {
 
             currentPass: '',
             newPass: '',
-            confirmNewPass: ''
+            confirmNewPass: '',
+
+            showEditBookDialog:false,
+            selectedBook:{}
 
         }
     }
@@ -299,6 +301,16 @@ export default class Profile extends Component {
         } else {
             this.setState({ show: true })
         }
+    }
+
+    editDialog=()=>{
+        if (this.state.showEditBookDialog) {
+            this.setState({ showEditBookDialog: false })
+        } else {
+            this.setState({ showEditBookDialog: true })
+        }
+
+       
     }
 
     updatePass = (e) => {
@@ -561,11 +573,101 @@ export default class Profile extends Component {
 
                                                 <tbody>
                                                     {this.state.uploads.map(item =>
+                                                    
                                                         <tr>
                                                             <div className="col-md-12">
                                                                 <img className="pimagine" src={item.picture}></img>
 
                                                                 <div className="row">
+
+        <Modal dialogClassName="modal-90w" size="xl"  aria-labelledby="contained-modal-title-vcenter" centered 
+        animation={false} show={this.state.showEditBookDialog} onHide={this.editDialog}>
+        <Modal.Header closeButton>
+            <Modal.Title style={{ color: '#474157' }}>Edit book</Modal.Title>
+        </Modal.Header>
+        <Modal.Body >
+
+            <div className="form-container">
+                        <form id="add-book"className="pbook-form" onSubmit={this.handleSubmit} enctype="multipart/form-data">
+                            <div class="input-name">
+                                <i className="lock"><IoIcons.IoIosBook /></i>
+                                <input type="text" placeholder="Title" class="name" name="title" required onChange={this.onChangeTitle}/>
+                                <span class="last">
+                                    <i class="fa fa-user lock"></i>
+                                    <input type="text" placeholder="Author" class="name" name="author"required onChange={this.onChangeAuthor}/>
+                                </span>
+                            </div>
+
+                            <div class="input-name">
+                                <select class="genre" name="genre" required onChange={this.onChangeGenre}>
+                                    <option>Select a genre</option>
+                                    <option>Fantasy</option>
+                                    <option>Sci-Fi</option>
+                                    <option>Mystery</option>
+                                    <option>Thriller</option>
+                                    <option>Romance</option>
+                                    <option>Westerns</option>
+                                    <option>Dystopian</option>
+                                    <option>Conteporary</option>
+                                    <option>Historical Fiction</option>
+                                    <option>Biograohies and Autobiographies</option>
+                                    <option>Cook books</option>
+                                    <option>History</option>
+                                </select>
+                                <div class="arrow">
+                                </div>
+                            </div>
+
+                            <div className="label">Availability</div>
+                            <fieldset required>
+                                <input type="radio" name="availability" id="radio-choice-1" value="1"  onChange={this.onChangeAvailability}/>
+                                <label for="radio-choice-1" className="label-radio">
+                                    Public
+                                <span>Everyone can view it</span>
+                                </label>
+
+                                <input type="radio" name="availability" id="radio-choice-2" value="0" onChange={this.onChangeAvailability}/>
+                                <label for="radio-choice-2" className="label-radio">
+                                    Private
+                                <span>You choose who can view it</span>
+                                </label>
+                            </fieldset>
+
+
+                            <div className="label">Description</div>
+                            <div class="input-group">
+                                <div class="input-box comm">
+                                    <textarea cols="200" rows="3" name="description" placeholder="Write description's book here" class="text" required onChange={this.onChangeDescription}/>
+                                </div>
+                            </div>
+
+                            <div className="input-labels">
+                                <div className="book">Add book (*.pdf)</div>
+                                <div className="picture">Add photo (*.jpg)</div>
+                            </div>
+
+                            <div class="input-name">
+                                <i class="fa fa-book lock"></i>
+                                <input type="file" accept=".pdf" placeholder="Book" name="path" required class="name" onChange={this.onChangePath}/>
+                                <span class="last">
+                                    <i class="fa fa-picture-o lock"></i>
+                                    <input type="file" accept=".jpg" placeholder="Book" name="picture" required class="name" onChange={this.onChangePicture}/>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+
+        </Modal.Body>
+
+        <Modal.Footer>
+            <button variant="secondary" type="submit" className="btnu btnu-danger" onClick={this.editDialog}>
+                    Close
+            </button>
+                <button variant="primary" className="btnu btnu-success" type="submit">
+                    Save Changes
+            </button>
+            </Modal.Footer>
+    </Modal>
 
                                                                     <div className="col-md-8">
 
@@ -573,7 +675,12 @@ export default class Profile extends Component {
                                                                         <div className="author">{item.author}</div>
                                                                         <div className="raiting">
                                                                             <AiIcons.AiFillStar />4.3
-                                                                      </div>
+                                                                        </div>
+                                                                        {item.availability ?
+
+                                                                        <div style={{maxWidth:'5em'}}id="public" className="uacces-badge allowed">Public</div>
+
+                                                                        : <div style={{maxWidth:'6em'}} className="uacces-badge forbidden">Private</div>}
 
                                                                     </div>
 
@@ -581,15 +688,11 @@ export default class Profile extends Component {
 
                                                                         <div className="row" style={{ marginTop: '3em' }}>
                                                                             <div className="col-md-4" >
-
-                                                                                {item.availability ?
-
-                                                                                    <div id="public" className="uacces-badge allowed">Public</div>
-
-                                                                                    : <div className="uacces-badge forbidden">Private</div>}
-
-
+                                                                                    <div onClick={()=>{this.setState({selectedBook:item, showEditBookDialog:true})}} id="public" className="uacces-badge edit">Edit</div>
                                                                             </div>
+
+                                                                          
+
 
                                                                             <div className="col-md-4">
                                                                                 <div className="uacces-badge delete" onClick={(e) => {

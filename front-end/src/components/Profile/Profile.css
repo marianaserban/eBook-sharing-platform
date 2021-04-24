@@ -242,15 +242,30 @@
 
 .uacces-badge.delete{
     color: #fff;
-    background-color: #f08f00;
-    border-color: #c27400;
+    background-color: #38d39f;
+    border-color: #2db487;
 }
 
 .uacces-badge.delete.focus,  .uacces-badge.delete:focus, .uacces-badge.delete:hover{
     color: #fff;
     cursor: pointer;
-    background-color: #be7d1b;
-    border-color: #c27400;
+    background-color: #38d39f;
+    border-color: #2db487;
+    box-shadow: 0 14px 26px -12px rgb(244 67 54 / 42%), 0 4px 23px 0 rgb(0 0 0 / 12%), 0 8px 10px -5px rgb(244 67 54 / 20%);
+}
+
+
+.uacces-badge.edit{
+    color: #fff;
+    background-color: #eccfff;
+    color: #694382;
+}
+
+.uacces-badge.edit.focus,  .uacces-badge.edit:focus, .uacces-badge.edit:hover{
+    color: #fff;
+    cursor: pointer;
+    background-color: #eccfff71;
+    color: #694382;
     box-shadow: 0 14px 26px -12px rgb(244 67 54 / 42%), 0 4px 23px 0 rgb(0 0 0 / 12%), 0 8px 10px -5px rgb(244 67 54 / 20%);
 }
 
@@ -272,6 +287,7 @@ div.fade.in.modal {
 
 .modal-content {
     width: 100%;
+
     /* background-color: #F3F3F4; */
 }
 
@@ -368,4 +384,24 @@ div.fade.in.modal {
   @keyframes inputHighlighter {
       from { background:#474157; }
     to 	{ width:0; background:transparent; }
+  }
+
+  .nameu{
+    width: 98%;
+    padding:8px 0 8px 40px;
+  }
+
+  .pbook-form{
+    width: 100%;
+    max-width: 1000px;
+    min-width: 400px;
+    padding: 2em;
+    /* border-top: 10px solid #38d39f; */
+    border-top: 10px solid  rgb(105,231,189);
+    /* background: #38d39f; */
+    background: #F3F3F4 ;
+    border-radius: 0.25em;
+    /* box-shadow: 0 1em 1em 1em rgba(0, 0, 0, 0.2); */
+    box-shadow: 0 10px 15px rgba(0,0,0,0.15);
+    margin-bottom: 15px;
   }
