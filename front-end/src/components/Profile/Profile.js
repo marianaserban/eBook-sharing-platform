@@ -684,19 +684,19 @@ export default class Profile extends Component {
 
                             <div class="input-name">
                                 <select value={this.state.genre} class="genre" name="genre" required onChange={this.onChangeGenre}>
-                                    <option>Select a genre</option>
-                                    <option>Fantasy</option>
-                                    <option>Sci-Fi</option>
-                                    <option>Mystery</option>
-                                    <option>Thriller</option>
-                                    <option>Romance</option>
-                                    <option>Westerns</option>
-                                    <option>Dystopian</option>
-                                    <option>Conteporary</option>
-                                    <option>Historical Fiction</option>
-                                    <option>Biograohies and Autobiographies</option>
-                                    <option>Cook books</option>
+                                <option>Select a genre</option>
+                                    <option>Arts and Photography</option>
+                                    <option>Biographies and Memoirs</option>
+                                    <option>Business and Money</option>
+                                    <option>Computers and Technology</option>
+                                    <option>Education and Teaching</option>
+                                    <option>Cookbooks, Food and Wine</option>
                                     <option>History</option>
+                                    <option>Literature and Fiction</option>
+                                    <option>Mystery, Thriller and Suspense</option>
+                                    <option>Religion and Spirituality</option>
+                                    <option>Romance</option>
+                                    <option>Science and Math</option>
                                 </select>
                                 <div class="arrow">
                                 </div>

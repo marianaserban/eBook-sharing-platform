@@ -9,7 +9,7 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Button from 'react-bootstrap/Button'
 import { toast } from "react-toastify";
-import * as GrIcons from "react-icons/gr";
+
 const API_URL = "http://localhost:8080/";
 toast.configure();
 
@@ -334,7 +334,7 @@ export default class ManageUsers extends Component {
                               <td>
 
                                 <Dropdown as={ButtonGroup}>
-                                  <Button style={{ backgroundColor: '#38d39f', fontSize: '0.9em', color: '#fff' }} variant="flat">Change role</Button>
+                                  <Button style={{ backgroundColor: '#38d39f', fontSize: '0.9em', color: '#fff'}} variant="flat">Change role</Button>
                                   <Dropdown.Toggle style={{ backgroundColor: '#38d39f', fontSize: '0.9em', color: '#fff' }} split variant="flat" id="dropdown-split-basic" />
 
                                   {(item.role === "user" &&

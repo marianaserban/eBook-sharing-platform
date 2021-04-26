@@ -154,7 +154,7 @@ export default class BookDetail extends Component {
                                          </p>
                                      
                                     
-                                        <a href="javascript:;" className="btn btn-primary btn-round">See profile</a>
+                                         <button className="btn-login">See profile</button>
                                     </div>
                                 </div>
                             </div>
@@ -256,7 +256,7 @@ export default class BookDetail extends Component {
                                             {this.state.superUser.email}
                                          </p>
                                   
-                                        <a href="javascript:;" className="btn btn-primary btn-round">See profile</a>
+                                        <button className="btn-login">See profile</button>
                                     </div>
                                 </div>
                             </div>
