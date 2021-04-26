@@ -171,8 +171,8 @@ const changeRole=async(req, res) => {
             }
         })
         if(user){
-            await user.update({role:req.body})
-            res.status(202).json({ message: "deleted" });
+            await user.update({role:req.body.role})
+            res.status(202).json({ message: "changed" });
         }else{
             res.status(404).json({ message: "user not found" });
         }
