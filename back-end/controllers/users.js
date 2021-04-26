@@ -163,6 +163,27 @@ const deleteAccount =async(req, res) => {
     }
 }
 
+const changeRole=async(req, res) => {
+    try {
+        let user = await Users.findOne({
+            where: {
+                id: req.params.userId,
+            }
+        })
+        if(user){
+            await user.update({role:req.body})
+            res.status(202).json({ message: "deleted" });
+        }else{
+            res.status(404).json({ message: "user not found" });
+        }
+
+
+    } catch (error) {
+        res.status(500).send({
+            message: "Database error"
+        })
+    }
+}
 
 
 
@@ -174,4 +195,5 @@ module.exports = {
     getUser,
     updateProfilePic,
     deleteAccount,
+    changeRole,
 }

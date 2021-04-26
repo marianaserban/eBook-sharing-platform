@@ -126,7 +126,7 @@ export default class Login extends Component {
                             </div>
                             <a href="/register" className="left">New here? Register</a>
                             {/* <a href="#" className="right">Forgot Password?</a> */}
-                            <input type="submit" className="btn" value="Login"  disabled={this.state.loading}></input>
+                            <input type="submit" className="btn-login" value="Login"  disabled={this.state.loading}></input>
                         </form>
                     </div>
                 </div>

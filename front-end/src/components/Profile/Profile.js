@@ -29,6 +29,13 @@ export default class Profile extends Component {
         this.onChangeConfirmNewPassword = this.onChangeConfirmNewPassword.bind(this);
         this.onChangeOldPassword = this.onChangeOldPassword.bind(this)
 
+        this.onChangeTitle = this.onChangeTitle.bind(this);
+        this.onChangeAuthor = this.onChangeAuthor.bind(this);
+        this.onChangeGenre = this.onChangeGenre.bind(this);
+        this.onChangeAvailability = this.onChangeAvailability.bind(this);
+        this.onChangeDescription = this.onChangeDescription.bind(this);
+        this.onChangePath = this.onChangePath.bind(this)
+        this.onChangePicture = this.onChangePicture.bind(this)
 
         this.state = {
             currentUser: AuthService.getCurrentUser(),
@@ -56,7 +63,14 @@ export default class Profile extends Component {
             confirmNewPass: '',
 
             showEditBookDialog:false,
-            selectedBook:{}
+            bookId:0,
+            title:'',
+            author:'',
+            genre:'',
+            availability:'',
+            description:'',
+            path:'',
+            picture:'' ,
 
         }
     }
@@ -369,6 +383,76 @@ export default class Profile extends Component {
             this.setState({ pass3Visible: true })
         }
     }
+    onChangeTitle(e) {
+        this.setState({
+            title: e.target.value
+        });
+    }
+
+    onChangeAuthor(e) {
+        this.setState({
+            author: e.target.value
+        });
+    }
+
+    onChangeGenre(e) {
+        this.setState({
+            genre: e.target.value
+        });
+    }
+
+    onChangeAvailability(e) {
+        if(this.state.availability){
+            this.setState({availability:false})
+        }else{
+            this.setState({availability:true})
+
+        }
+    }
+
+    onChangeDescription(e) {
+        this.setState({
+            description: e.target.value
+        });
+    }
+
+    onChangePath(e) {
+        this.setState({
+            path: e.target.files[0]
+        });
+    }
+
+    onChangePicture(e) {
+        this.setState({
+            picture: e.target.files[0]
+        });
+    }
+    editBook=(e)=>{
+
+        e.preventDefault()
+        const data=new FormData()
+        data.append("title",this.state.title)
+        data.append("author", this.state.author)
+        data.append("genre", this.state.genre)
+        data.append("availability",this.state.availability)
+        data.append("description",this.state.description)
+        data.append("path",this.state.path)
+        data.append("picture",this.state.picture)
+
+        Axios.put(`${API_URL}updateBook/${this.state.bookId}`,data,
+        {
+          headers: { "Content-Type": "multipart/form-data" }
+        })
+        .then((res) => {
+            swal("Good job!", "Your book has been updated successfully!", "success")
+        })
+        .catch(error => {
+          if (error.response !== undefined) {
+            console.log(error.response.data.message)
+          }
+        });
+
+    }
     render() {
         return (
             <div>
@@ -580,26 +664,26 @@ export default class Profile extends Component {
 
                                                                 <div className="row">
 
-        <Modal dialogClassName="modal-90w" size="xl"  aria-labelledby="contained-modal-title-vcenter" centered 
-        animation={false} show={this.state.showEditBookDialog} onHide={this.editDialog}>
-        <Modal.Header closeButton>
+        <Modal  dialogClassName="modal-90w" size="xl"  aria-labelledby="contained-modal-title-vcenter" centered 
+        animation={false} show={this.state.showEditBookDialog} onHide={this.editDialog} >
+        <Modal.Header style={{backgroundColor:'#F3F3F4'}} closeButton>
             <Modal.Title style={{ color: '#474157' }}>Edit book</Modal.Title>
         </Modal.Header>
-        <Modal.Body >
+        <Modal.Body style={{backgroundColor:'#F3F3F4'}} >
 
             <div className="form-container">
-                        <form id="add-book"className="pbook-form" onSubmit={this.handleSubmit} enctype="multipart/form-data">
+                        <form id="add-book"className="pbook-form" onSubmit={this.editBook} enctype="multipart/form-data">
                             <div class="input-name">
                                 <i className="lock"><IoIcons.IoIosBook /></i>
-                                <input type="text" placeholder="Title" class="name" name="title" required onChange={this.onChangeTitle}/>
+                                <input type="text" value={this.state.title} placeholder="Title" class="name" name="title" required onChange={this.onChangeTitle}/>
                                 <span class="last">
                                     <i class="fa fa-user lock"></i>
-                                    <input type="text" placeholder="Author" class="name" name="author"required onChange={this.onChangeAuthor}/>
+                                    <input type="text" value={this.state.author} placeholder="Author" class="name" name="author"required onChange={this.onChangeAuthor}/>
                                 </span>
                             </div>
 
                             <div class="input-name">
-                                <select class="genre" name="genre" required onChange={this.onChangeGenre}>
+                                <select value={this.state.genre} class="genre" name="genre" required onChange={this.onChangeGenre}>
                                     <option>Select a genre</option>
                                     <option>Fantasy</option>
                                     <option>Sci-Fi</option>
@@ -619,8 +703,10 @@ export default class Profile extends Component {
                             </div>
 
                             <div className="label">Availability</div>
-                            <fieldset required>
-                                <input type="radio" name="availability" id="radio-choice-1" value="1"  onChange={this.onChangeAvailability}/>
+
+                            {this.state.availability ? 
+                                <fieldset required>
+                                <input type="radio" checked name="availability" id="radio-choice-1" value="1"  onChange={this.onChangeAvailability}/>
                                 <label for="radio-choice-1" className="label-radio">
                                     Public
                                 <span>Everyone can view it</span>
@@ -632,12 +718,30 @@ export default class Profile extends Component {
                                 <span>You choose who can view it</span>
                                 </label>
                             </fieldset>
+                        
+                            : 
+                            <fieldset required>
+                            <input type="radio" name="availability" id="radio-choice-1" value="1"  onChange={this.onChangeAvailability}/>
+                            <label for="radio-choice-1" className="label-radio">
+                                Public
+                            <span>Everyone can view it</span>
+                            </label>
+
+                            <input type="radio" checked name="availability" id="radio-choice-2" value="0" onChange={this.onChangeAvailability}/>
+                            <label for="radio-choice-2" className="label-radio">
+                                Private
+                            <span>You choose who can view it</span>
+                            </label>
+                        </fieldset>
+                            
+                            }
+                        
 
 
                             <div className="label">Description</div>
                             <div class="input-group">
                                 <div class="input-box comm">
-                                    <textarea cols="200" rows="3" name="description" placeholder="Write description's book here" class="text" required onChange={this.onChangeDescription}/>
+                                    <textarea cols="200" rows="3" value={this.state.description} name="description" placeholder="Write description's book here" class="text" required onChange={this.onChangeDescription}/>
                                 </div>
                             </div>
 
@@ -648,7 +752,7 @@ export default class Profile extends Component {
 
                             <div class="input-name">
                                 <i class="fa fa-book lock"></i>
-                                <input type="file" accept=".pdf" placeholder="Book" name="path" required class="name" onChange={this.onChangePath}/>
+                                <input type="file" value={this.state.path.name} accept=".pdf" placeholder="Book" name="path" required class="name" onChange={this.onChangePath}/>
                                 <span class="last">
                                     <i class="fa fa-picture-o lock"></i>
                                     <input type="file" accept=".jpg" placeholder="Book" name="picture" required class="name" onChange={this.onChangePicture}/>
@@ -659,11 +763,11 @@ export default class Profile extends Component {
 
         </Modal.Body>
 
-        <Modal.Footer>
-            <button variant="secondary" type="submit" className="btnu btnu-danger" onClick={this.editDialog}>
+        <Modal.Footer style={{backgroundColor:'#F3F3F4'}}>
+            <button variant="secondary" className="btnu btnu-danger" onClick={this.editDialog}>
                     Close
             </button>
-                <button variant="primary" className="btnu btnu-success" type="submit">
+                <button variant="primary" className="btnu btnu-success" type="submit" onClick={this.editBook}>
                     Save Changes
             </button>
             </Modal.Footer>
@@ -688,7 +792,18 @@ export default class Profile extends Component {
 
                                                                         <div className="row" style={{ marginTop: '3em' }}>
                                                                             <div className="col-md-4" >
-                                                                                    <div onClick={()=>{this.setState({selectedBook:item, showEditBookDialog:true})}} id="public" className="uacces-badge edit">Edit</div>
+                                                                                    <div onClick={()=>{this.setState({ 
+                                                                                        showEditBookDialog:true,
+                                                                                        bookId:item.id,
+                                                                                        title:item.title,
+                                                                                        author:item.author,
+                                                                                        description:item.description,
+                                                                                        genre:item.genre,
+                                                                                        availability:item.availability,
+                                                                                        path:item.path,
+                                                                                        picture:item.picture 
+
+                                                                                        })}} id="public" className="uacces-badge edit">Edit</div>
                                                                             </div>
 
                                                                           

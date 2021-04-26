@@ -393,7 +393,7 @@ div.fade.in.modal {
 
   .pbook-form{
     width: 100%;
-    max-width: 1000px;
+    max-width: 1200px;
     min-width: 400px;
     padding: 2em;
     /* border-top: 10px solid #38d39f; */
@@ -404,4 +404,8 @@ div.fade.in.modal {
     /* box-shadow: 0 1em 1em 1em rgba(0, 0, 0, 0.2); */
     box-shadow: 0 10px 15px rgba(0,0,0,0.15);
     margin-bottom: 15px;
+  }
+  .modal-90w{
+    background: #F3F3F4 ;
+
   }

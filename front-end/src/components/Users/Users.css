@@ -246,6 +246,7 @@ table tr:hover {
     font-weight: 700;
     font-size: 12px;
     letter-spacing: .3px;
+    text-align: center;
 }
 
 .acces-badge.admin{

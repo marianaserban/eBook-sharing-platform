@@ -5,6 +5,7 @@ import Dashboard from './components/Dashboard/Dashboard'
 import AddBook from './components/AddBook/AddBook'
 import BookDetail from './components/BookDetail/BookDetail'
 import Profile from './components/Profile/Profile'
+import ManageUsers from './components/ManageUsers/ManageUsers'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/addBook" exact component={AddBook} />
             <Route path="/bookDetail" exact component={BookDetail} />
             <Route path="/profile" exact component={Profile} />
+            <Route path="/manageUsers" exact component={ManageUsers} />
           </Switch>
         </BrowserRouter>
       </header>

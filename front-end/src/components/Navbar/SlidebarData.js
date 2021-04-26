@@ -30,7 +30,7 @@ export const SidebarData = [
   },
   {
     title: 'Manage users',
-    path: '/',
+    path: '/manageUsers',
     icon: <FiIcons.FiUsers />,
     cName: 'nav-text'
   },
