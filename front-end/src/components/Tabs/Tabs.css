@@ -116,9 +116,10 @@
     margin-right: 15px;
     margin-top: -30px;
     border: 0;
-    background: linear-gradient(
-60deg
-, #eee, #bdbdbd);
+    background: transparent;
+/* background: linear-gradient(
+    60deg
+    , #eee, #bdbdbd); */
 }
 .card-nav-tabs .card-header {
     margin-top: -30px !important;
