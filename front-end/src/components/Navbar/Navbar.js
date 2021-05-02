@@ -10,6 +10,8 @@ import { SidebarData } from '../Navbar/SlidebarData';
 import { SidebarDataUser } from '../Navbar/SlidebarData.user';
 import {SidebarDataSuperUser} from '../Navbar/SlidebarData.SuperUser'
 import AuthService from "../../services/auth.service";
+import * as BsIcons from "react-icons/bs";
+import Modal from 'react-bootstrap/Modal'
 
 function Navbar(){
     const [sidebar, setSidebar] = useState(false);
@@ -37,10 +39,13 @@ function Navbar(){
               </div>
 
               <div className="column middle">
-                   <form action="#" role="search">
+                   {/* <form action="#" role="search">
                      <input type="submit" hidden className="search-submit" /> 
                      <input type="search" name="q" className="search-text" placeholder="Search..." autoComplete="off" />
-                    </form>
+                    </form> */}
+
+                  <BsIcons.BsSearch onClick={()=>{alert('click')}} style={{fontSize:'1.5em',cursor:'pointer'}}/>
+
               </div>
 
               <div className="column right">
@@ -92,10 +97,12 @@ function Navbar(){
               </div>
 
               <div className="column middle">
-                   <form action="#" role="search">
+                   {/* <form action="#" role="search">
                      <input type="submit" hidden className="search-submit" /> 
                      <input type="search" name="q" className="search-text" placeholder="Search..." autoComplete="off" />
-                    </form>
+                    </form> */}
+                    <BsIcons.BsSearch onClick={()=>{alert('click')}} style={{fontSize:'1.5em',cursor:'pointer'}}/>
+
               </div>
 
               <div className="column right">
@@ -147,10 +154,12 @@ function Navbar(){
               </div>
 
               <div className="column middle">
-                   <form action="#" role="search">
+                   {/* <form action="#" role="search">
                      <input type="submit" hidden className="search-submit" /> 
                      <input type="search" name="q" className="search-text" placeholder="Search..." autoComplete="off" />
-                    </form>
+                    </form> */}
+                  <BsIcons.BsSearch onClick={()=>{alert('click')}} style={{fontSize:'1.5em',cursor:'pointer'}}/>
+
               </div>
 
               <div className="column right">

@@ -11,13 +11,15 @@ export default class LineChart extends Component {
               id: "basic-bar"
             },
             xaxis: {
-              categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
-            }
+              categories: ['Jan', 'Feb', "Mar", 'April', 'June', 'July']
+            },
+            colors:['#38D39F']
+
           },
           series: [
             {
-              name: "series-1",
-              data: [30, 40, 45, 50, 49, 60, 70, 91]
+              name: "Evolution of uploads",
+              data: [30, 40, 45, 50, 49, 60]
             }
           ]
         };

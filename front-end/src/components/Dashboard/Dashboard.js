@@ -12,8 +12,10 @@ import Carousel from "react-elastic-carousel";
 import * as AiIcons from "react-icons/ai";
 import {Link} from "react-router-dom";
 import ReactTooltip from "react-tooltip";
-import Chart from "react-apexcharts";
 import LineChart from './LineChart'
+import PieChart from './PieChart';
+import Footer from '../Footer/Footer'
+
 const API_URL = "http://localhost:8080/";
 
 const breakPoints = [
@@ -36,27 +38,6 @@ export default class Dashboard extends Component {
             currentUser: AuthService.getCurrentUser(),
             sidebarOpen: false,
             currentItem:{},
-            series: [44, 55, 20, 43, 22,34,56,22,65,23,45,56],
-            options: {
-              chart: {
-                width: 680,
-                type: 'pie',
-             
-            },
-              labels: ['Arts and Photography', 'Biographies and Memoirs', 'Business and Money', 'Computers and Technology', 'Education and Teaching','Cookbooks, Food and Wine','History','Literature and Fiction','Mystery, Thriller and Suspense','Religion and Spirituality','Romance','Science and Math'],
-              colors:['#26c6da', '#43a047', '#d81b60','#fb8c00','#f44336','#38d39f','#565472','#474157','#694382','#23547b','#256029','#F44336'],
-              responsive: [{
-                breakpoint: 480,
-                options: {
-                  chart: {
-                    width: 400
-                  },
-                  legend: {
-                    position: 'bottom'
-                  }
-                }
-              }]
-            },
         };
     }
 
@@ -94,7 +75,7 @@ export default class Dashboard extends Component {
                                     </div>
                                
                                     <div style={{marginTop:'0.5em',padding:'0.5em'}}>
-                                        <p style={{color:'#474157', fontSize:'0.7em'}}  className="card-category">11 Users</p>
+                                        <p style={{color:'#333333', fontSize:'0.7em'}}  className="card-category">11 Users</p>
                                     </div>
                                 </div>
                              </div>
@@ -109,7 +90,7 @@ export default class Dashboard extends Component {
                                     </div>
                                
                                     <div style={{marginTop:'0.5em',padding:'0.5em'}}>
-                                        <p style={{color:'#474157', fontSize:'0.7em'}}  className="card-category">37 Uploads</p>
+                                        <p style={{color:'#333333', fontSize:'0.7em'}}  className="card-category">37 Uploads</p>
                                     </div>
                                 </div>
                              </div>
@@ -124,7 +105,7 @@ export default class Dashboard extends Component {
                                     </div>
                                
                                     <div style={{marginTop:'0.5em',padding:'0.5em'}}>
-                                        <p style={{color:'#474157', fontSize:'0.7em'}}  className="card-category">103 Reviews</p>
+                                        <p style={{color:'#333333', fontSize:'0.7em'}}  className="card-category">103 Reviews</p>
                                     </div>
                                 </div>
                              </div>
@@ -139,7 +120,7 @@ export default class Dashboard extends Component {
                                     </div>
                                
                                     <div style={{marginTop:'0.5em',padding:'0.5em'}}>
-                                        <p style={{color:'#474157', fontSize:'0.7em'}}  className="card-category">12 Book genres</p>
+                                        <p style={{color:'#333333', fontSize:'0.7em'}}  className="card-category">12 Book genres</p>
                                     </div>
                                 </div>
                              </div>
@@ -186,13 +167,74 @@ export default class Dashboard extends Component {
                         <div className="book-logo">
                             <FcIcons.FcLike />The most apreciated
 
+                            {/* aici schimbam  */}
+
+                            <Carousel breakPoints={breakPoints}>
+
+                            {this.state.freeBooks.map(item => 
+                                <div className="item" data-tip data-for="seeMoreTip" onClick={()=>{ this.props.history.push({
+                                    pathname: "/bookDetail",
+                                    state: {item:item}
+                                  })}}>
+                                        <div className="item-content">
+                                            <div className="imagine">
+                                                <img classname="img" src={item.picture}></img>
+                                            </div>
+                                            <div className="book-detail">
+                                                <div className="title">{item.title}</div>
+                                                <div className="author">{item.author}</div>
+                                                <div className="raiting">
+                                                    <AiIcons.AiFillStar/>4.3
+                                                </div>
+                                                <div className="sum">{item.description.substring(0,300)}...</div>
+                                            </div>
+                                        </div>
+                                        <ReactTooltip id="seeMoreTip" 
+                                        place="bottom" arrowColor="#38d39f" 
+                                        clickable={true} backgroundColor="linear-gradient(to right, #32be8f, #38d39f, #32be8f)" 
+                                        effect="float">See more</ReactTooltip>
+                                </div>
+                            )}
+                            </Carousel>
+
            
                         </div>
                     </div>
 
                     <div className="history">
                         <div className="book-logo">
-                            <FaIcons.FaHistory />Recent opened
+                            <FaIcons.FaHistory />Inspired by your browsing history
+
+                            {/* aici schimbam  */}
+
+                            <Carousel breakPoints={breakPoints}>
+
+                            {this.state.freeBooks.map(item => 
+                                <div className="item" data-tip data-for="seeMoreTip" onClick={()=>{ this.props.history.push({
+                                    pathname: "/bookDetail",
+                                    state: {item:item}
+                                  })}}>
+                                        <div className="item-content">
+                                            <div className="imagine">
+                                                <img classname="img" src={item.picture}></img>
+                                            </div>
+                                            <div className="book-detail">
+                                                <div className="title">{item.title}</div>
+                                                <div className="author">{item.author}</div>
+                                                <div className="raiting">
+                                                    <AiIcons.AiFillStar/>4.3
+                                                </div>
+                                                <div className="sum">{item.description.substring(0,300)}...</div>
+                                            </div>
+                                        </div>
+                                        <ReactTooltip id="seeMoreTip" 
+                                        place="bottom" arrowColor="#38d39f" 
+                                        clickable={true} backgroundColor="linear-gradient(to right, #32be8f, #38d39f, #32be8f)" 
+                                        effect="float">See more</ReactTooltip>
+                                </div>
+                            )}
+                            </Carousel>
+
                         </div>
                     </div>
 
@@ -202,23 +244,26 @@ export default class Dashboard extends Component {
                             <ImIcons.ImStatsDots />Stats
                         </div>
                         <div className="row" style={{marginTop:'-1em'}}>
-                        <div className="col-md-7">
-                            <div className="card">
-                            <Chart options={this.state.options} series={this.state.series} type="pie" width={680}/>
+                            <div className="col-md-7">
+                                <div className="card">
+                                <PieChart/>
+                                </div>
                             </div>
-                        </div>
-                        <div className="col-md-5">
-                            <div className="card">
-                            <LineChart/>
+                            <div className="col-md-5">
+                                <div className="card">
+                                    <LineChart/>
+                                </div>
                             </div>
-                        
-                        </div>
                     </div>
 
                 </div>
 
 
                 </div>
+                <div className="footer">
+                <Footer/>
+                </div>
+                
                 {/* Dashboard
                 <p>{currentUser.role}</p>
                 <p>{currentUser.userName}</p>
