@@ -12,16 +12,19 @@ import {SidebarDataSuperUser} from '../Navbar/SlidebarData.SuperUser'
 import AuthService from "../../services/auth.service";
 import * as BsIcons from "react-icons/bs";
 import Modal from 'react-bootstrap/Modal'
+import Search from './Search'
 
 function Navbar(){
     const [sidebar, setSidebar] = useState(false);
-
     const showSidebar = () => setSidebar(!sidebar);
     
     let history = useHistory();
     const logOut=()=>{
       AuthService.logout();
       history.push('/')
+    }
+    const handleSubmit=()=>{
+      history.push('/search')
     }
 
     const currentUser=AuthService.getCurrentUser()
@@ -39,13 +42,10 @@ function Navbar(){
               </div>
 
               <div className="column middle">
-                   {/* <form action="#" role="search">
+                   <form action="#" role="search">
                      <input type="submit" hidden className="search-submit" /> 
                      <input type="search" name="q" className="search-text" placeholder="Search..." autoComplete="off" />
-                    </form> */}
-
-                  <BsIcons.BsSearch onClick={()=>{alert('click')}} style={{fontSize:'1.5em',cursor:'pointer'}}/>
-
+                    </form>
               </div>
 
               <div className="column right">
@@ -97,12 +97,12 @@ function Navbar(){
               </div>
 
               <div className="column middle">
-                   {/* <form action="#" role="search">
+                   <form onSubmit={handleSubmit}>
                      <input type="submit" hidden className="search-submit" /> 
                      <input type="search" name="q" className="search-text" placeholder="Search..." autoComplete="off" />
-                    </form> */}
-                    <BsIcons.BsSearch onClick={()=>{alert('click')}} style={{fontSize:'1.5em',cursor:'pointer'}}/>
-
+                   </form>
+                    {/* <BsIcons.BsSearch onClick={()=>{alert('click')}} style={{fontSize:'1.5em',cursor:'pointer'}}/> */}
+                  
               </div>
 
               <div className="column right">
@@ -154,11 +154,11 @@ function Navbar(){
               </div>
 
               <div className="column middle">
-                   {/* <form action="#" role="search">
+                   <form action="#" role="search">
                      <input type="submit" hidden className="search-submit" /> 
                      <input type="search" name="q" className="search-text" placeholder="Search..." autoComplete="off" />
-                    </form> */}
-                  <BsIcons.BsSearch onClick={()=>{alert('click')}} style={{fontSize:'1.5em',cursor:'pointer'}}/>
+                    </form>
+                  {/* <BsIcons.BsSearch onClick={()=>{alert('click')}} style={{fontSize:'1.5em',cursor:'pointer'}}/> */}
 
               </div>
 

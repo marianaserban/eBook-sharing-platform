@@ -97,6 +97,7 @@ export default class AddBook extends Component {
           headers: { "Content-Type": "multipart/form-data" }
         })
         .then((res) => {
+            e.preventDefault()
             document.getElementById("add-book").reset();
             swal("Good job!", "Your book has been uploaded successfully!", "success")
 

@@ -25,8 +25,6 @@ const breakPoints = [
     { width: 1300, itemsToShow: 4 },
 ];
 
-
-
 export default class Dashboard extends Component {
     constructor(props) {
         super(props);
@@ -38,6 +36,10 @@ export default class Dashboard extends Component {
             currentUser: AuthService.getCurrentUser(),
             sidebarOpen: false,
             currentItem:{},
+            
+            allUsers:[],
+            allBooks:[],
+            allReviews:[]
         };
     }
 
@@ -53,6 +55,46 @@ export default class Dashboard extends Component {
                 console.log('books', this.state.freeBooks)
             }
         )
+         Axios.get(API_URL + 'getAllReviews').then(
+            res => {
+                this.setState({ allReviews: res.data});
+                console.log('ALL REVIEWS', this.state.allReviews)
+            }
+        )
+        Axios.get(API_URL + 'users').then(
+            res => {
+                this.setState({ allUsers: res.data});
+                console.log('ALL USERS', this.state.allUsers)
+            }
+        )
+        Axios.get(API_URL + 'getAllBooks').then(
+            res => {
+                this.setState({ allBooks: res.data});
+                console.log('ALL BOOKS', this.state.allBooks)
+            }
+        )
+        
+    }
+
+    rec=()=>{
+        let ratings=[]
+        for(let i=0;i < this.state.allUsers.length;i++){
+           for(let j=0;j< this.state.allBooks.length;j++){
+                let arr=[]
+                for(let k=0;k<this.state.allReviews.length;k++){
+                    if(this.state.allReviews[k].userId===this.state.allUsers[i].id && 
+                        this.state.allReviews[k].bookId===this.state.allBooks[j].id){
+                        arr.push(1)
+                    }else{
+                        arr.push(0)
+                    }
+                }
+           }
+           ratings.push(ratings)
+        }
+
+        console.log('MATRICE', ratings)
+
     }
 
 
@@ -64,6 +106,9 @@ export default class Dashboard extends Component {
             <div>
                 <Navbar />
                 <div className="dash-content">
+
+                    <button onClick={this.rec}>VEzi rec</button>
+                    
                     <div className="row">
                         <div className="col-lg-3 col-md-6 col-sm-6">
                             <div className="card card-stats">
@@ -255,11 +300,10 @@ export default class Dashboard extends Component {
                                 </div>
                             </div>
                     </div>
-
+                </div>
                 </div>
 
-
-                </div>
+    
                 <div className="footer">
                 <Footer/>
                 </div>

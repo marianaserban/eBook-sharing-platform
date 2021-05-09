@@ -56,5 +56,7 @@ router.delete('/deleteAccount/:userId', users.deleteAccount)
 router.patch('/updatePass/:id', auth.updatePassword)
 router.put('/updateBook/:bookId', books.updateBook)
 router.put('/changeRole/:userId', users.changeRole)
+router.get('/getAllReviews',reviews.getAllReviews)
+router.get('/getAllBooks',books.getAllBooks)
 
 module.exports = router;

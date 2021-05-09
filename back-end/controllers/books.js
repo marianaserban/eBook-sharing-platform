@@ -159,11 +159,24 @@ const deleteBook = async (req, res) => {
   }
 }
 
+const getAllBooks = async (req, res) => {
+  try {
+    let books = await Books.findAll({})
+    res.status(200).json(books)
+  } catch (error) {
+    res.status(500).send({
+      message: "Database error"
+    })
+  }
+};
+
 module.exports = {
   getFreeBooks,
   bookUpload,
   getSuperUser,
   getUploads,
   deleteBook,
-  updateBook
+  updateBook,
+  getAllBooks,
+
 }

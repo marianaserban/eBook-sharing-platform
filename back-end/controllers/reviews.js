@@ -68,9 +68,24 @@ const getNoOfReviews=async (req, res) => {
     
 }
 
+const getAllReviews=async (req, res) => {
+    try {
+        let reviews = await Reviews.findAll({})
+        res.status(200).json(reviews)
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            message: 'Database error'
+        })
+    }
+   
+}
+
+
 module.exports = {
     addReview,
     getAverage,
     getReviews,
-    getNoOfReviews
+    getNoOfReviews,
+    getAllReviews
 }
