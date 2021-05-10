@@ -1,9 +1,10 @@
 const Reviews = require('../models').Reviews
 const Books = require('../models').Books
+const Users = require('../models').Users
+const Uploads = require('../models').Uploads
 
 const addReview = async (req, res) => {
     const review = {
-       
         content: req.body.content,
         title:req.body.title,
         raiting: req.body.raiting,
@@ -113,6 +114,9 @@ function compareDesc(a, b) {
 const getTheMostApreciated=async (req, res) => {
     try {
         let books = await Books.findAll({
+            where: {
+                availability: true,
+            },
             include: [{
                 model: Reviews,
             }],
@@ -148,6 +152,17 @@ const getTheMostApreciated=async (req, res) => {
     }
 }
 
+const getStats=async (req, res) => {
+    let reviews = await Reviews.findAll({})
+    let users=await Users.findAll({})
+    let uploads=await Uploads.findAll({})
+    let stat={
+        noOfReviews:reviews.length,
+        noOfUsers:users.length,
+        noOfUploads:uploads.length
+    }
+    res.status(200).json(stat)
+}
 
 module.exports = {
     addReview,
@@ -155,5 +170,6 @@ module.exports = {
     getReviews,
     getNoOfReviews,
     getAllReviews,
-    getTheMostApreciated
+    getTheMostApreciated,
+    getStats,
 }

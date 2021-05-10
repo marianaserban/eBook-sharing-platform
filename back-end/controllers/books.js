@@ -1,6 +1,8 @@
 const Books = require('../models').Books
 const Uploads = require('../models').Uploads
 const Users = require('../models').Users
+const Reviews = require('../models').Reviews
+const UsersBooks = require('../models').UsersBooks
 
 const getSuperUser = async (req, res) => {
   try {
@@ -30,15 +32,56 @@ const getFreeBooks = async (req, res) => {
     let books = await Books.findAll({
       where: {
         availability: true,
-      }
+      },
+      include: [{
+        model: Reviews,
+      }]
     })
-    res.status(200).json(books)
+
+    let reviews=[]
+    for(let i=0;i < books.length;i++ ){
+        reviews.push(books[i].Reviews)
+    }
+    let array=[]
+    for(let i=0 ;i< books.length;i++){
+
+        let book={
+            id:books[i].id,
+            title:books[i].title,
+            genre:books[i].genre,
+            author:books[i].author,
+            availability:books[i].availability,
+            description:books[i].description,
+            path:books[i].path,
+            picture:books[i].picture,
+            createdAt:books[i].createdAt,
+            updatedAt:books[i].updatedAt,
+            rating:getAverageOfBook(reviews[i])
+        }
+        array.push(book)
+    }
+    res.status(200).json(array)
+
   } catch (error) {
     res.status(500).send({
       message: "Database error"
     })
   }
 };
+
+function getAverageOfBook(reviews){
+  let sum=0;
+  if(reviews.length>0){
+      reviews.forEach(element => {
+          sum=sum+parseInt(element.raiting)
+      });
+
+      return(sum/reviews.length)
+   }
+   else{
+     return 0;
+  }
+}
 
 const updateBook = async (req, res) => {
   try {
@@ -161,8 +204,36 @@ const deleteBook = async (req, res) => {
 
 const getAllBooks = async (req, res) => {
   try {
-    let books = await Books.findAll({})
-    res.status(200).json(books)
+    let books = await Books.findAll({
+      where:{
+        availability:true
+      }, include: [{
+        model: Reviews,
+      }]
+    })
+    let reviews=[]
+    for(let i=0;i < books.length;i++ ){
+        reviews.push(books[i].Reviews)
+    }
+    let array=[]
+    for(let i=0 ;i< books.length;i++){
+
+        let book={
+            id:books[i].id,
+            title:books[i].title,
+            genre:books[i].genre,
+            author:books[i].author,
+            availability:books[i].availability,
+            description:books[i].description,
+            path:books[i].path,
+            picture:books[i].picture,
+            createdAt:books[i].createdAt,
+            updatedAt:books[i].updatedAt,
+            rating:getAverageOfBook(reviews[i])
+        }
+        array.push(book)
+    }
+    res.status(200).json(array)
   } catch (error) {
     res.status(500).send({
       message: "Database error"

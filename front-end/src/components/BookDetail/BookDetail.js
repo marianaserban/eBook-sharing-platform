@@ -8,6 +8,7 @@ import Tabs from '../Tabs/Tabs'
 import Axios from 'axios'
 
 const API_URL = "http://localhost:8080/";
+let pdf='../../../public/uploads/sample.pdf'
 
 export default class BookDetail extends Component {
     constructor(props) {
@@ -116,7 +117,16 @@ export default class BookDetail extends Component {
                                                 <a href="#" onClick={()=>{this.setState({fullDescription:false})}} style={{float:'right',marginTop:'-0.5em',marginRight:'1em'}}>See less</a>
     
                                                 <div className="bt-con">
-                                                    <input type="button" className="read-btn" value="Start reading "/>
+                                                    <input  type="button" className="read-btn" 
+                                                    value="Start reading "
+                                                    onClick={()=>{
+                                                        this.props.history.push({
+                                                            pathname: "/pdf",
+                                                            book: this.state.book,
+                                                           // state: {item:this.state.book}
+                                                          })}
+                                                    }
+                                                    />
                                                 </div>
                                             </div>
                                         
@@ -219,7 +229,18 @@ export default class BookDetail extends Component {
                                                 <a href="#" onClick={()=>{this.setState({fullDescription:true})}} style={{float:'right',marginTop:'-0.5em',marginRight:'1em'}}>See more</a>
     
                                                 <div className="bt-con">
-                                                    <input type="button" className="read-btn" value="Start reading "/>
+                                                    <input type="button" className="read-btn" 
+                                                    value="Start reading "
+                                                    onClick={()=>{
+
+                                                        this.props.history.push({
+                                                            pathname: "/pdf",
+                                                            book: this.state.book,
+                                                             //state: {item:this.state.book}
+                                                          })}
+
+                                                    }
+                                                    />
                                                 </div>
                                             </div>
                                         

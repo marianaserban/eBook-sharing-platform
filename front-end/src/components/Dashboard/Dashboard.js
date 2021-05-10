@@ -43,6 +43,7 @@ export default class Dashboard extends Component {
             theMostApreciated:[],
 
             series:[],
+            stats:{}
         };
     }
 
@@ -52,6 +53,16 @@ export default class Dashboard extends Component {
     }
 
     componentDidMount = () => {
+        Axios.get(API_URL + 'theMostApreciated').then(
+            res => {               
+                this.setState({ theMostApreciated: res.data});
+            }
+          )
+          Axios.get(API_URL + 'stats').then(
+            res => {               
+                this.setState({ stats: res.data});
+            }
+          )
         Axios.get(API_URL + 'books').then(
             res => {
                 this.setState({ freeBooks: res.data});
@@ -67,11 +78,13 @@ export default class Dashboard extends Component {
                 this.setState({ allUsers: res.data});
             }
         )
+
         Axios.get(API_URL + 'getAllBooks').then(
             res => {
                 this.setState({ allBooks: res.data});
             }
         )
+
         Axios.get(API_URL + 'noOfGenres').then(
             res => {
                 let arr=[]
@@ -82,11 +95,7 @@ export default class Dashboard extends Component {
             }
           )
         
-          Axios.get(API_URL + 'theMostApreciated').then(
-            res => {               
-                this.setState({ theMostApreciated: res.data});
-            }
-          )
+         
         setTimeout(this.rec, 1000);
     }
 
@@ -139,7 +148,7 @@ export default class Dashboard extends Component {
                                     </div>
                                
                                     <div style={{marginTop:'0.5em',padding:'0.5em'}}>
-                                        <p style={{color:'#333333', fontSize:'0.7em'}}  className="card-category">11 Users</p>
+                                        <p style={{color:'#333333', fontSize:'0.7em'}}  className="card-category">{this.state.stats.noOfUsers} Users</p>
                                     </div>
                                 </div>
                              </div>
@@ -154,7 +163,7 @@ export default class Dashboard extends Component {
                                     </div>
                                
                                     <div style={{marginTop:'0.5em',padding:'0.5em'}}>
-                                        <p style={{color:'#333333', fontSize:'0.7em'}}  className="card-category">37 Uploads</p>
+                                        <p style={{color:'#333333', fontSize:'0.7em'}}  className="card-category">{this.state.stats.noOfUploads} Uploads</p>
                                     </div>
                                 </div>
                              </div>
@@ -169,7 +178,7 @@ export default class Dashboard extends Component {
                                     </div>
                                
                                     <div style={{marginTop:'0.5em',padding:'0.5em'}}>
-                                        <p style={{color:'#333333', fontSize:'0.7em'}}  className="card-category">103 Reviews</p>
+                                        <p style={{color:'#333333', fontSize:'0.7em'}}  className="card-category">{this.state.stats.noOfReviews} Reviews</p>
                                     </div>
                                 </div>
                              </div>
@@ -210,7 +219,7 @@ export default class Dashboard extends Component {
                                                 <div className="title">{item.title}</div>
                                                 <div className="author">{item.author}</div>
                                                 <div className="raiting">
-                                                    <AiIcons.AiFillStar/>4.3
+                                                    <AiIcons.AiFillStar/>{item.rating.toFixed(2)}
                                                 </div>
                                                 <div className="sum">{item.description.substring(0,300)}...</div>
                                             </div>
@@ -262,7 +271,7 @@ export default class Dashboard extends Component {
                         </div>
                     </div>
 
-                    {this.state.rec.length > 0 ? 
+                    {this.state.rec.length > 2 ? 
                                 
                     <div className="history">
                         <div className="book-logo">
@@ -282,7 +291,7 @@ export default class Dashboard extends Component {
                                                 <div className="title">{item.title}</div>
                                                 <div className="author">{item.author}</div>
                                                 <div className="raiting">
-                                                    <AiIcons.AiFillStar/>4.3
+                                                    <AiIcons.AiFillStar/>{item.rating.toFixed(2)}
                                                 </div>
                                                 <div className="sum">{item.description.substring(0,300)}...</div>
                                             </div>
