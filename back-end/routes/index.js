@@ -58,5 +58,7 @@ router.put('/updateBook/:bookId', books.updateBook)
 router.put('/changeRole/:userId', users.changeRole)
 router.get('/getAllReviews',reviews.getAllReviews)
 router.get('/getAllBooks',books.getAllBooks)
+router.get('/noOfGenres', books.getNoPerGenres)
+router.get('/theMostApreciated', reviews.getTheMostApreciated)
 
 module.exports = router;

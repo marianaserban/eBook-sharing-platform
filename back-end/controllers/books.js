@@ -169,6 +169,102 @@ const getAllBooks = async (req, res) => {
     })
   }
 };
+ 
+const getNoPerGenres=async (req, res) => {
+  try {
+    let nr=[]
+    let books = await Books.findAll({
+      where: {
+        genre: 'Arts and Photography',
+      }
+    })
+    nr.push(books.length)
+    books = await Books.findAll({
+      where: {
+        genre: 'Biographies and Memoirs',
+      }
+    })
+    nr.push(books.length)
+
+    books = await Books.findAll({
+      where: {
+        genre: 'Business and Money',
+      }
+    })
+    nr.push(books.length)
+
+    books = await Books.findAll({
+      where: {
+        genre: 'Computers and Technology',
+      }
+    })
+    nr.push(books.length)
+
+    books = await Books.findAll({
+      where: {
+        genre: 'Education and Teaching',
+      }
+    })
+    nr.push(books.length)
+
+    books = await Books.findAll({
+      where: {
+        genre: 'Cookbooks, Food and Wine',
+      }
+    })
+    nr.push(books.length)
+
+    books = await Books.findAll({
+      where: {
+        genre: 'History',
+      }
+    })
+    nr.push(books.length)
+
+    books = await Books.findAll({
+      where: {
+        genre: 'Literature and Fiction',
+      }
+    })
+    nr.push(books.length)
+
+    books = await Books.findAll({
+      where: {
+        genre: 'Mystery, Thriller and Suspense',
+      }
+    })
+    nr.push(books.length)
+
+    books = await Books.findAll({
+      where: {
+        genre: 'Religion and Spirituality',
+      }
+    })
+    nr.push(books.length)
+
+    books = await Books.findAll({
+      where: {
+        genre: 'Romance',
+      }
+    })
+    nr.push(books.length)
+
+    books = await Books.findAll({
+      where: {
+        genre: 'Science and Math',
+      }
+    })
+    nr.push(books.length)
+
+    res.status(200).json(nr)
+
+  } catch (error) {
+    res.status(500).send({
+      message: "Database error"
+    })
+  }
+};
+
 
 module.exports = {
   getFreeBooks,
@@ -178,5 +274,5 @@ module.exports = {
   deleteBook,
   updateBook,
   getAllBooks,
-
+  getNoPerGenres
 }

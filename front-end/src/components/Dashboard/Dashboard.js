@@ -39,7 +39,10 @@ export default class Dashboard extends Component {
             allUsers:[],
             allBooks:[],
             allReviews:[],
-            rec:[]
+            rec:[],
+            theMostApreciated:[],
+
+            series:[],
         };
     }
 
@@ -52,27 +55,38 @@ export default class Dashboard extends Component {
         Axios.get(API_URL + 'books').then(
             res => {
                 this.setState({ freeBooks: res.data});
-                console.log('books', this.state.freeBooks)
             }
         )
          Axios.get(API_URL + 'getAllReviews').then(
             res => {
                 this.setState({ allReviews: res.data});
-                console.log('ALL REVIEWS', this.state.allReviews)
             }
         )
         Axios.get(API_URL + 'users').then(
             res => {
                 this.setState({ allUsers: res.data});
-                console.log('ALL USERS', this.state.allUsers)
             }
         )
         Axios.get(API_URL + 'getAllBooks').then(
             res => {
                 this.setState({ allBooks: res.data});
-                console.log('ALL BOOKS', this.state.allBooks)
             }
         )
+        Axios.get(API_URL + 'noOfGenres').then(
+            res => {
+                let arr=[]
+                for(let i=0;i< res.data.length;i++){
+                    arr.push(parseInt(res.data[i]))
+                }
+                this.setState({ series: arr});
+            }
+          )
+        
+          Axios.get(API_URL + 'theMostApreciated').then(
+            res => {               
+                this.setState({ theMostApreciated: res.data});
+            }
+          )
         setTimeout(this.rec, 1000);
     }
 
@@ -98,7 +112,6 @@ export default class Dashboard extends Component {
         const a = recommendations.cFilter(ratings, index);
         let copy=[]
         for(let i=0; i< a.length; i++){
-            console.log(this.state.allBooks[a[i]].title)
             copy.push(this.state.allBooks[a[i]])
         }
         this.setState({ rec: copy});
@@ -217,12 +230,9 @@ export default class Dashboard extends Component {
                     <div className="raiting">
                         <div className="book-logo">
                             <FcIcons.FcLike />The most apreciated
-
-                            {/* aici schimbam  */}
-
                             <Carousel breakPoints={breakPoints}>
 
-                            {this.state.freeBooks.map(item => 
+                            {this.state.theMostApreciated.map(item => 
                                 <div className="item" data-tip data-for="seeMoreTip" onClick={()=>{ this.props.history.push({
                                     pathname: "/bookDetail",
                                     state: {item:item}
@@ -235,7 +245,7 @@ export default class Dashboard extends Component {
                                                 <div className="title">{item.title}</div>
                                                 <div className="author">{item.author}</div>
                                                 <div className="raiting">
-                                                    <AiIcons.AiFillStar/>4.3
+                                                    <AiIcons.AiFillStar/>{item.rating.toFixed(2)}
                                                 </div>
                                                 <div className="sum">{item.description.substring(0,300)}...</div>
                                             </div>
@@ -254,12 +264,9 @@ export default class Dashboard extends Component {
 
                     {this.state.rec.length > 0 ? 
                                 
-                                <div className="history">
+                    <div className="history">
                         <div className="book-logo">
-                            <FaIcons.FaHistory />Inspired by your reading history
-
-                            {/* aici schimbam  */}
-
+                            <FaIcons.FaHistory />Inspired by users with same interests
                             <Carousel breakPoints={breakPoints}>
 
                             {this.state.rec.map(item => 
@@ -301,6 +308,7 @@ export default class Dashboard extends Component {
                         <div className="row" style={{marginTop:'-1em'}}>
                             <div className="col-md-7">
                                 <div className="card">
+                            
                                 <PieChart/>
                                 </div>
                             </div>
