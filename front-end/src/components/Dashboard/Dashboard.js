@@ -10,13 +10,13 @@ import * as ImIcons from "react-icons/im";
 import * as BsIcons from "react-icons/bs";
 import Carousel from "react-elastic-carousel";
 import * as AiIcons from "react-icons/ai";
-import {Link} from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 import LineChart from './LineChart'
 import PieChart from './PieChart';
 import Footer from '../Footer/Footer'
 
 const API_URL = "http://localhost:8080/";
+const recommendations=require('../../services/lib/cf_api')
 
 const breakPoints = [
     { width: 1, itemsToShow: 1 },
@@ -36,10 +36,10 @@ export default class Dashboard extends Component {
             currentUser: AuthService.getCurrentUser(),
             sidebarOpen: false,
             currentItem:{},
-            
             allUsers:[],
             allBooks:[],
-            allReviews:[]
+            allReviews:[],
+            rec:[]
         };
     }
 
@@ -73,30 +73,36 @@ export default class Dashboard extends Component {
                 console.log('ALL BOOKS', this.state.allBooks)
             }
         )
-        
+        setTimeout(this.rec, 1000);
     }
 
     rec=()=>{
         let ratings=[]
         for(let i=0;i < this.state.allUsers.length;i++){
+            let arr=[]
            for(let j=0;j< this.state.allBooks.length;j++){
-                let arr=[]
-                for(let k=0;k<this.state.allReviews.length;k++){
-                    if(this.state.allReviews[k].userId===this.state.allUsers[i].id && 
-                        this.state.allReviews[k].bookId===this.state.allBooks[j].id){
-                        arr.push(1)
-                    }else{
-                        arr.push(0)
-                    }
-                }
+            if (this.state.allReviews.filter(e => e.bookId === this.state.allBooks[j].id && e.userId===this.state.allUsers[i].id).length > 0) {
+                arr.push(1)
+            }else{
+                arr.push(0)
+            }
            }
-           ratings.push(ratings)
+           ratings.push(arr)
         }
-
-        console.log('MATRICE', ratings)
-
+        let index;
+        for(let i=0; i<this.state.allUsers.length;i++){
+            if(this.state.allUsers[i].id===this.state.currentUser.id){
+                index=i;
+            }
+        }
+        const a = recommendations.cFilter(ratings, index);
+        let copy=[]
+        for(let i=0; i< a.length; i++){
+            console.log(this.state.allBooks[a[i]].title)
+            copy.push(this.state.allBooks[a[i]])
+        }
+        this.setState({ rec: copy});
     }
-
 
     render() {
         // const { currentUser } = this.state.currentUser;
@@ -107,7 +113,7 @@ export default class Dashboard extends Component {
                 <Navbar />
                 <div className="dash-content">
 
-                    <button onClick={this.rec}>VEzi rec</button>
+                    {/* <button onClick={this.rec}>VEzi rec</button> */}
                     
                     <div className="row">
                         <div className="col-lg-3 col-md-6 col-sm-6">
@@ -246,15 +252,17 @@ export default class Dashboard extends Component {
                         </div>
                     </div>
 
-                    <div className="history">
+                    {this.state.rec.length > 0 ? 
+                                
+                                <div className="history">
                         <div className="book-logo">
-                            <FaIcons.FaHistory />Inspired by your browsing history
+                            <FaIcons.FaHistory />Inspired by your reading history
 
                             {/* aici schimbam  */}
 
                             <Carousel breakPoints={breakPoints}>
 
-                            {this.state.freeBooks.map(item => 
+                            {this.state.rec.map(item => 
                                 <div className="item" data-tip data-for="seeMoreTip" onClick={()=>{ this.props.history.push({
                                     pathname: "/bookDetail",
                                     state: {item:item}
@@ -282,8 +290,10 @@ export default class Dashboard extends Component {
 
                         </div>
                     </div>
+                                
+                    : <div></div>}
 
-
+                
                     <div className="stats">
                         <div className="book-logo">
                             <ImIcons.ImStatsDots />Stats
