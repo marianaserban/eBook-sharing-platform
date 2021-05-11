@@ -123,7 +123,6 @@ export default class BookDetail extends Component {
                                                         this.props.history.push({
                                                             pathname: "/pdf",
                                                             book: this.state.book,
-                                                           // state: {item:this.state.book}
                                                           })}
                                                     }
                                                     />
@@ -226,7 +225,8 @@ export default class BookDetail extends Component {
                                                 <div className="sum" style={{marginTop:'1.5em'}}>
                                                     {this.state.book.description.substring(0,350)}...
                                                 </div>
-                                                <a href="#" onClick={()=>{this.setState({fullDescription:true})}} style={{float:'right',marginTop:'-0.5em',marginRight:'1em'}}>See more</a>
+                                                <a href="#" onClick={()=>{this.setState({fullDescription:true})}} 
+                                                style={{float:'right',marginTop:'-0.5em',marginRight:'1em'}}>See more</a>
     
                                                 <div className="bt-con">
                                                     <input type="button" className="read-btn" 
@@ -236,7 +236,6 @@ export default class BookDetail extends Component {
                                                         this.props.history.push({
                                                             pathname: "/pdf",
                                                             book: this.state.book,
-                                                             //state: {item:this.state.book}
                                                           })}
 
                                                     }
@@ -282,7 +281,7 @@ export default class BookDetail extends Component {
                                 </div>
                             </div>
                         </div>
-                          <Tabs/>
+                          <Tabs book={this.state.book} superUser={this.state.superUser}/>
                     </div>
                 </div>
             )

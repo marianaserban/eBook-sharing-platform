@@ -1,7 +1,7 @@
 .pdf {
     text-align: center;
-   background-color: #474157;
-    /* background:url('../../assets/wave.svg') ; */
+   /* background-color: #474157; */
+   /* background-color: #F3F3F4; */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -18,7 +18,9 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(155, 155, 155, 0.7);
+    background-color: white;
+
+    /* background-color: #474157; */
   }
   
   .clickable {
@@ -26,8 +28,11 @@
   }
   .control-panel {
     font-size: 16px;
-    color: #333333;
-    background-color: white;
+    /* color: #333333;
+    background-color: white; */
+
+    color: rgb(243, 243, 244);
+    background-color: #565472;
     border-radius: 5px;
     width: fit-content;
   }
@@ -41,3 +46,6 @@
     color: lightgray;
   }
   
+  .react-pdf__Document{
+    box-shadow: 0 30px 35px rgba(0,0,0,0.15)
+  }
