@@ -21,6 +21,8 @@ export default class Login extends Component {
             password: "",
             loading: false,
             message: "",
+
+            logged:false,
         };
     }
 
@@ -47,7 +49,9 @@ export default class Login extends Component {
                 () => {
                     this.props.history.push("/dashboard");
                     window.location.reload();
-                    logged=true
+                    //logged=true
+                    setTimeout(this.fct, 3000);
+
                 },
                 error => {
                     const resMessage =
@@ -56,15 +60,20 @@ export default class Login extends Component {
                             error.response.data.message) ||
                         error.message ||
                         error.toString();
+                        toast('Invalid login, please try again!')
                     this.setState({
                         loading: false,
                         message: resMessage,
                     });  
                 }
             )
-            if(!logged){
-                toast('Invalid login, please try again!')
+            if(!this.logged){
+                //toast('Invalid login, please try again!')
             }
+    }
+
+    fct(){
+        this.logged=true;
     }
 
     componentDidMount() {

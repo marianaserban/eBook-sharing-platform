@@ -11,7 +11,7 @@ export default class LineChart extends Component {
               id: "basic-bar"
             },
             xaxis: {
-              categories: ['Jan', 'Feb', "Mar", 'April', 'June', 'July']
+              categories: ['DEC','Jan', 'Feb', "Mar", 'April', 'June']
             },
             colors:['#38D39F']
 
@@ -19,7 +19,7 @@ export default class LineChart extends Component {
           series: [
             {
               name: "Evolution of uploads",
-              data: [30, 40, 45, 50, 49, 60]
+              data: [30, 40, 45, 50, 49, 60,50]
             }
           ]
         };
