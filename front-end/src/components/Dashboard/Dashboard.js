@@ -14,6 +14,7 @@ import ReactTooltip from "react-tooltip";
 import LineChart from './LineChart'
 import PieChart from './PieChart';
 import Footer from '../Footer/Footer'
+import Loader from '../PDF/Loader'
 
 const API_URL = "http://localhost:8080/";
 const recommendations=require('../../services/lib/cf_api')
@@ -49,7 +50,9 @@ export default class Dashboard extends Component {
             theMostApreciated:[],
 
             series:[],
-            stats:{}
+            stats:{},
+
+            isLoading:true
         };
     }
 
@@ -103,6 +106,8 @@ export default class Dashboard extends Component {
         
          
         setTimeout(this.rec, 1000);
+
+
     }
 
     rec=()=>{
@@ -137,8 +142,28 @@ export default class Dashboard extends Component {
         const { items } = this.state.freeBooks;
 
         return (
+
+            
             <div>
-                <Navbar />
+
+                {this.state.isLoading ? 
+                    <div>
+                        <Loader isLoading={this.state.isLoading} />
+                        {
+                            setTimeout(() => {
+                                this.setState({isLoading:false})
+                                }, 500)
+
+                        }
+                        
+                    </div> 
+                
+                
+                
+                : 
+                    <div>
+                        
+                        <Navbar />
                 <div className="dash-content">
 
                     {/* <button onClick={this.rec}>VEzi rec</button> */}
@@ -340,6 +365,10 @@ export default class Dashboard extends Component {
                 <div className="footer">
                 <Footer/>
                 </div>
+                        
+                    </div>}
+
+               
                 
                 {/* Dashboard
                 <p>{currentUser.role}</p>

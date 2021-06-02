@@ -78,7 +78,7 @@ export default class Library extends Component {
                         <div className="row">
                             <div class="col-md-12">
                              <div class="card" style={{ backgroundColor: '#F3F3F4' }}>
-                                <div class="card-header card-header-primary">
+                                <div class="card-headera card-headera-primary">
                                     <h4 class="card-title ">Private books</h4>
                                     <p className="card-category">You have acces permission to read these</p>
 
@@ -148,9 +148,9 @@ export default class Library extends Component {
                                         marginPagesDisplayed={2}
                                         pageRangeDisplayed={5}
                                         onPageChange={this.handlePageClick}
-                                        containerClassName={"pagination1"}
-                                        subContainerClassName={"pages1 pagination1"}
-                                        activeClassName={"active-pg1"} />
+                                        containerClassName={"pagination"}
+                                        subContainerClassName={"pages pagination"}
+                                        activeClassName={"active-pg"} />
                                 </div>
                             </div>
                         </div>

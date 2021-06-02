@@ -87,7 +87,7 @@ const ControlPanel = (props) => {
         />
       </div>
       <div className="mx-3">
-        <a href="/assets/docs/file-sample.pdf" download={true} title="download">
+        <a href={file} download={true} title="download">
           <i className="fas fa-file-download clickable" />
         </a>
       </div>

@@ -11,7 +11,7 @@ export default class LineChart extends Component {
               id: "basic-bar"
             },
             xaxis: {
-              categories: ['DEC','Jan', 'Feb', "Mar", 'April', 'June']
+              categories: ['Dec','Jan', 'Feb', "Mar", 'April', 'June']
             },
             colors:['#38D39F']
 

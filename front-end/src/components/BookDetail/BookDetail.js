@@ -6,7 +6,7 @@ import * as BsIcons from "react-icons/bs";
 import * as FaIcons from "react-icons/fa";
 import Tabs from '../Tabs/Tabs'
 import Axios from 'axios'
-
+import $ from 'jquery';
 const API_URL = "http://localhost:8080/";
 let pdf='../../../public/uploads/sample.pdf'
 
@@ -28,6 +28,7 @@ export default class BookDetail extends Component {
         // localStorage.setItem("superUser", JSON.stringify(this.state.superUser));
     }
     componentDidMount(){
+
         Axios.get(API_URL + 'superUser/'+`${this.state.book.id}`).then(
             res => {
               this.setState({superUser:res.data})
@@ -114,8 +115,7 @@ export default class BookDetail extends Component {
                                                 <div className="sum" style={{marginTop:'1.5em'}}>
                                                     {this.state.book.description}...
                                                 </div>
-                                                <a href="#" onClick={()=>{this.setState({fullDescription:false})}} style={{float:'right',marginTop:'-0.5em',marginRight:'1em'}}>See less</a>
-    
+                                                <a href="" onClick={()=>{this.setState({fullDescription:false})}} style={{float:'right',marginTop:'-0.5em',marginRight:'1em'}}>See less</a>
                                                 <div className="bt-con">
                                                     <input  type="button" className="read-btn" 
                                                     value="Start reading "
@@ -225,7 +225,7 @@ export default class BookDetail extends Component {
                                                 <div className="sum" style={{marginTop:'1.5em'}}>
                                                     {this.state.book.description.substring(0,350)}...
                                                 </div>
-                                                <a href="#" onClick={()=>{this.setState({fullDescription:true})}} 
+                                                <a href="" onClick={()=>{this.setState({fullDescription:true})}} 
                                                 style={{float:'right',marginTop:'-0.5em',marginRight:'1em'}}>See more</a>
     
                                                 <div className="bt-con">
