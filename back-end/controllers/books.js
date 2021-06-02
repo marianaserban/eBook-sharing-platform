@@ -60,6 +60,7 @@ const getFreeBooks = async (req, res) => {
         }
         array.push(book)
     }
+    //let arr=array.slice(0,8)
     res.status(200).json(array)
 
   } catch (error) {

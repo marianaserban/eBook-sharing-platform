@@ -53,7 +53,7 @@ const getPrivateBooksOfUser = async (req, res) => {
             userId: req.params.userId,
            },
             include: [{
-                model: Books,
+                model: Books, Reviews
             }],
         })
         let books = []
