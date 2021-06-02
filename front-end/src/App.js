@@ -8,6 +8,7 @@ import Profile from './components/Profile/Profile'
 import ManageUsers from './components/ManageUsers/ManageUsers'
 import Search from './components/Navbar/Search'
 import PDF from './components/PDF/PDFReader'
+import Library from './components/Library/Library';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/manageUsers" exact component={ManageUsers} />
             <Route path="/search" exact component={Search} />
             <Route path="/pdf" exact component={PDF} />
+            <Route path="/library" exact component={Library} />
           </Switch>
         </BrowserRouter>
       </header>

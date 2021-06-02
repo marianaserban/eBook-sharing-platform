@@ -18,7 +18,7 @@ export const SidebarDataUser = [
   },
   {
     title: 'Library',
-    path: '/',
+    path: '/library',
     icon: <MdIcons.MdLibraryBooks />,
     cName: 'nav-text'
   }

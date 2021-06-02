@@ -1,4 +1,6 @@
 const UsersBooks = require('../models').UsersBooks
+const Books=require('../models').Books
+const Reviews = require('../models').Reviews
 
 const addAcces = async (req, res) => {
     const acces = {
@@ -44,7 +46,33 @@ const removeAcces = async (req, res) => {
 
 };
 
+const getPrivateBooksOfUser = async (req, res) => {
+    try {
+        let uploads = await UsersBooks.findAll({
+          where: {
+            userId: req.params.userId,
+           },
+            include: [{
+                model: Books,
+            }],
+        })
+        let books = []
+        for (let i = 0; i < uploads.length; i++) {
+          books.push(uploads[i].Book)
+        }
+        res.status(200).json(uploads)
+    
+      } catch (error) {
+        res.status(500).send({
+          message: "Database error"
+        })
+      }
+};
+
+
+
 module.exports = {
     addAcces,
-    removeAcces
+    removeAcces,
+    getPrivateBooksOfUser
 }
