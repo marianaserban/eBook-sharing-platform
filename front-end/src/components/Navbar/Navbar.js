@@ -13,6 +13,9 @@ import AuthService from "../../services/auth.service";
 import * as BsIcons from "react-icons/bs";
 import Modal from 'react-bootstrap/Modal'
 import Search from './Search'
+import AutocompletePage from '../AutoComplete/AutoCompletePage'
+
+
 
 function Navbar(){
     const [sidebar, setSidebar] = useState(false);
@@ -94,29 +97,46 @@ function Navbar(){
                     <Link to="#" className="menu-bars">
                     < FaIcons.FaBars onClick={showSidebar} />
                     </Link>
-              </div>
+              </div> 
 
               <div className="column middle">
-                   <form onSubmit={handleSubmit}>
+                   {/* <form onSubmit={handleSubmit}>
                      <input type="submit" hidden className="search-submit" /> 
                      <input type="search" name="q" className="search-text" placeholder="Search..." autoComplete="off" />
-                   </form>
-                    {/* <BsIcons.BsSearch onClick={()=>{alert('click')}} style={{fontSize:'1.5em',cursor:'pointer'}}/> */}
-                  
+                   </form> */}
+                    <AutocompletePage/>
               </div>
 
-              <div className="column right">
-                {/* <Link to="/" className="log-out menu-bars"> */}
+               <div className="column right">
                     <FiIcons.FiLogOut className="log-out menu-bars" onClick={logOut}/>
-                {/* </Link>   */}
               </div>
 
               <div className="column right-after">
-                {/* <Link to="/" className="log-out menu-bars"> */}
                     Logout
-                {/* </Link>   */}
               </div>                
             </div>
+
+            {/* <div className="navbar">
+              <div className="row">
+                  <div className="col-md-3">
+                        <Link to="#" className="menu-bars">
+                        < FaIcons.FaBars onClick={showSidebar} />
+                        </Link>
+                  </div>
+                  <div className="col-md-3">
+                      <AutocompletePage/>
+                  </div>
+                  <div className="col-md-3">
+                    <FiIcons.FiLogOut className="log-out menu-bars" onClick={logOut}/>
+                  </div>
+
+                  <div className="col-md-3">
+                        Logout
+                  </div>  
+              </div>
+            </div> */}
+
+
             <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
             <ul className='nav-menu-items' onClick={showSidebar}>
             <li className='navbar-toggle'>
