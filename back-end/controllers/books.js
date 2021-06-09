@@ -86,26 +86,22 @@ function getAverageOfBook(reviews){
 
 const updateBook = async (req, res) => {
   try {
-
-
-    let book = Books.findOne({
-      where: {
-        id: req.params.bookId,
-      }
+    let book = await Books.findOne({
+        where: {
+            id: req.params.bookId,
+        }
     })
-
-    if (book) {
-
-    } else {
-      res.status(202).json({ message: "book not found" });
-
+    if(book){
+      await book.update({availability:req.body.availability})
+      res.status(200).json({ message: "changed" })
+    }else{
+        res.status(404).json({ message: "book not found" });
     }
-  } catch (error) {
-    res.status(500).send({
-      message: "Database error"
-    })
-  }
-
+    }catch (error) {
+        res.status(500).send({
+            message: "Database error"
+        })
+    }
 }
 
 const bookUpload = async (req, res) => {

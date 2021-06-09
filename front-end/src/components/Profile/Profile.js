@@ -11,6 +11,7 @@ import * as IoIcons from "react-icons/io";
 import * as AiIcons from "react-icons/ai";
 import Modal from 'react-bootstrap/Modal'
 import { toast } from "react-toastify";
+import { RiUploadCloud2Fill } from 'react-icons/ri';
 
 
 const API_URL = "http://localhost:8080/";
@@ -669,226 +670,136 @@ export default class Profile extends Component {
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <table className="table">
-
                                                 <thead className="text">
-
                                                 </thead>
 
 
                                                 <tbody>
-                                                    {this.state.uploads.map(item =>
-                                                    
-                                                        <tr>
-                                                            <div className="col-md-12">
-                                                                <img className="pimagine" src={item.picture}></img>
+                                {this.state.uploads.map(item =>
+                                
+                                    <tr>
+                                        <div className="col-md-12">
+                                            <img className="pimagine" src={item.picture}></img>
 
-                                                                <div className="row">
+                                            <div className="row">
+                                                <div className="col-md-8">
 
-        <Modal  dialogClassName="modal-90w" size="xl"  aria-labelledby="contained-modal-title-vcenter" centered 
-        animation={false} show={this.state.showEditBookDialog} onHide={this.editDialog} >
-        <Modal.Header style={{backgroundColor:'#F3F3F4'}} closeButton>
-            <Modal.Title style={{ color: '#474157' }}>Edit book</Modal.Title>
-        </Modal.Header>
-        <Modal.Body style={{backgroundColor:'#F3F3F4'}} >
+                                                    <div className="title">{item.title}</div>
+                                                    <div className="author">{item.author}</div>
+                                                    <div className="raiting">
+                                                        <AiIcons.AiFillStar />4.3
+                                                    </div>
+                                                    {item.availability ?
 
-            <div className="form-container">
-                        <form id="add-book"className="pbook-form" onSubmit={this.editBook} enctype="multipart/form-data">
-                            <div class="input-name">
-                                <i className="lock"><IoIcons.IoIosBook /></i>
-                                <input type="text" value={this.state.title} placeholder="Title" class="name" name="title" required onChange={this.onChangeTitle}/>
-                                <span class="last">
-                                    <i class="fa fa-user lock"></i>
-                                    <input type="text" value={this.state.author} placeholder="Author" class="name" name="author"required onChange={this.onChangeAuthor}/>
-                                </span>
-                            </div>
+                                                    <div style={{maxWidth:'5em'}}id="public" className="uacces-badge allowed">Public</div>
 
-                            <div class="input-name">
-                                <select value={this.state.genre} class="genre" name="genre" required onChange={this.onChangeGenre}>
-                                <option>Select a genre</option>
-                                    <option>Arts and Photography</option>
-                                    <option>Biographies and Memoirs</option>
-                                    <option>Business and Money</option>
-                                    <option>Computers and Technology</option>
-                                    <option>Education and Teaching</option>
-                                    <option>Cookbooks, Food and Wine</option>
-                                    <option>History</option>
-                                    <option>Literature and Fiction</option>
-                                    <option>Mystery, Thriller and Suspense</option>
-                                    <option>Religion and Spirituality</option>
-                                    <option>Romance</option>
-                                    <option>Science and Math</option>
-                                </select>
-                                <div class="arrow">
-                                </div>
-                            </div>
+                                                    : <div style={{maxWidth:'6em'}} className="uacces-badge forbidden">Private</div>}
 
-                            <div className="label">Availability</div>
+                                                </div>
 
-                            {this.state.availability ? 
-                                <fieldset required>
-                                <input type="radio" checked name="availability" id="radio-choice-1" value="1"  onChange={this.onChangeAvailability}/>
-                                <label for="radio-choice-1" className="label-radio">
-                                    Public
-                                <span>Everyone can view it</span>
-                                </label>
+                                                <div className="col-md-4" >
 
-                                <input type="radio" name="availability" id="radio-choice-2" value="0" onChange={this.onChangeAvailability}/>
-                                <label for="radio-choice-2" className="label-radio">
-                                    Private
-                                <span>You choose who can view it</span>
-                                </label>
-                            </fieldset>
-                        
-                            : 
-                            <fieldset required>
-                            <input type="radio" name="availability" id="radio-choice-1" value="1"  onChange={this.onChangeAvailability}/>
-                            <label for="radio-choice-1" className="label-radio">
-                                Public
-                            <span>Everyone can view it</span>
-                            </label>
+                                                    <div className="row" style={{ marginTop: '3em' }}>
+                                                        <div className="col-md-4" >
+                                                                <div onClick={(e)=>{
+                                                                    e.preventDefault()
+                                                                    let visibility=true;
+                                                                    if(item.availability){
+                                                                        visibility=false;
+                                                                    }
+                                                                    let data = {
+                                                                        availability:visibility,
+                                                                    }
+                                                                    Axios.put(API_URL + 'updateBook/' + `${item.id}`, JSON.stringify(data),
+                                                                    {
+                                                                        headers: { "Content-Type": "application/json" }
+                                                                    }
+                                                                    ).then((res) => {
+                                                                        toast('Book visibility changed successfully!')
+                                                                    })
+                                                                    .catch(error => {
+                                                                        if (error.response !== undefined) {
+                                                                            toast(error.response.data.message)
+                                                                        }
+                                                                    });
+                                  
+                                                                      let index = this.state.uploads.indexOf(item)
+                                                                      let upl = [...this.state.uploads];
+                                                                      let itemModif = { ...upl[index] };
+                                                                      itemModif.availability = visibility;
+                                                                      upl[index] = itemModif;
+                                                                      this.setState({ uploads: upl });
+                                          
+                                                                      index = this.state.orgtableData.indexOf(item)
+                                                                      upl = [...this.state.orgtableData]
+                                                                      itemModif = { ...upl[index] }
+                                                                      itemModif.availability = visibility;
+                                                                      upl[index] = itemModif;
+                                                                      this.setState({ orgtableData: upl });
 
-                            <input type="radio" checked name="availability" id="radio-choice-2" value="0" onChange={this.onChangeAvailability}/>
-                            <label for="radio-choice-2" className="label-radio">
-                                Private
-                            <span>You choose who can view it</span>
-                            </label>
-                        </fieldset>
-                            
-                            }
-                        
+                                                                }} id="public" className="uacces-badge edit">Change</div>
+                                                        </div>
+                                                        <div className="col-md-4">
+                                                            <div className="uacces-badge delete" onClick={(e) => {
+                                                                swal({
+                                                                    title: "Are you sure?",
+                                                                    text: "Once deleted, you will not be able to recover this file!",
+                                                                    icon: "warning",
+                                                                    buttons: true,
+                                                                    dangerMode: true,
+                                                                })
+                                                                    .then((willDelete) => {
+                                                                        if (willDelete) {
 
+                                                                            e.preventDefault()
+                                                                            Axios.delete(`${API_URL}deleteBook/${item.id}`)
+                                                                                .then((res) => {
+                                                                                })
 
-                            <div className="label">Description</div>
-                            <div class="input-group">
-                                <div class="input-box comm">
-                                    <textarea cols="200" rows="3" value={this.state.description} name="description" placeholder="Write description's book here" class="text" required onChange={this.onChangeDescription}/>
-                                </div>
-                            </div>
+                                                                            let index = this.state.uploads.indexOf(item)
+                                                                            let upload = [...this.state.uploads];
+                                                                            upload.splice(index, 1)
+                                                                            this.setState({ uploads: upload });
 
-                            <div className="input-labels">
-                                <div className="book">Add book (*.pdf)</div>
-                                <div className="picture">Add photo (*.jpg)</div>
-                            </div>
+                                                                            index = this.state.orgtableData.indexOf(item)
+                                                                            upload = [...this.state.orgtableData]
+                                                                            upload.splice(index, 1)
+                                                                            this.setState({ orgtableData: upload });
 
-                            <div class="input-name">
-                                <i class="fa fa-book lock"></i>
-                                <input type="file" value={this.state.path.name} accept=".pdf" placeholder="Book" name="path" required class="name" onChange={this.onChangePath}/>
-                                <span class="last">
-                                    <i class="fa fa-picture-o lock"></i>
-                                    <input type="file" accept=".jpg" placeholder="Book" name="picture" required class="name" onChange={this.onChangePicture}/>
-                                </span>
-                            </div>
-                        </form>
-                    </div>
+                                                                            swal("Poof! Your file has been deleted!", {
+                                                                                icon: "success",
+                                                                            });
+                                                                        } else {
+                                                                            swal("Your file is safe!");
+                                                                        }
+                                                                    });
+                                                            }}>Delete</div>
+                                                        </div>
 
-        </Modal.Body>
+                                                        <div className="col-md-4">
+                                                            <div id="details" onClick={() => {
+                                                                this.props.history.push({
+                                                                    pathname: "/bookDetail",
+                                                                    state: { item: item }
+                                                                })
+                                                            }} className="uacces-badge details"
+                                                            >Details</div>
 
-        <Modal.Footer style={{backgroundColor:'#F3F3F4'}}>
-            <button variant="secondary" className="btnu btnu-danger" onClick={this.editDialog}>
-                    Close
-            </button>
-                <button variant="primary" className="btnu btnu-success" type="submit" onClick={this.editBook}>
-                    Save Changes
-            </button>
-            </Modal.Footer>
-    </Modal>
-
-                                                                    <div className="col-md-8">
-
-                                                                        <div className="title">{item.title}</div>
-                                                                        <div className="author">{item.author}</div>
-                                                                        <div className="raiting">
-                                                                            <AiIcons.AiFillStar />4.3
-                                                                        </div>
-                                                                        {item.availability ?
-
-                                                                        <div style={{maxWidth:'5em'}}id="public" className="uacces-badge allowed">Public</div>
-
-                                                                        : <div style={{maxWidth:'6em'}} className="uacces-badge forbidden">Private</div>}
-
-                                                                    </div>
-
-                                                                    <div className="col-md-4" >
-
-                                                                        <div className="row" style={{ marginTop: '3em' }}>
-                                                                            <div className="col-md-4" >
-                                                                                    <div onClick={()=>{this.setState({ 
-                                                                                        showEditBookDialog:true,
-                                                                                        bookId:item.id,
-                                                                                        title:item.title,
-                                                                                        author:item.author,
-                                                                                        description:item.description,
-                                                                                        genre:item.genre,
-                                                                                        availability:item.availability,
-                                                                                        path:item.path,
-                                                                                        picture:item.picture 
-
-                                                                                        })}} id="public" className="uacces-badge edit">Edit</div>
-                                                                            </div>
-
-                                                                          
-
-
-                                                                            <div className="col-md-4">
-                                                                                <div className="uacces-badge delete" onClick={(e) => {
-                                                                                    swal({
-                                                                                        title: "Are you sure?",
-                                                                                        text: "Once deleted, you will not be able to recover this file!",
-                                                                                        icon: "warning",
-                                                                                        buttons: true,
-                                                                                        dangerMode: true,
-                                                                                    })
-                                                                                        .then((willDelete) => {
-                                                                                            if (willDelete) {
-
-                                                                                                e.preventDefault()
-                                                                                                Axios.delete(`${API_URL}deleteBook/${item.id}`)
-                                                                                                    .then((res) => {
-                                                                                                    })
-
-                                                                                                let index = this.state.uploads.indexOf(item)
-                                                                                                let upload = [...this.state.uploads];
-                                                                                                upload.splice(index, 1)
-                                                                                                this.setState({ uploads: upload });
-
-                                                                                                index = this.state.orgtableData.indexOf(item)
-                                                                                                upload = [...this.state.orgtableData]
-                                                                                                upload.splice(index, 1)
-                                                                                                this.setState({ orgtableData: upload });
-
-                                                                                                swal("Poof! Your file has been deleted!", {
-                                                                                                    icon: "success",
-                                                                                                });
-                                                                                            } else {
-                                                                                                swal("Your file is safe!");
-                                                                                            }
-                                                                                        });
-                                                                                }}>Delete</div>
-                                                                            </div>
-
-                                                                            <div className="col-md-4">
-                                                                                <div id="details" onClick={() => {
-                                                                                    this.props.history.push({
-                                                                                        pathname: "/bookDetail",
-                                                                                        state: { item: item }
-                                                                                    })
-                                                                                }} className="uacces-badge details">Details</div>
-
-                                                                            </div>
+                                                        </div>
 
 
 
-                                                                        </div>
+                                                    </div>
 
 
 
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                                        </tr>)}
+                                    </tr>)}
 
-                                                </tbody>
+                                 </tbody>
 
 
                                             </table>

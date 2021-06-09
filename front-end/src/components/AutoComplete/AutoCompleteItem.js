@@ -22,10 +22,9 @@ const AutoCompleteItem = ({
                 <div className="col text-left">
                     <p className="mb-0 font-weight-bold line-height-1">
                     <img src={picture} alt="" style={{ width: "30px",marginRight:'5px' }} />
-                        {title}{" "}
-                       
+                        {title}{" "} 
                     </p>
-                    <p className="mb-0 badge badge-primary" style={{backgroundColor:'#39d39f'}}>{author}</p>
+                    <p className="mb-0 badge badge-primary" style={{backgroundColor:'#38d39f'}}>{author}</p>
                     {/* <p className="mb-0 ml-2 badge badge-secondary">{availability}</p> */}
                 </div>
             </div>
