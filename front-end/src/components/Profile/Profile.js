@@ -72,6 +72,8 @@ export default class Profile extends Component {
             path:'',
             picture:'' ,
 
+            freeBooks:[],
+            list:[]
         }
     }
 
@@ -98,6 +100,24 @@ export default class Profile extends Component {
     }
 
     componentDidMount() {
+        Axios.get(API_URL + 'books').then(
+            res => {
+                this.setState({ freeBooks: res.data});
+            }
+        )
+        Axios.get(API_URL + 'privateBooks/'+`${this.state.currentUser.id}`).then(
+            res => {
+                let arr=[]
+                this.setState({ privateBooks: res.data});
+                for(let i=0;i<res.data.length;i++){
+                    arr.push(res.data[i].Book)
+                }
+                for(let i=0;i<this.state.freeBooks.length;i++){
+                    arr.push(this.state.freeBooks[i])
+                }
+                this.setState({ list: arr});
+            }
+        )
         Axios.get(API_URL + 'uploads/' + `${this.state.currentUser.id}`).then(
             res => {
                 this.setState({ uploads: res.data });
@@ -456,7 +476,7 @@ export default class Profile extends Component {
     render() {
         return (
             <div>
-                <Navbar />
+                <Navbar list={this.state.list} />
                 <div className="dash-content">
 
 

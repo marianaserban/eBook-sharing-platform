@@ -33,7 +33,29 @@ export default class AddBook extends Component {
             picture:'' ,
             isOpen:false,
             isValid:false,
+            freeBooks:[],
+            list:[]
         }
+    }
+    componentDidMount(){
+        Axios.get(API_URL + 'books').then(
+            res => {
+                this.setState({ freeBooks: res.data});
+            }
+        )
+        Axios.get(API_URL + 'privateBooks/'+`${this.state.currentUser.id}`).then(
+            res => {
+                let arr=[]
+                this.setState({ privateBooks: res.data});
+                for(let i=0;i<res.data.length;i++){
+                    arr.push(res.data[i].Book)
+                }
+                for(let i=0;i<this.state.freeBooks.length;i++){
+                    arr.push(this.state.freeBooks[i])
+                }
+                this.setState({ list: arr});
+            }
+        )
     }
     onChangeTitle(e) {
         this.setState({
@@ -114,7 +136,7 @@ export default class AddBook extends Component {
     render() {
         return (
             <div className="add-book">
-                <Navbar />
+                <Navbar list={this.state.list} />
 
                 <div className="dash-content">
 

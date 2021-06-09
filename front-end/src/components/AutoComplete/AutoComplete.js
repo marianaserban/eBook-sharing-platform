@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import AutoCompleteItem from "./AutoCompleteItem";
+import { useHistory } from 'react-router-dom';;
 
 
 const AutoComplete = ({ data, onSelect }) => {
+    let history = useHistory();
     const [isVisbile, setVisiblity] = useState(false);
     const [search, setSearch] = useState("");
     const [cursor, setCursor] = useState(-1);
@@ -41,7 +43,7 @@ const AutoComplete = ({ data, onSelect }) => {
         scrollIntoView(0);
 
         return data.filter(item =>
-            item.name.toLowerCase().includes(search.toLowerCase())
+            item.title.toLowerCase().includes(search.toLowerCase())
         );
     }, [data, search]);
 
@@ -74,11 +76,18 @@ const AutoComplete = ({ data, onSelect }) => {
         }
 
         if (e.key === "Enter" && cursor > 0) {
-            setSearch(suggestions[cursor].name);
+            setSearch(suggestions[cursor].title);
             hideSuggestion();
             onSelect(suggestions[cursor]);
         }
     };
+
+    // const redir=(item)=>{
+    //     history.push({
+    //         pathname: "/bookDetail",
+    //         state: {item:item}
+    //      })
+    // }
 
     return (
         <div style={{ height: "100%" }} ref={searchContainer}>
@@ -100,18 +109,31 @@ const AutoComplete = ({ data, onSelect }) => {
                 }`}
             >
                 <ul className="list-group" ref={searchResultRef}>
-                    {suggestions.map((item, idx) => (
-                        <AutoCompleteItem
-                            key={item.name}
-                            onSelectItem={() => {
-                                hideSuggestion();
-                                setSearch(item.name);
-                                onSelect(item);
-                            }}
-                            isHighlighted={cursor === idx ? true : false}
-                            {...item}
-                        />
-                    ))}
+                    {
+                    
+                       suggestions&& suggestions.map((item, idx) => (
+                            <AutoCompleteItem
+                                key={item.title}
+                                onSelectItem={() => {
+                                    //redir(item)
+                                    hideSuggestion();
+                                    //setSearch(item.title);
+                                    console.log('ma selectez')
+                                    onSelect(item);
+
+                                        history.push({
+                                            pathname: "/bookDetail",
+                                            state: {item:item},
+                                         })
+                                         window.location.reload();
+
+                                }}
+                                isHighlighted={cursor === idx ? true : false}
+                                {...item}
+                            />
+                        ))
+                   
+                    }
                 </ul>
             </div>
         </div>

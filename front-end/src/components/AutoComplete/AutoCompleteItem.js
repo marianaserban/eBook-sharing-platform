@@ -2,10 +2,12 @@ import React from "react";
 import './AutoCompleteItem.css';
 
 const AutoCompleteItem = ({
-    name,
-    capital,
-    region,
-    flag,
+    title,
+    picture,
+    author,
+    // capital,
+    // region,
+    // flag,
     onSelectItem,
     isHighlighted
 }) => {
@@ -19,11 +21,12 @@ const AutoCompleteItem = ({
             <div className="row">
                 <div className="col text-left">
                     <p className="mb-0 font-weight-bold line-height-1">
-                        {name}{" "}
-                        <img src={flag} alt="" style={{ width: "30px" }} />
+                    <img src={picture} alt="" style={{ width: "30px",marginRight:'5px' }} />
+                        {title}{" "}
+                       
                     </p>
-                    <p className="mb-0 badge badge-primary">{region}</p>
-                    <p className="mb-0 ml-2 badge badge-secondary">{capital}</p>
+                    <p className="mb-0 badge badge-primary" style={{backgroundColor:'#39d39f'}}>{author}</p>
+                    {/* <p className="mb-0 ml-2 badge badge-secondary">{availability}</p> */}
                 </div>
             </div>
         </li>

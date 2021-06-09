@@ -7,6 +7,7 @@ import * as FaIcons from "react-icons/fa";
 import Tabs from '../Tabs/Tabs'
 import Axios from 'axios'
 import $ from 'jquery';
+import authService from '../../services/auth.service';
 const API_URL = "http://localhost:8080/";
 let pdf='../../../public/uploads/sample.pdf'
 
@@ -14,12 +15,15 @@ export default class BookDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            currentUser:authService.getCurrentUser(),
             book: {},
             fullDescription:false,
             superUser:{},
             reviewsLength:0,
             noOfComments:0,
-            noOfUsers:0
+            noOfUsers:0,
+            freeBooks:[],
+            list:[]
         }
 
         this.state.book = this.props.location.state.item
@@ -28,6 +32,25 @@ export default class BookDetail extends Component {
         // localStorage.setItem("superUser", JSON.stringify(this.state.superUser));
     }
     componentDidMount(){
+
+        Axios.get(API_URL + 'books').then(
+            res => {
+                this.setState({ freeBooks: res.data});
+            }
+        )
+        Axios.get(API_URL + 'privateBooks/'+`${this.state.currentUser.id}`).then(
+            res => {
+                let arr=[]
+                this.setState({ privateBooks: res.data});
+                for(let i=0;i<res.data.length;i++){
+                    arr.push(res.data[i].Book)
+                }
+                for(let i=0;i<this.state.freeBooks.length;i++){
+                    arr.push(this.state.freeBooks[i])
+                }
+                this.setState({ list: arr});
+            }
+        )
 
         Axios.get(API_URL + 'superUser/'+`${this.state.book.id}`).then(
             res => {
@@ -65,7 +88,7 @@ export default class BookDetail extends Component {
         if(this.state.fullDescription){
             return (
                 <div>
-                    <Navbar />
+                     <Navbar list={this.state.list} />
                     <div className="dash-content">
                         <div className="row">
                             <div className="col-md-8">
@@ -175,7 +198,7 @@ export default class BookDetail extends Component {
         }else{
             return (
                 <div>
-                    <Navbar />
+                    <Navbar list={this.state.list} />
                     <div className="dash-content">
                         <div className="row">
                             <div className="col-md-8">

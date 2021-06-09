@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import './Navbar.css'
 import { IconContext } from 'react-icons';
 import * as FaIcons from 'react-icons/fa';
@@ -13,14 +12,18 @@ import AuthService from "../../services/auth.service";
 import * as BsIcons from "react-icons/bs";
 import Modal from 'react-bootstrap/Modal'
 import Search from './Search'
+import Axios from 'axios'
 import AutocompletePage from '../AutoComplete/AutoCompletePage'
+import React, { useState, useEffect } from 'react';
+const API_URL = "http://localhost:8080/";
 
 
 
-function Navbar(){
+function Navbar(props){
+    const list=props.list;
     const [sidebar, setSidebar] = useState(false);
     const showSidebar = () => setSidebar(!sidebar);
-    
+
     let history = useHistory();
     const logOut=()=>{
       AuthService.logout();
@@ -104,7 +107,7 @@ function Navbar(){
                      <input type="submit" hidden className="search-submit" /> 
                      <input type="search" name="q" className="search-text" placeholder="Search..." autoComplete="off" />
                    </form> */}
-                    <AutocompletePage/>
+                    <AutocompletePage list={list}/>
               </div>
 
                <div className="column right">

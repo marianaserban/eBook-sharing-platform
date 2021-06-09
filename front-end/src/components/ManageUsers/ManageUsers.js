@@ -9,6 +9,7 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Button from 'react-bootstrap/Button'
 import { toast } from "react-toastify";
+import authService from '../../services/auth.service';
 
 const API_URL = "http://localhost:8080/";
 toast.configure();
@@ -25,6 +26,7 @@ export default class ManageUsers extends Component {
     this.handlePageClick = this.handlePageClick.bind(this);
 
     this.state = {
+      currentUser:authService.getCurrentUser(),
       allUsers: [],
       offset: 0,
       orgtableData: [],
@@ -35,6 +37,8 @@ export default class ManageUsers extends Component {
       searchUserName: '',
       searchFirstName: '',
       searchLastName: '',
+      freeBooks:[],
+      list:[]
     }
   }
   handlePageClick = (e) => {
@@ -122,6 +126,24 @@ export default class ManageUsers extends Component {
     }
   }
   componentDidMount() {
+    Axios.get(API_URL + 'books').then(
+      res => {
+          this.setState({ freeBooks: res.data});
+      }
+      )
+      Axios.get(API_URL + 'privateBooks/'+`${this.state.currentUser.id}`).then(
+          res => {
+              let arr=[]
+              this.setState({ privateBooks: res.data});
+              for(let i=0;i<res.data.length;i++){
+                  arr.push(res.data[i].Book)
+              }
+              for(let i=0;i<this.state.freeBooks.length;i++){
+                  arr.push(this.state.freeBooks[i])
+              }
+              this.setState({ list: arr});
+          }
+      )
 
     Axios.get(API_URL + 'users').then(
       res => {
@@ -266,7 +288,7 @@ export default class ManageUsers extends Component {
   render() {
     return (
       <div>
-        <Navbar />
+        <Navbar list={this.state.list}/>
         <div className="dash-content">
           {/* <div className="row"> */}
             <div className="card" style={{backgroundColor:'#fafafa'}}>

@@ -52,7 +52,9 @@ export default class Dashboard extends Component {
             series:[],
             stats:{},
 
-            isLoading:true
+            isLoading:true,
+            privateBooks:[],
+            list:[]
         };
     }
 
@@ -61,7 +63,7 @@ export default class Dashboard extends Component {
         this.props.history.push('/')
     }
 
-    componentDidMount = () => {
+    componentDidMount = () => {              
         Axios.get(API_URL + 'theMostApreciated').then(
             res => {               
                 this.setState({ theMostApreciated: res.data});
@@ -93,7 +95,6 @@ export default class Dashboard extends Component {
                 this.setState({ allBooks: res.data});
             }
         )
-
         Axios.get(API_URL + 'noOfGenres').then(
             res => {
                 let arr=[]
@@ -103,11 +104,23 @@ export default class Dashboard extends Component {
                 this.setState({ series: arr});
             }
           )
-        
-         
+
+        Axios.get(API_URL + 'privateBooks/'+`${this.state.currentUser.id}`).then(
+            res => {
+                let arr=[]
+                this.setState({ privateBooks: res.data});
+                for(let i=0;i<res.data.length;i++){
+                    arr.push(res.data[i].Book)
+                }
+                for(let i=0;i<this.state.freeBooks.length;i++){
+                    arr.push(this.state.freeBooks[i])
+                }
+                this.setState({ list: arr});
+            }
+        )
+    
+     
         setTimeout(this.rec, 1000);
-
-
     }
 
     rec=()=>{
@@ -163,7 +176,7 @@ export default class Dashboard extends Component {
                 : 
                     <div>
                         
-                        <Navbar />
+                        <Navbar list={this.state.list} />
                 <div className="dash-content">
 
                     {/* <button onClick={this.rec}>VEzi rec</button> */}

@@ -2,13 +2,16 @@ import React, { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Autocomplete from './AutoComplete'
 import Axios from 'axios'
+import { useHistory } from "react-router-dom";
 import AuthService from "../../services/auth.service";
 import "./AutoCompleteItem.css";
 import CountriesList from './countries-list.json';
+import { FaListAlt } from "react-icons/fa";
 
 const API_URL = "http://localhost:8080/";
 
-const AutocompletePage = (data) => {
+const AutocompletePage = (props) => {
+    const list=props.list
     const [country, setcountry] = useState("");
     const [currentUser,setCurrentUser]=useState(AuthService.getCurrentUser())
     const [allBooks, setAllBooks]=useState([])
@@ -18,15 +21,17 @@ const AutocompletePage = (data) => {
     //     Axios.get(API_URL + 'privateBooks/'+`${currentUser.id}`).then(
     //         res => {
     //           setPrivateBooks(res.data)
+    //           //console.log('PRIVATE', privateBooks)
     //         }
     //     )
     //     Axios.get(API_URL + 'books').then(
     //         res => {
     //           setFreeBooks(res.data)
+    //           console.log('Free', freeBooks)
     //         }
     //     )
-
-    //     setAllBooks(privateBooks.concat(freeBooks))
+    //     let all=privateBooks.concat(freeBooks)
+    //     setAllBooks(all)
     //     console.log('FOR SEARCH', privateBooks)
     // });
     return (
@@ -37,16 +42,28 @@ const AutocompletePage = (data) => {
                 {/* <div className="col text-center"> */}
                     {/* <div className="d-flex justify-content-center mb-3"> */}
                         <div className="search-bar-container">
-                            <Autocomplete
+                            {/* <Autocomplete
                                 data={CountriesList}
                                 onSelect={country => setcountry(country)}
-                            />
+                            /> */}
 
-                            <FontAwesomeIcon
+                            <Autocomplete
+                                data={list}
+                                onSelect={country => setcountry(country)}
+                            />
+                        
+                            {/* {country && (
+                                 history.push({
+                                    pathname: "/bookDetail",
+                                    state: {item:country}
+                                 })
+
+                            )} */}
+                            {/* <FontAwesomeIcon
                                 icon="search"
                                 className="search-bar-icon"
                                 color='red'
-                            />
+                            /> */}
                         </div>
                     {/* </div> */}
 

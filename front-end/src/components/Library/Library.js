@@ -23,6 +23,9 @@ export default class Library extends Component {
              orgtableData: [],
              perPage: 3,
              currentPage: 0,
+
+             freeBooks:[],
+             list:[]
         };
     }
 
@@ -54,6 +57,11 @@ export default class Library extends Component {
     }
 
     componentDidMount = () => {
+        Axios.get(API_URL + 'books').then(
+            res => {
+                this.setState({ freeBooks: res.data});
+            }
+        )
         Axios.get(API_URL + 'privateBooks/'+`${this.state.currentUser.id}`).then(
             res => {               
                 this.setState({ books: res.data});
@@ -66,13 +74,22 @@ export default class Library extends Component {
                     orgtableData: data,
                     books: slice
                 })
+
+                let arr=[]
+                for(let i=0;i<res.data.length;i++){
+                    arr.push(res.data[i].Book)
+                }
+                for(let i=0;i<this.state.freeBooks.length;i++){
+                    arr.push(this.state.freeBooks[i])
+                }
+                this.setState({ list: arr});
             }
         )
     }
     render() {
         return (
             <div>
-                <Navbar/>
+                <Navbar list={this.state.list}/>
                 <div className="dash-content">
                     {this.state.books.length > 0 ? 
                         <div className="row">
