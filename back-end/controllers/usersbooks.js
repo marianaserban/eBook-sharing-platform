@@ -52,15 +52,22 @@ const getPrivateBooksOfUser = async (req, res) => {
           where: {
             userId: req.params.userId,
            },
-            include: [{
-                model: Books, Reviews
-            }],
+           include: {
+            model: Books,
+            include: {
+              model: Reviews
+            },
+          },
         })
         let books = []
         for (let i = 0; i < uploads.length; i++) {
-          books.push(uploads[i].Book)
+          let upload={
+            Book: uploads[i].Book,
+            rating: getAverageOfBook(uploads[i].Book.Reviews)
+          }
+          books.push(upload)
         }
-        res.status(200).json(uploads)
+        res.status(200).json(books)
     
       } catch (error) {
         res.status(500).send({
@@ -68,7 +75,19 @@ const getPrivateBooksOfUser = async (req, res) => {
         })
       }
 };
-
+function getAverageOfBook(reviews){
+    let sum=0;
+    if(reviews.length>0){
+        reviews.forEach(element => {
+            sum=sum+parseInt(element.raiting)
+        });
+  
+        return(sum/reviews.length)
+     }
+     else{
+       return 0;
+    }
+  }
 
 
 module.exports = {

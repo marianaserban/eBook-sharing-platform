@@ -4,6 +4,7 @@ import AuthService from "../../services/auth.service";
 import Navbar from '../Navbar/Navbar'
 import swal from 'sweetalert';
 import './AddBook.css'
+import $ from 'jquery';
 import * as IoIcons from "react-icons/io";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -120,12 +121,13 @@ export default class AddBook extends Component {
         })
         .then((res) => {
             e.preventDefault()
+            $(document).ready(function() {
+                $(document).on('submit', '#add-book', function() {
+                  return false;
+                 });
+            });
             document.getElementById("add-book").reset();
             swal("Good job!", "Your book has been uploaded successfully!", "success")
-
-
-           //return false;
-          // toast('Your book has been uploaded!')
         })
         .catch(error => {
           if (error.response !== undefined) {

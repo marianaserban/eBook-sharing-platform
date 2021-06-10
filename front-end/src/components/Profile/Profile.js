@@ -16,7 +16,7 @@ import { RiUploadCloud2Fill } from 'react-icons/ri';
 
 const API_URL = "http://localhost:8080/";
 toast.configure();
-
+let a=0;
 export default class Profile extends Component {
     constructor(props) {
 
@@ -286,8 +286,6 @@ export default class Profile extends Component {
             });
     }
     uploadImage = (e) => {
-
-
         e.preventDefault()
         const data = new FormData()
         data.append("image", this.state.avatar)
@@ -473,6 +471,13 @@ export default class Profile extends Component {
           }
         });
 
+    }
+    getRating(id){
+        Axios.get(`API_URL + 'rating/'+${id}`).then(
+            res => {
+                return res.data;
+            }
+        )
     }
     render() {
         return (
@@ -679,17 +684,18 @@ export default class Profile extends Component {
                                 
                                     <tr>
                                         <div className="col-md-12">
-                                            <img className="pimagine" src={item.picture}></img>
+                                            <img className="pimagine" src={item.Book.picture}></img>
 
                                             <div className="row">
                                                 <div className="col-md-8">
 
-                                                    <div className="title">{item.title}</div>
-                                                    <div className="author">{item.author}</div>
+                                                    <div className="title">{item.Book.title}</div>
+                                                    <div className="author">{item.Book.author}</div>
+                                                   
                                                     <div className="raiting">
-                                                        <AiIcons.AiFillStar />4.3
+                                                        <AiIcons.AiFillStar />{item.rating.toFixed(2)}
                                                     </div>
-                                                    {item.availability ?
+                                                    {item.Book.availability ?
 
                                                     <div style={{maxWidth:'5em'}}id="public" className="uacces-badge allowed">Public</div>
 
@@ -704,13 +710,13 @@ export default class Profile extends Component {
                                                                 <div onClick={(e)=>{
                                                                     e.preventDefault()
                                                                     let visibility=true;
-                                                                    if(item.availability){
+                                                                    if(item.Book.availability){
                                                                         visibility=false;
                                                                     }
                                                                     let data = {
                                                                         availability:visibility,
                                                                     }
-                                                                    Axios.put(API_URL + 'updateBook/' + `${item.id}`, JSON.stringify(data),
+                                                                    Axios.put(API_URL + 'updateBook/' + `${item.Book.id}`, JSON.stringify(data),
                                                                     {
                                                                         headers: { "Content-Type": "application/json" }
                                                                     }
@@ -722,20 +728,29 @@ export default class Profile extends Component {
                                                                             toast(error.response.data.message)
                                                                         }
                                                                     });
+
+                
                                   
                                                                       let index = this.state.uploads.indexOf(item)
                                                                       let upl = [...this.state.uploads];
                                                                       let itemModif = { ...upl[index] };
-                                                                      itemModif.availability = visibility;
+                                                                      itemModif.Book.availability = visibility;
                                                                       upl[index] = itemModif;
                                                                       this.setState({ uploads: upl });
+
+                                                                    //o verificare
+                                                                    //   index = this.state.orgtableData.indexOf(item)
+                                                                    //   itemModif = { ...this.state.orgtableData[index] }
+                                                                    //   console.log('availability dupa modif', itemModif.Book)
                                           
-                                                                      index = this.state.orgtableData.indexOf(item)
-                                                                      upl = [...this.state.orgtableData]
-                                                                      itemModif = { ...upl[index] }
-                                                                      itemModif.availability = visibility;
-                                                                      upl[index] = itemModif;
-                                                                      this.setState({ orgtableData: upl });
+                                                                    //   index = this.state.orgtableData.indexOf(item)
+                                                                    //   upl = [...this.state.orgtableData]
+                                                                    //   console.log('upl',upl)
+                                                                    //   itemModif = { ...upl[index] }
+                                                                    //   console.log('verif availability', itemModif.Book.availability)
+                                                                    //   itemModif.Book.availability = visibility;
+                                                                    //   upl[index] = itemModif;
+                                                                    //   this.setState({ orgtableData: upl });
 
                                                                 }} id="public" className="uacces-badge edit">Change</div>
                                                         </div>
@@ -752,7 +767,7 @@ export default class Profile extends Component {
                                                                         if (willDelete) {
 
                                                                             e.preventDefault()
-                                                                            Axios.delete(`${API_URL}deleteBook/${item.id}`)
+                                                                            Axios.delete(`${API_URL}deleteBook/${item.Book.id}`)
                                                                                 .then((res) => {
                                                                                 })
 
@@ -780,7 +795,7 @@ export default class Profile extends Component {
                                                             <div id="details" onClick={() => {
                                                                 this.props.history.push({
                                                                     pathname: "/bookDetail",
-                                                                    state: { item: item }
+                                                                    state: { item: item.Book }
                                                                 })
                                                             }} className="uacces-badge details"
                                                             >Details</div>

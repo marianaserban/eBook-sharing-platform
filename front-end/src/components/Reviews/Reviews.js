@@ -207,7 +207,7 @@ export default class Reviews extends Component {
                                     </div>
                                 </div> 
  
-                                <div className="row-rev"><h4>{item.title}</h4></div>
+                                <div className="row-rev" style={{marginTop:'1em'}}><h4>{item.title}</h4></div>
                                 <div className="row-rev-text">
                                          {item.content}
                                  </div>

@@ -48,15 +48,16 @@ function Navbar(props){
               </div>
 
               <div className="column middle">
-                   <form action="#" role="search">
+                   {/* <form action="#" role="search">
                      <input type="submit" hidden className="search-submit" /> 
                      <input type="search" name="q" className="search-text" placeholder="Search..." autoComplete="off" />
-                    </form>
+                    </form> */}
+                     <AutocompletePage list={list}/>
               </div>
 
               <div className="column right">
                 {/* <Link to="/" className="log-out menu-bars"> */}
-                    <FiIcons.FiLogOut className="log-out menu-bars" onClick={logOut}/>
+                    <FiIcons.FiLogOut className="log-out menu-bars" onClick={logOut} style={{cursor:'pointer'}}/>
                 {/* </Link>   */}
               </div>
 
@@ -111,34 +112,13 @@ function Navbar(props){
               </div>
 
                <div className="column right">
-                    <FiIcons.FiLogOut className="log-out menu-bars" onClick={logOut}/>
+                    <FiIcons.FiLogOut className="log-out menu-bars" onClick={logOut}  style={{cursor:'pointer'}}/>
               </div>
 
-              <div className="column right-after">
+              <div className="column right-after" >
                     Logout
               </div>                
             </div>
-
-            {/* <div className="navbar">
-              <div className="row">
-                  <div className="col-md-3">
-                        <Link to="#" className="menu-bars">
-                        < FaIcons.FaBars onClick={showSidebar} />
-                        </Link>
-                  </div>
-                  <div className="col-md-3">
-                      <AutocompletePage/>
-                  </div>
-                  <div className="col-md-3">
-                    <FiIcons.FiLogOut className="log-out menu-bars" onClick={logOut}/>
-                  </div>
-
-                  <div className="col-md-3">
-                        Logout
-                  </div>  
-              </div>
-            </div> */}
-
 
             <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
             <ul className='nav-menu-items' onClick={showSidebar}>
@@ -177,17 +157,17 @@ function Navbar(props){
               </div>
 
               <div className="column middle">
-                   <form action="#" role="search">
+                   {/* <form action="#" role="search">
                      <input type="submit" hidden className="search-submit" /> 
                      <input type="search" name="q" className="search-text" placeholder="Search..." autoComplete="off" />
-                    </form>
+                    </form> */}
                   {/* <BsIcons.BsSearch onClick={()=>{alert('click')}} style={{fontSize:'1.5em',cursor:'pointer'}}/> */}
-
+                  <AutocompletePage list={list}/>
               </div>
 
               <div className="column right">
                 {/* <Link to="/" className="log-out menu-bars"> */}
-                    <FiIcons.FiLogOut className="log-out menu-bars" onClick={logOut}/>
+                    <FiIcons.FiLogOut className="log-out menu-bars" onClick={logOut} style={{cursor:'pointer'}}/>
                 {/* </Link>   */}
               </div>
 

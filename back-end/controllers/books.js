@@ -161,14 +161,21 @@ const getUploads = async (req, res) => {
       where: {
         userId: req.params.userId,
       },
-      include: [{
+      include: {
         model: Books,
-      }],
+        include: {
+          model: Reviews
+        },
+      },
     })
 
     let books = []
     for (let i = 0; i < uploads.length; i++) {
-      books.push(uploads[i].Book)
+      let upload={
+        Book: uploads[i].Book,
+        rating: getAverageOfBook(uploads[i].Book.Reviews)
+      }
+      books.push(upload)
     }
     res.status(200).json(books)
 
@@ -333,6 +340,20 @@ const getNoPerGenres=async (req, res) => {
   }
 };
 
+const getRating = async (req, res) => {
+  try {
+    let reviews = await Reviews.findAll({
+        where: {
+          bookId: req.params.bookId,
+        }
+    })
+      res.status(200).json(getAverageOfBook(reviews))
+    }catch (error) {
+        res.status(500).send({
+            message: "Database error"
+        })
+    }
+}
 
 module.exports = {
   getFreeBooks,
@@ -342,5 +363,6 @@ module.exports = {
   deleteBook,
   updateBook,
   getAllBooks,
-  getNoPerGenres
+  getNoPerGenres,
+  getRating,
 }

@@ -315,7 +315,7 @@ export default class Dashboard extends Component {
                         </div>
                     </div>
 
-                    {this.state.rec.length > 2 ? 
+                    {this.state.rec.length > 3 ? 
                                 
                     <div className="history">
                         <div className="book-logo">

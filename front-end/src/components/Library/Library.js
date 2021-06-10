@@ -120,7 +120,7 @@ export default class Library extends Component {
                                                         <div className="title">{item.Book.title}</div>
                                                         <div className="author">{item.Book.author}</div>
                                                         <div className="raiting">
-                                                            <AiIcons.AiFillStar />4.3
+                                                            <AiIcons.AiFillStar />{item.rating.toFixed(2)}
                                                         </div>
                                                         {item.Book.availability ?
 

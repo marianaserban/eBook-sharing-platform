@@ -62,5 +62,6 @@ router.get('/noOfGenres', books.getNoPerGenres)
 router.get('/theMostApreciated', reviews.getTheMostApreciated)
 router.get('/stats', reviews.getStats)
 router.get('/privateBooks/:userId', usersbooks.getPrivateBooksOfUser)
+router.get('/rating/:bookId',books.getRating)
 
 module.exports = router;
