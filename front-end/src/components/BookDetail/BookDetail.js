@@ -254,11 +254,11 @@ export default class BookDetail extends Component {
                                                     this.state.fullDesc ?
 
                                                     <div>
-                                                        <div className="sum" style={{marginTop:'0.1em',textAlign:'justify'}}>
+                                                        <div className="sum" style={{marginTop:'1.5em',textAlign:'justify'}}>
                                                             {this.state.book.description}
                                                         </div>
 
-                                                        <div className="more" style={{float:'right',marginTop:'0.1em',marginRight:'1em',
+                                                        <div className="more" style={{float:'right',marginTop:'0.5em',marginRight:'1em',
                                                             color:'#999',cursor:'pointer'}} onClick={(e)=>{
                                                                 e.preventDefault()
                                                                 this.setState({fullDesc:false})
