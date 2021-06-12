@@ -260,9 +260,9 @@ export default class SuperUserProfile extends Component {
                                         </div>
                                         {item.Book.availability ?
 
-                                        <div style={{maxWidth:'5em'}}id="public" className="uacces-badge allowed">Public</div>
+                                        <div style={{maxWidth:'8em'}}id="public" className="uacces-badge allowed">Public book</div>
 
-                                        : <div style={{maxWidth:'6em'}} className="uacces-badge forbidden">Private</div>}
+                                        : <div style={{maxWidth:'9em'}} className="uacces-badge forbidden">Private book</div>}
 
                                     </div>
 
@@ -281,7 +281,7 @@ export default class SuperUserProfile extends Component {
                                                         found=true;
                                                     }
                                                 }
-                                                if(found){
+                                                if(found || item.Book.availability){
                                                     this.props.history.push({
                                                         pathname: "/bookDetail",
                                                         state: { item: item.Book }
