@@ -23,7 +23,9 @@ export default class BookDetail extends Component {
             noOfComments:0,
             noOfUsers:0,
             freeBooks:[],
-            list:[]
+            list:[],
+
+            fullDesc:false,
         }
 
         this.state.book = this.props.location.state.item
@@ -138,7 +140,10 @@ export default class BookDetail extends Component {
                                                 <div className="sum" style={{marginTop:'1.5em'}}>
                                                     {this.state.book.description}...
                                                 </div>
-                                                <a href="" onClick={()=>{this.setState({fullDescription:false})}} style={{float:'right',marginTop:'-0.5em',marginRight:'1em'}}>See less</a>
+                                                {/* <a rel="no-refresh" href="" onClick={(e)=>{
+                                                    e.preventDefault()
+                                                    this.setState({fullDescription:false})}} 
+                                                style={{float:'right',marginTop:'-0.5em',marginRight:'1em'}}>See less</a> */}
                                                 <div className="bt-con">
                                                     <input  type="button" className="read-btn" 
                                                     value="Start reading "
@@ -244,12 +249,48 @@ export default class BookDetail extends Component {
                                                             <div className="col-md-10">{this.state.noOfComments} Comments</div>
                                                         </div>  
                                                     </div>
-                                                </div>          
-                                                <div className="sum" style={{marginTop:'1.5em'}}>
-                                                    {this.state.book.description.substring(0,350)}...
-                                                </div>
-                                                <a href="" onClick={()=>{this.setState({fullDescription:true})}} 
-                                                style={{float:'right',marginTop:'-0.5em',marginRight:'1em'}}>See more</a>
+                                                </div> 
+                                                {
+                                                    this.state.fullDesc ?
+
+                                                    <div>
+                                                        <div className="sum" style={{marginTop:'1.5em',textAlign:'justify'}}>
+                                                            {this.state.book.description}
+                                                        </div>
+
+                                                        <div className="more" style={{float:'right',marginTop:'0.5em',marginRight:'1em',
+                                                            color:'#999',cursor:'pointer'}} onClick={(e)=>{
+                                                                e.preventDefault()
+                                                                this.setState({fullDesc:false})
+                                                            }}>See less</div>
+                                                       
+                                                    </div>
+                                                       
+                                                        :
+                                                        <div>
+                                                            <div className="sum" style={{marginTop:'1.5em',textAlign:'justify'}}>
+                                                                {this.state.book.description.substring(0,350)}...
+                                                            </div>
+
+                                                            <div className="more" style={{float:'right',marginTop:'0.5em',marginRight:'1em',
+                                                                color:'#999',cursor:'pointer'}} onClick={(e)=>{
+                                                                    e.preventDefault()
+                                                                    this.setState({fullDesc:true})
+                                                                }}>See more</div>
+                                                        </div>
+                                                }         
+                                                {/* // <div className="sum" style={{marginTop:'1.5em'}}>
+                                                //     {this.state.book.description.substring(0,350)}...
+                                                // </div> */}
+                                                {/* <a  href="javascript:void(0)" onClick={(e)=>{
+                                                    //alert('more')
+                                                
+                                                    e.preventDefault()
+                                                    this.setState({fullDescription:true})}} 
+                                                style={{float:'right',marginTop:'-0.5em',marginRight:'1em'}}>See more</a> */}
+
+
+                                                    
     
                                                 <div className="bt-con">
                                                     <input type="button" className="read-btn" 
