@@ -11,7 +11,7 @@ import * as IoIcons from "react-icons/io";
 import * as AiIcons from "react-icons/ai";
 import Modal from 'react-bootstrap/Modal'
 import { toast } from "react-toastify";
-
+import Footer from '../Footer/Footer'
 
 const API_URL = "http://localhost:8080/";
 toast.configure();
@@ -659,7 +659,7 @@ export default class Profile extends Component {
             </div>
         </div>
 
-        {this.state.user.role === 'superuser' || this.state.user.role === 'admin' ?
+        {(this.state.user.role === 'superuser' || this.state.user.role === 'admin') && this.state.uploads.length>0 ?
             <div className="row">
                 <div class="col-md-12">
                     <div class="card" style={{ backgroundColor: '#F3F3F4' }}>
@@ -825,6 +825,7 @@ export default class Profile extends Component {
             : <div></div>
         }
     </div>
+    <Footer/>
 </div>
         )
     }
