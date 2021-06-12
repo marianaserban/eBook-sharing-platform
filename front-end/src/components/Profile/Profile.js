@@ -11,7 +11,6 @@ import * as IoIcons from "react-icons/io";
 import * as AiIcons from "react-icons/ai";
 import Modal from 'react-bootstrap/Modal'
 import { toast } from "react-toastify";
-import { RiUploadCloud2Fill } from 'react-icons/ri';
 
 
 const API_URL = "http://localhost:8080/";
@@ -481,368 +480,352 @@ export default class Profile extends Component {
     }
     render() {
         return (
-            <div>
-                <Navbar list={this.state.list} />
-                <div className="dash-content">
+<div>
+    <Navbar list={this.state.list} />
+    <div className="dash-content">
 
+        <div className="row">
+            <Modal size="lg" aria-labelledby="contained-modal-title-vcenter" centered animation={false} show={this.state.show} onHide={this.toggleModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title style={{ color: '#474157' }}>Change password</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
 
-                    <div className="row">
+                    <form className="" onSubmit={this.updatePass}>
 
-                        <Modal size="lg" aria-labelledby="contained-modal-title-vcenter" centered animation={false} show={this.state.show} onHide={this.toggleModal}>
-                            <Modal.Header closeButton>
-                                <Modal.Title style={{ color: '#474157' }}>Change password</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
+                        <div className="row">
+                            <div className="col-md-10">
+                                <div class="group" style={{ marginTop: '1em' }}>
+                                    <input onChange={this.onChangeOldPassword} type={this.state.pass1Visible ? "text" : "password"} className="input-modal" required />
 
-
-
-                                <form className="" onSubmit={this.updatePass}>
-
-                                    <div className="row">
-                                        <div className="col-md-10">
-                                            <div class="group" style={{ marginTop: '1em' }}>
-                                                <input onChange={this.onChangeOldPassword} type={this.state.pass1Visible ? "text" : "password"} className="input-modal" required />
-
-                                                <span class="highlight"></span>
-                                                <span class="bar-modal"></span>
-                                                <label className="label-modal">Current password</label>
-                                            </div>
-                                        </div>
-
-                                        <div onClick={this.changeVisibility1} style={{ fontSize: '1.5em', cursor: 'pointer' }} className="col-md-2">
-
-                                            {this.state.pass1Visible ? <div><AiIcons.AiFillEye /></div> : <div><AiIcons.AiFillEyeInvisible /></div>}
-                                        </div>
-
-                                    </div>
-
-                                    <div className="row">
-                                        <div className="col-md-10">
-                                            <div class="group">
-                                                <input onChange={this.onChangeNewPassword} type={this.state.pass2Visible ? "text" : "password"} className="input-modal" required />
-                                                <span class="highlight"></span>
-                                                <span class="bar-modal"></span>
-                                                <label className="label-modal">New password</label>
-                                            </div>
-                                        </div>
-
-                                        <div onClick={this.changeVisibility2} style={{ fontSize: '1.5em', cursor: 'pointer' }} className="col-md-2">
-                                            {this.state.pass2Visible ? <div><AiIcons.AiFillEye /></div> : <div><AiIcons.AiFillEyeInvisible /></div>}
-                                        </div>
-                                    </div>
-
-                                    <div className="row">
-                                        <div className="col-md-10">
-                                            <div class="group">
-                                                <input onChange={this.onChangeConfirmNewPassword} type={this.state.pass3Visible ? "text" : "password"} className="input-modal" required />
-                                                <span class="highlight"></span>
-                                                <span class="bar-modal"></span>
-                                                <label className="label-modal">Confirm new password</label>
-                                            </div>
-                                        </div>
-                                        <div onClick={this.changeVisibility3} style={{ fontSize: '1.5em', cursor: 'pointer' }} className="col-md-2">
-                                            {this.state.pass3Visible ? <div><AiIcons.AiFillEye /></div> : <div><AiIcons.AiFillEyeInvisible /></div>}
-                                        </div>
-                                    </div>
-
-                                    <button variant="secondary" type="submit" className="btnu btnu-danger" onClick={this.toggleModal}>
-                                        Close
-                                </button>
-                                    <button variant="primary" className="btnu btnu-success" type="submit">
-                                        Save Changes
-                                </button>
-
-                                </form>
-
-                            </Modal.Body>
-                        </Modal>
-
-
-                        <div className="col-md-8">
-                            <div className="card">
-                                <div className="card-header card-header-primary">
-                                    <h4 className="card-title">Edit profile</h4>
-                                    <p className="card-category">Complete your profile</p>
+                                    <span class="highlight"></span>
+                                    <span class="bar-modal"></span>
+                                    <label className="label-modal">Current password</label>
                                 </div>
-                                <div className="card-body">
-                                    <form className="profile-form" onSubmit={this.updateAccount}>
-                                        <div className="row">
-                                            <div className="col-md-6">
-                                                <div className="input-block">
-                                                    <label htmlFor>Username</label>
-                                                    <input disabled id="userName" onChange={this.onChangeUsername} /*value={this.state.user.userName}*/ name="userName" className="form-control" type="text" />
-                                                </div>
-                                            </div>
-                                            <div className="col-md-6">
-                                                <div className="input-block">
-                                                    <label htmlFor>Email</label>
-                                                    <input disabled id="email" onChange={this.onChangeEmail} name="email" /*value={this.state.currentUser.email}*/ className="form-control" type="email" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-md-6">
-                                                <div className="input-block">
-                                                    <label htmlFor>First name</label>
-                                                    <input required id="firstName" onChange={this.onChangeFirstName} /*value={this.state.currentUser.firstName}*/ name="firstName" className="form-control" type="text" />
-                                                </div>
-                                            </div>
-                                            <div className="col-md-6">
-                                                <div className="input-block">
-                                                    <label htmlFor>Last name</label>
-                                                    <input required id="lastName" onChange={this.onChangeLastName} /*value={this.state.currentUser.lastName}*/ name="lastName" className="form-control" type="text" />
-                                                </div>
-                                            </div>
-                                        </div>
+                            </div>
 
-                                    </form>
+                            <div onClick={this.changeVisibility1} style={{ fontSize: '1.5em', cursor: 'pointer' }} className="col-md-2">
+
+                                {this.state.pass1Visible ? <div><AiIcons.AiFillEye /></div> : <div><AiIcons.AiFillEyeInvisible /></div>}
+                            </div>
+
+                        </div>
+
+                        <div className="row">
+                            <div className="col-md-10">
+                                <div class="group">
+                                    <input onChange={this.onChangeNewPassword} type={this.state.pass2Visible ? "text" : "password"} className="input-modal" required />
+                                    <span class="highlight"></span>
+                                    <span class="bar-modal"></span>
+                                    <label className="label-modal">New password</label>
+                                </div>
+                            </div>
+
+                            <div onClick={this.changeVisibility2} style={{ fontSize: '1.5em', cursor: 'pointer' }} className="col-md-2">
+                                {this.state.pass2Visible ? <div><AiIcons.AiFillEye /></div> : <div><AiIcons.AiFillEyeInvisible /></div>}
+                            </div>
+                        </div>
+
+                        <div className="row">
+                            <div className="col-md-10">
+                                <div class="group">
+                                    <input onChange={this.onChangeConfirmNewPassword} type={this.state.pass3Visible ? "text" : "password"} className="input-modal" required />
+                                    <span class="highlight"></span>
+                                    <span class="bar-modal"></span>
+                                    <label className="label-modal">Confirm new password</label>
+                                </div>
+                            </div>
+                            <div onClick={this.changeVisibility3} style={{ fontSize: '1.5em', cursor: 'pointer' }} className="col-md-2">
+                                {this.state.pass3Visible ? <div><AiIcons.AiFillEye /></div> : <div><AiIcons.AiFillEyeInvisible /></div>}
+                            </div>
+                        </div>
+
+                        <button variant="secondary" type="submit" className="btnu btnu-danger" onClick={this.toggleModal}>
+                            Close
+                    </button>
+                        <button variant="primary" className="btnu btnu-success" type="submit">
+                            Save Changes
+                    </button>
+
+                    </form>
+                </Modal.Body>
+            </Modal>
 
 
-                                    <div className="row">
-                                        <div className="col-md-4">
-                                            <button onClick={this.updateAccount} type="submit" className="btnp btnp-success">Save changes</button>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <button onClick={this.deleteAccount} className="btnp btnp-danger">Delete account</button>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <button onClick={this.toggleModal} className="btnp btnp-warning">Update password</button>
-                                        </div>
+            <div className="col-md-8">
+                <div className="card">
+                    <div className="card-header card-header-primary">
+                        <h4 className="card-title">Edit profile</h4>
+                        <p className="card-category">Complete your profile</p>
+                    </div>
+                    <div className="card-body">
+                        <form className="profile-form" onSubmit={this.updateAccount}>
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <div className="input-block">
+                                        <label htmlFor>Username</label>
+                                        <input disabled id="userName" onChange={this.onChangeUsername} /*value={this.state.user.userName}*/ name="userName" className="form-control" type="text" />
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <div className="input-block">
+                                        <label htmlFor>Email</label>
+                                        <input disabled id="email" onChange={this.onChangeEmail} name="email" /*value={this.state.currentUser.email}*/ className="form-control" type="email" />
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="col-md-4">
-                            <div className="card card-profile">
-                                <div className="card-avatar">
-                                    {this.state.user.thumbnail ?
-                                        <img className="img" src={this.state.user.thumbnail} />
-                                        :
-                                        <img className="img" src={avatar} />
-                                    }
-                                </div>
-                                <form id="form" onSubmit={this.uploadImage}>
-                                    <div className="row">
-                                        <div className="col-md-3">
-                                        </div>
-                                        <div className="col-md-9" style={{ marginTop: '-20px' }}>
-                                            <i className="fa fa-camera icon" style={{ fontSize: '1.5em' }}
-                                                onClick={() => {
-                                                    document.querySelector('[type="file"]').click()
-                                                    document.querySelector('[type="file"]').addEventListener('change', function () {
-                                                        setTimeout(function () { document.getElementById("upload").click() }, 100);
-                                                    });
-                                                }}></i>
-                                            <input id="file" required type="file" hidden accept=".jpg, .png" name="avatar" onChange={this.onChangeAvatar} />
-                                            <button hidden id="upload">Upload picture</button>
-
-                                        </div>
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <div className="input-block">
+                                        <label htmlFor>First name</label>
+                                        <input required id="firstName" onChange={this.onChangeFirstName} /*value={this.state.currentUser.firstName}*/ name="firstName" className="form-control" type="text" />
                                     </div>
-                                </form>
-                                <div className="card-body">
-                                    <h6 className="card-category text-gray"></h6>
-
-                                    <h4 className="card-title">{this.state.currentUser.firstName} {this.state.currentUser.lastName}</h4>
-
-                                    {(this.state.currentUser.role === "user" &&
-                                        <div className="acces-badge user" style={{ marginTop: '1em' }}>user</div>)
-                                        || (this.state.currentUser.role === "superuser" &&
-                                            <div className="acces-badge super-user" style={{ marginTop: '1em' }}>super-user</div>)
-                                        || (this.state.currentUser.role === "admin" &&
-                                            <div className="acces-badge admin" style={{ marginTop: '1em' }}>admin</div>)
-                                    }
-
-                                    <div className="row" style={{ margin: '1.5em' }}>
-                                        <div className="col-md-6"><IoIcons.IoIosBook /> {this.state.orgtableData.length} Uploads </div>
-                                        <div className="col-md-6"><AiIcons.AiFillStar /> {this.state.noOfReviews} Reviews </div>
-                                    </div>
-
-                                    <p className="card-description">
-                                        Registry date: {`${this.state.user.createdAt}`.substring(0, 10)}
-                                    </p>
                                 </div>
+                                <div className="col-md-6">
+                                    <div className="input-block">
+                                        <label htmlFor>Last name</label>
+                                        <input required id="lastName" onChange={this.onChangeLastName} /*value={this.state.currentUser.lastName}*/ name="lastName" className="form-control" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+
+
+                        <div className="row">
+                            <div className="col-md-4">
+                                <button onClick={this.updateAccount} type="submit" className="btnp btnp-success">Save changes</button>
+                            </div>
+                            <div className="col-md-4">
+                                <button onClick={this.deleteAccount} className="btnp btnp-danger">Delete account</button>
+                            </div>
+                            <div className="col-md-4">
+                                <button onClick={this.toggleModal} className="btnp btnp-warning">Update password</button>
                             </div>
                         </div>
                     </div>
-
-                    {this.state.user.role === 'superuser' || this.state.user.role === 'admin' ?
+                </div>
+            </div>
+            <div className="col-md-4">
+                <div className="card card-profile">
+                    <div className="card-avatar">
+                        {this.state.user.thumbnail ?
+                            <img className="img" src={this.state.user.thumbnail} />
+                            :
+                            <img className="img" src={avatar} />
+                        }
+                    </div>
+                    <form id="form" onSubmit={this.uploadImage}>
                         <div className="row">
-                            <div class="col-md-12">
-                                <div class="card" style={{ backgroundColor: '#F3F3F4' }}>
-                                    <div class="card-headera card-headera-primary">
-                                        <h4 class="card-title ">Your uploads</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table className="table">
-                                                <thead className="text">
-                                                </thead>
+                            <div className="col-md-3">
+                            </div>
+                            <div className="col-md-9" style={{ marginTop: '-20px' }}>
+                                <i className="fa fa-camera icon" style={{ fontSize: '1.5em' }}
+                                    onClick={() => {
+                                        document.querySelector('[type="file"]').click()
+                                        document.querySelector('[type="file"]').addEventListener('change', function () {
+                                            setTimeout(function () { document.getElementById("upload").click() }, 100);
+                                        });
+                                    }}></i>
+                                <input id="file" required type="file" hidden accept=".jpg, .png" name="avatar" onChange={this.onChangeAvatar} />
+                                <button hidden id="upload">Upload picture</button>
+
+                            </div>
+                        </div>
+                    </form>
+                    <div className="card-body">
+                        <h6 className="card-category text-gray"></h6>
+
+                        <h4 className="card-title">{this.state.currentUser.firstName} {this.state.currentUser.lastName}</h4>
+
+                        {(this.state.currentUser.role === "user" &&
+                            <div className="acces-badge user" style={{ marginTop: '1em' }}>user</div>)
+                            || (this.state.currentUser.role === "superuser" &&
+                                <div className="acces-badge super-user" style={{ marginTop: '1em' }}>super-user</div>)
+                            || (this.state.currentUser.role === "admin" &&
+                                <div className="acces-badge admin" style={{ marginTop: '1em' }}>admin</div>)
+                        }
+
+                        <div className="row" style={{ margin: '1.5em' }}>
+                            <div className="col-md-6"><IoIcons.IoIosBook /> {this.state.orgtableData.length} Uploads </div>
+                            <div className="col-md-6"><AiIcons.AiFillStar /> {this.state.noOfReviews} Reviews </div>
+                        </div>
+
+                        <p className="card-description">
+                            Registry date: {`${this.state.user.createdAt}`.substring(0, 10)}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {this.state.user.role === 'superuser' || this.state.user.role === 'admin' ?
+            <div className="row">
+                <div class="col-md-12">
+                    <div class="card" style={{ backgroundColor: '#F3F3F4' }}>
+                        <div class="card-headera card-headera-primary">
+                            <h4 class="card-title ">Your uploads</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table className="table">
+                                    <thead className="text">
+                                    </thead>
 
 
-                                                <tbody>
-                                {this.state.uploads.map(item =>
-                                
-                                    <tr>
-                                        <div className="col-md-12">
-                                            <img className="pimagine" src={item.Book.picture}></img>
+                                    <tbody>
+                    {this.state.uploads.map(item =>
+                    
+                        <tr>
+                            <div className="col-md-12">
+                                <img className="pimagine" src={item.Book.picture}></img>
 
-                                            <div className="row">
-                                                <div className="col-md-8">
+                                <div className="row">
+                                    <div className="col-md-8">
 
-                                                    <div className="title">{item.Book.title}</div>
-                                                    <div className="author">{item.Book.author}</div>
-                                                   
-                                                    <div className="raiting">
-                                                        <AiIcons.AiFillStar />{item.rating.toFixed(2)}
-                                                    </div>
-                                                    {item.Book.availability ?
-
-                                                    <div style={{maxWidth:'5em'}}id="public" className="uacces-badge allowed">Public</div>
-
-                                                    : <div style={{maxWidth:'6em'}} className="uacces-badge forbidden">Private</div>}
-
-                                                </div>
-
-                                                <div className="col-md-4" >
-
-                                                    <div className="row" style={{ marginTop: '3em' }}>
-                                                        <div className="col-md-4" >
-                                                                <div onClick={(e)=>{
-                                                                    e.preventDefault()
-                                                                    let visibility=true;
-                                                                    if(item.Book.availability){
-                                                                        visibility=false;
-                                                                    }
-                                                                    let data = {
-                                                                        availability:visibility,
-                                                                    }
-                                                                    Axios.put(API_URL + 'updateBook/' + `${item.Book.id}`, JSON.stringify(data),
-                                                                    {
-                                                                        headers: { "Content-Type": "application/json" }
-                                                                    }
-                                                                    ).then((res) => {
-                                                                        toast('Book visibility changed successfully!')
-                                                                    })
-                                                                    .catch(error => {
-                                                                        if (error.response !== undefined) {
-                                                                            toast(error.response.data.message)
-                                                                        }
-                                                                    });
-
-                
-                                  
-                                                                      let index = this.state.uploads.indexOf(item)
-                                                                      let upl = [...this.state.uploads];
-                                                                      let itemModif = { ...upl[index] };
-                                                                      itemModif.Book.availability = visibility;
-                                                                      upl[index] = itemModif;
-                                                                      this.setState({ uploads: upl });
-
-                                                                    //o verificare
-                                                                    //   index = this.state.orgtableData.indexOf(item)
-                                                                    //   itemModif = { ...this.state.orgtableData[index] }
-                                                                    //   console.log('availability dupa modif', itemModif.Book)
-                                          
-                                                                    //   index = this.state.orgtableData.indexOf(item)
-                                                                    //   upl = [...this.state.orgtableData]
-                                                                    //   console.log('upl',upl)
-                                                                    //   itemModif = { ...upl[index] }
-                                                                    //   console.log('verif availability', itemModif.Book.availability)
-                                                                    //   itemModif.Book.availability = visibility;
-                                                                    //   upl[index] = itemModif;
-                                                                    //   this.setState({ orgtableData: upl });
-
-                                                                }} id="public" className="uacces-badge edit">Change</div>
-                                                        </div>
-                                                        <div className="col-md-4">
-                                                            <div className="uacces-badge delete" onClick={(e) => {
-                                                                swal({
-                                                                    title: "Are you sure?",
-                                                                    text: "Once deleted, you will not be able to recover this file!",
-                                                                    icon: "warning",
-                                                                    buttons: true,
-                                                                    dangerMode: true,
-                                                                })
-                                                                    .then((willDelete) => {
-                                                                        if (willDelete) {
-
-                                                                            e.preventDefault()
-                                                                            Axios.delete(`${API_URL}deleteBook/${item.Book.id}`)
-                                                                                .then((res) => {
-                                                                                })
-
-                                                                            let index = this.state.uploads.indexOf(item)
-                                                                            let upload = [...this.state.uploads];
-                                                                            upload.splice(index, 1)
-                                                                            this.setState({ uploads: upload });
-
-                                                                            index = this.state.orgtableData.indexOf(item)
-                                                                            upload = [...this.state.orgtableData]
-                                                                            upload.splice(index, 1)
-                                                                            this.setState({ orgtableData: upload });
-
-                                                                            swal("Poof! Your file has been deleted!", {
-                                                                                icon: "success",
-                                                                            });
-                                                                        } else {
-                                                                            swal("Your file is safe!");
-                                                                        }
-                                                                    });
-                                                            }}>Delete</div>
-                                                        </div>
-
-                                                        <div className="col-md-4">
-                                                            <div id="details" onClick={() => {
-                                                                this.props.history.push({
-                                                                    pathname: "/bookDetail",
-                                                                    state: { item: item.Book }
-                                                                })
-                                                            }} className="uacces-badge details"
-                                                            >Details</div>
-
-                                                        </div>
-
-
-
-                                                    </div>
-
-
-
-                                                </div>
-                                            </div>
+                                        <div className="title">{item.Book.title}</div>
+                                        <div className="author">{item.Book.author}</div>
+                                    
+                                        <div className="raiting">
+                                            <AiIcons.AiFillStar />{item.rating.toFixed(2)}
                                         </div>
+                                        {item.Book.availability ?
 
-                                    </tr>)}
+                                        <div style={{maxWidth:'5em'}}id="public" className="uacces-badge allowed">Public</div>
 
-                                 </tbody>
+                                        : <div style={{maxWidth:'6em'}} className="uacces-badge forbidden">Private</div>}
 
+                                    </div>
 
-                                            </table>
-                                            <ReactPaginate
-                                                previousLabel={"Prev"}
-                                                nextLabel={"Next"}
-                                                breakLabel={"..."}
-                                                breakClassName={"break-me"}
-                                                pageCount={this.state.pageCount}
-                                                marginPagesDisplayed={2}
-                                                pageRangeDisplayed={5}
-                                                onPageChange={this.handlePageClick}
-                                                containerClassName={"pagination"}
-                                                subContainerClassName={"pages pagination"}
-                                                activeClassName={"active-pg"} />
+                                    <div className="col-md-4" >
+
+                                        <div className="row" style={{ marginTop: '3em' }}>
+                                            <div className="col-md-4" >
+                                                    <div onClick={(e)=>{
+                                                        e.preventDefault()
+                                                        let visibility=true;
+                                                        if(item.Book.availability){
+                                                            visibility=false;
+                                                        }
+                                                        let data = {
+                                                            availability:visibility,
+                                                        }
+                                                        Axios.put(API_URL + 'updateBook/' + `${item.Book.id}`, JSON.stringify(data),
+                                                        {
+                                                            headers: { "Content-Type": "application/json" }
+                                                        }
+                                                        ).then((res) => {
+                                                            toast('Book visibility changed successfully!')
+                                                        })
+                                                        .catch(error => {
+                                                            if (error.response !== undefined) {
+                                                                toast(error.response.data.message)
+                                                            }
+                                                        });
+
+    
+                    
+                                                        let index = this.state.uploads.indexOf(item)
+                                                        let upl = [...this.state.uploads];
+                                                        let itemModif = { ...upl[index] };
+                                                        itemModif.Book.availability = visibility;
+                                                        upl[index] = itemModif;
+                                                        this.setState({ uploads: upl });
+
+                                                        //o verificare
+                                                        //   index = this.state.orgtableData.indexOf(item)
+                                                        //   itemModif = { ...this.state.orgtableData[index] }
+                                                        //   console.log('availability dupa modif', itemModif.Book)
+                            
+                                                        //   index = this.state.orgtableData.indexOf(item)
+                                                        //   upl = [...this.state.orgtableData]
+                                                        //   console.log('upl',upl)
+                                                        //   itemModif = { ...upl[index] }
+                                                        //   console.log('verif availability', itemModif.Book.availability)
+                                                        //   itemModif.Book.availability = visibility;
+                                                        //   upl[index] = itemModif;
+                                                        //   this.setState({ orgtableData: upl });
+
+                                                    }} id="public" className="uacces-badge edit">Change</div>
+                                            </div>
+                                            <div className="col-md-4">
+                                                <div className="uacces-badge delete" onClick={(e) => {
+                                                    swal({
+                                                        title: "Are you sure?",
+                                                        text: "Once deleted, you will not be able to recover this file!",
+                                                        icon: "warning",
+                                                        buttons: true,
+                                                        dangerMode: true,
+                                                    })
+                                                        .then((willDelete) => {
+                                                            if (willDelete) {
+
+                                                                e.preventDefault()
+                                                                Axios.delete(`${API_URL}deleteBook/${item.Book.id}`)
+                                                                    .then((res) => {
+                                                                    })
+
+                                                                let index = this.state.uploads.indexOf(item)
+                                                                let upload = [...this.state.uploads];
+                                                                upload.splice(index, 1)
+                                                                this.setState({ uploads: upload });
+
+                                                                index = this.state.orgtableData.indexOf(item)
+                                                                upload = [...this.state.orgtableData]
+                                                                upload.splice(index, 1)
+                                                                this.setState({ orgtableData: upload });
+
+                                                                swal("Poof! Your file has been deleted!", {
+                                                                    icon: "success",
+                                                                });
+                                                            } else {
+                                                                swal("Your file is safe!");
+                                                            }
+                                                        });
+                                                }}>Delete</div>
+                                            </div>
+
+                                            <div className="col-md-4">
+                                                <div id="details" onClick={() => {
+                                                    this.props.history.push({
+                                                        pathname: "/bookDetail",
+                                                        state: { item: item.Book }
+                                                    })
+                                                }} className="uacces-badge details"
+                                                >Details</div>
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </tr>)}
+
+                    </tbody>
+
+
+                                </table>
+                                <ReactPaginate
+                                    previousLabel={"Prev"}
+                                    nextLabel={"Next"}
+                                    breakLabel={"..."}
+                                    breakClassName={"break-me"}
+                                    pageCount={this.state.pageCount}
+                                    marginPagesDisplayed={2}
+                                    pageRangeDisplayed={5}
+                                    onPageChange={this.handlePageClick}
+                                    containerClassName={"pagination"}
+                                    subContainerClassName={"pages pagination"}
+                                    activeClassName={"active-pg"} />
+                            </div>
                         </div>
-
-                        : <div></div>
-
-                    }
-
-
+                    </div>
                 </div>
             </div>
+            : <div></div>
+        }
+    </div>
+</div>
         )
     }
 }

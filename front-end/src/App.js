@@ -9,6 +9,7 @@ import ManageUsers from './components/ManageUsers/ManageUsers'
 import Search from './components/Navbar/Search'
 import PDF from './components/PDF/PDFReader'
 import Library from './components/Library/Library';
+import SuperUserProfile from './components/Profile/SuperUserProfile';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/search" exact component={Search} />
             <Route path="/pdf" exact component={PDF} />
             <Route path="/library" exact component={Library} />
+            <Route path="/profileSuperUser" exact component={SuperUserProfile} />
           </Switch>
         </BrowserRouter>
       </header>
