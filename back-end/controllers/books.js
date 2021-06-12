@@ -3,6 +3,7 @@ const Uploads = require('../models').Uploads
 const Users = require('../models').Users
 const Reviews = require('../models').Reviews
 const UsersBooks = require('../models').UsersBooks
+const { QueryTypes,Sequelize,Op } = require('sequelize');
 
 const getSuperUser = async (req, res) => {
   try {
@@ -355,6 +356,60 @@ const getRating = async (req, res) => {
     }
 }
 
+const getEvolutionOfUploads = async (req, res) => {
+  try {
+    const books = await Books.sequelize.query("SELECT count(*) as nr, extract(month from created_at) as month FROM `books` group by extract(month from created_at)", 
+      { type: QueryTypes.SELECT });
+
+      for(let i=0;i<books.length;i++){
+        if(books[i].month===1){
+          books[i].month='Jan'
+        }
+        if(books[i].month===2){
+          books[i].month='Feb'
+        }
+        if(books[i].month===3){
+          books[i].month='March'
+        }
+        if(books[i].month===4){
+          books[i].month='Apr'
+        }
+        if(books[i].month===5){
+          books[i].month='May'
+        }
+        if(books[i].month===6){
+          books[i].month='Jun'
+        }
+        if(books[i].month===7){
+          books[i].month='Jul'
+        }
+        if(books[i].month===8){
+          books[i].month='Aug'
+        }
+        if(books[i].month===9){
+          books[i].month='Sep'
+        }
+        if(books[i].month===10){
+          books[i].month='Oct'
+        }
+        if(books[i].month===11){
+          books[i].month='Nov'
+        }
+        if(books[i].month===12){
+          books[i].month='Dec'
+        }
+      }
+  
+    res.status(200).json(books)
+
+  } catch (error) {
+    res.status(500).send({
+      message: "Database error"
+    })
+  }
+};
+
+
 module.exports = {
   getFreeBooks,
   bookUpload,
@@ -365,4 +420,5 @@ module.exports = {
   getAllBooks,
   getNoPerGenres,
   getRating,
+  getEvolutionOfUploads,
 }

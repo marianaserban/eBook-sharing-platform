@@ -63,5 +63,6 @@ router.get('/theMostApreciated', reviews.getTheMostApreciated)
 router.get('/stats', reviews.getStats)
 router.get('/privateBooks/:userId', usersbooks.getPrivateBooksOfUser)
 router.get('/rating/:bookId',books.getRating)
+router.get('/evolution',books.getEvolutionOfUploads)
 
 module.exports = router;

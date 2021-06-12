@@ -54,7 +54,9 @@ export default class Dashboard extends Component {
 
             isLoading:true,
             privateBooks:[],
-            list:[]
+            list:[],
+            evolutionNumbers:[],
+            evolutionMonths:[]
         };
     }
 
@@ -104,6 +106,18 @@ export default class Dashboard extends Component {
                 this.setState({ series: arr});
             }
           )
+        Axios.get(API_URL + 'evolution').then(
+            res => {
+                let nr=[];
+                let months=[];
+                for(let i=0;i<res.data.length;i++){
+                    nr.push(res.data[i].nr);
+                    months.push(res.data[i].month)
+                }
+                this.setState({evolutionMonths:months})
+                this.setState({evolutionNumbers:nr})
+            }
+        )
 
         Axios.get(API_URL + 'privateBooks/'+`${this.state.currentUser.id}`).then(
             res => {
@@ -165,7 +179,7 @@ export default class Dashboard extends Component {
                         {
                             setTimeout(() => {
                                 this.setState({isLoading:false})
-                                }, 500)
+                                }, 1000)
 
                         }
                         
@@ -362,12 +376,12 @@ export default class Dashboard extends Component {
                             <div className="col-md-7">
                                 <div className="card">
                             
-                                <PieChart/>
+                                <PieChart series={this.state.series}/>
                                 </div>
                             </div>
                             <div className="col-md-5">
                                 <div className="card">
-                                    <LineChart/>
+                                    <LineChart evolutionMonths={this.state.evolutionMonths} evolutionNumbers={this.state.evolutionNumbers}/>
                                 </div>
                             </div>
                     </div>
