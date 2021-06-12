@@ -228,7 +228,6 @@ export default class SuperUserProfile extends Component {
                 </div>
                 </div>
 
-                {this.state.user.role === 'superuser' || this.state.user.role === 'admin' ?
             <div className="row">
                 <div class="col-md-12">
                     <div class="card" style={{ backgroundColor: '#F3F3F4' }}>
@@ -321,8 +320,7 @@ export default class SuperUserProfile extends Component {
                     </div>
                 </div>
             </div>
-            : <div></div>
-        }
+
             </div>
         </div>
         )
