@@ -97,7 +97,7 @@ export default class BookDetail extends Component {
                                 <div className="card">
                                     <div className="card-header card-header-primary">
                                         <h4 className="card-title">Book detail</h4>
-                                        <p className="card-category">Start reading your favourite book</p>
+                                        <p className="card-category">{this.state.book.genre}</p>
                                     </div>
                                     <div className="card-body">
     
@@ -210,7 +210,7 @@ export default class BookDetail extends Component {
                                 <div className="card">
                                     <div className="card-header card-header-primary">
                                         <h4 className="card-title">Book detail</h4>
-                                        <p className="card-category">Start reading your favourite book</p>
+                                        <p className="card-category">{this.state.book.genre}</p>
                                     </div>
                                     <div className="card-body">
     
